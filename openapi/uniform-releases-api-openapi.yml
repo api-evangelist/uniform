@@ -1,0 +1,740 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Releases API
+  version: '2.0'
+tags:
+- name: Releases
+paths:
+  /api/v1/entity-releases:
+    get:
+      description: Lists entity instances across all releases (and base). Default to draft state if entity supports it.
+      tags:
+      - Releases
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: id
+        description: 'Matches entity by their ID
+
+          '
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: definitionType
+        required: true
+        schema:
+          type: string
+          enum:
+          - composition
+          - entry
+        description: 'Entity type (i.e. composition, entry, ...).
+
+          NOTE: New values may be added to this list without being considered a breaking API change
+
+          '
+      - in: query
+        name: releaseStates
+        description: 'Matches entity instances where their release state is one of a list. NOTE: base instance, when present, is always included in the results.
+
+          '
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseState'
+      - in: query
+        name: offset
+        description: 'Number of records to skip
+
+          '
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: 'Maximum number of records to return
+
+          '
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 100
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: 'List of entity instances across all releases (and base).
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                - totalCount
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EntityInRelease'
+                  totalCount:
+                    type: integer
+                    minimum: 0
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/release-contents:
+    get:
+      description: Lists all contents (adds, moves, deletes) of a release
+      tags:
+      - Releases
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: releaseId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: offset
+        description: 'Number of records to skip
+
+          This is a list query parameter, and cannot be used with any primary query parameters
+
+          '
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: 'Max number of records to return
+
+          This is a list query parameter, and cannot be used with any primary query parameters
+
+          '
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 100
+      - in: query
+        name: publicIDs
+        description: 'Matches release contents where their public ID is one of a list
+
+          '
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicIdProperty'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: 'Gets a list all changes that are part of a release
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                - totalCount
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReleaseContent'
+                  totalCount:
+                    type: integer
+                    minimum: 0
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      description: Deletes a change from a release
+      tags:
+      - Releases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseContentsDeleteBody'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/releases:
+    get:
+      tags:
+      - Releases
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: offset
+        description: Number of records to skip
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: Max number of records to return
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+      - in: query
+        name: keyword
+        description: 'Matches releases where their name contains the specified keyword
+
+          '
+        schema:
+          type: string
+          maxLength: 256
+      - in: query
+        name: states
+        description: 'Matches releases where their state is one of a list
+
+          '
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseState'
+      - in: query
+        name: scheduleStates
+        description: 'Matches releases by whether an auto-launch schedule is set
+
+          '
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseScheduleState'
+      - in: query
+        name: releaseIDs
+        description: 'Matches releases where their ID is one of a list
+
+          '
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - in: query
+        name: orderBy
+        description: 'Sets the sorting of the results. If unspecified, results are sorted by launch(ed) date descending, and then by name ascending.
+
+          Allowed values are: auto_launch_schedule_DESC, auto_launch_schedule_ASC, launched_at_DESC, launched_at_ASC, name_DESC, name_ASC
+
+          '
+        style: form
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - auto_launch_schedule_DESC
+            - auto_launch_schedule_ASC
+            - launched_at_DESC
+            - launched_at_ASC
+            - name_DESC
+            - name_ASC
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: 'Gets a list of all defined releases for a project
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                - totalCount
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Release'
+                  totalCount:
+                    type: integer
+                    minimum: 0
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Releases
+      description: Adds or updates a release
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleasePutBody'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '201':
+          description: OK
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags:
+      - Releases
+      description: Readies or un-readies a release
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleasePatchBody'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Releases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseDeleteBody'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    autoLaunchSchedule:
+      type: number
+      description: 'The schedule for automatically launching the release.
+
+        If unspecified, the release will not be automatically launched.
+
+        If specified, the release will be automatically launched at the specified time.
+
+        The time is specified in epoch milliseconds (UTC)
+
+        '
+    EntityInRelease:
+      type: object
+      required:
+      - name
+      - tombstone
+      properties:
+        name:
+          type: string
+          description: Friendly name of the entity
+        releaseId:
+          type: string
+          description: 'Represents a base value if not present
+
+            '
+        tombstone:
+          type: boolean
+          description: 'If true, the entity has been deleted on the release
+
+            '
+    ReleaseScheduleState:
+      type: string
+      enum:
+      - scheduled
+      - unscheduled
+    ReleaseDeleteBody:
+      type: object
+      required:
+      - releaseId
+      - projectId
+      properties:
+        releaseId:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+      additionalProperties: false
+    ReleasePatchBody:
+      type: object
+      required:
+      - releaseId
+      - projectId
+      - action
+      properties:
+        releaseId:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+        action:
+          type: string
+          enum:
+          - lock
+          - unlock
+          - launch
+          description: 'The action to perform on the release.
+
+            ''lock'' marks a scheduled release as being ready to launch when the scheduled time is reached.
+
+            ''unlock'' returns an already scheduled to launch release to a non-locked state, enabling editing the contents.
+
+            ''launch'' immediately launches a release that is in a pending state (locked or unlocked)
+
+            '
+        autoLaunchSchedule:
+          $ref: '#/components/schemas/autoLaunchSchedule'
+        autoLaunchScheduleTimeZone:
+          $ref: '#/components/schemas/autoLaunchScheduleTimeZone'
+      additionalProperties: false
+    Release:
+      type: object
+      required:
+      - id
+      - name
+      - state
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: The release's display name in the UI
+          maxLength: 255
+          pattern: ^[^<>]+$
+        description:
+          type: string
+          description: Optional release description shown in the UI
+          maxLength: 2024
+        state:
+          $ref: '#/components/schemas/ReleaseState'
+        autoLaunchSchedule:
+          $ref: '#/components/schemas/autoLaunchSchedule'
+        autoLaunchScheduleTimeZone:
+          $ref: '#/components/schemas/autoLaunchScheduleTimeZone'
+        launched:
+          type: string
+          description: Date string when the release was launched
+          format: date-time,
+      additionalProperties: false
+    ReleaseState:
+      type: string
+      enum:
+      - open
+      - locked
+      - queued
+      - launching
+      - launched
+      - deleting
+    ReleasePutBody:
+      type: object
+      required:
+      - releaseId
+      - name
+      - projectId
+      properties:
+        releaseId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: The release's display name in the UI
+          maxLength: 255
+          pattern: ^[^<>]+$
+        description:
+          type: string
+          description: Optional release description shown in the UI
+          maxLength: 2024
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+        autoLaunchSchedule:
+          $ref: '#/components/schemas/autoLaunchSchedule'
+        autoLaunchScheduleTimeZone:
+          $ref: '#/components/schemas/autoLaunchScheduleTimeZone'
+      additionalProperties: false
+    ReleaseContent:
+      type: object
+      required:
+      - name
+      - publicId
+      - definitionType
+      - type
+      - pattern
+      - uiStatusRelease
+      - releaseCreatedAt
+      - releaseUpdatedAt
+      - tombstone
+      properties:
+        name:
+          type: string
+          description: Friendly name of the entity
+        publicId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        editionId:
+          type: string
+          format: uuid
+          description: 'The edition ID of the release content underneath its public ID
+
+            NOTE: This is only set when the release content references an edition.
+
+            '
+        editionName:
+          type: string
+          description: 'The edition name the release content belongs to, if any.
+
+            NOTE: This may be set even when the release content refers to a composition/entry.
+
+            '
+        definitionType:
+          type: string
+          description: 'Entity type (i.e. composition, entry, asset, ...).
+
+            NOTE: New values may be added to this list without being considered a breaking API change
+
+            '
+        type:
+          type: string
+          description: definition public ID, i.e. hero, page, product
+        pattern:
+          type: boolean
+          description: 'If true, the entity is a pattern
+
+            '
+        uiStatusBase:
+          type: string
+          deprecated: true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+          description: 'Base UI status of the entity.
+
+            NOTE: If this is undefined, there is no base entity and the entity is new in the release.
+
+            NOTE: Values may be added or removed from this list without being considered a breaking API change
+
+            '
+        uiStatusRelease:
+          type: string
+          deprecated: true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+          - Deleted
+          description: 'UI status of the entity in the release.
+
+            NOTE: Values may be added or removed from this list without being considered a breaking API change
+
+            '
+        baseCreatedAt:
+          type: string
+          description: Created date string for the base entity. If there is no base entity this is undefined
+        baseUpdatedAt:
+          type: string
+          description: Updated date string for the base entity. If there is no base entity this is undefined
+        releaseCreatedAt:
+          type: string
+          description: Created date string for the release entity
+        releaseUpdatedAt:
+          type: string
+          description: Updated date string for the release entity
+        tombstone:
+          type: boolean
+          description: 'If true, the entity has been deleted on the release
+
+            '
+    ReleaseContentsDeleteBody:
+      type: object
+      required:
+      - releaseId
+      - projectId
+      - publicId
+      - definitionType
+      properties:
+        releaseId:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+        publicId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        editionId:
+          type: string
+          format: uuid
+          description: 'The edition ID of the release content underneath its public ID
+
+            NOTE: This is only required if the release content has an edition ID
+
+            '
+        definitionType:
+          type: string
+          description: 'Entity type (i.e. composition, entry, asset, ...).
+
+            NOTE: New values may be added to this list without being considered a breaking API change.
+
+            '
+          enum:
+          - composition
+          - entry
+          - asset
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    autoLaunchScheduleTimeZone:
+      type: string
+      description: 'The IANA time zone identifier to display the autoLaunchSchedule with.
+
+        Note that the schedule is always specified as UTC; this is a display timezone only
+
+        '
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

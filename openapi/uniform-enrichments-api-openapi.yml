@@ -1,0 +1,327 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Enrichments API
+  version: '2.0'
+tags:
+- name: Enrichments
+paths:
+  /api/v1/enrichment-values:
+    options:
+      tags:
+      - Enrichments
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    put:
+      tags:
+      - Enrichments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - enrichmentId
+              - enrichmentValue
+              properties:
+                enrichmentValue:
+                  $ref: '#/components/schemas/EnrichmentValue'
+                enrichmentId:
+                  type: string
+                  minLength: 1
+                  maxLength: 36
+                  pattern: ^[A-Za-z0-9\-\$]+$
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Enrichments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - enrichmentId
+              - enrichmentValueId
+              properties:
+                enrichmentId:
+                  type: string
+                  maxLength: 36
+                  minLength: 1
+                  pattern: ^[A-Za-z0-9\-\$]+$
+                projectId:
+                  type: string
+                  format: uuid
+                enrichmentValueId:
+                  type: string
+                  maxLength: 36
+                  minLength: 1
+                  pattern: ^[A-Za-z0-9\-\$]+$
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Parent enrichment category was not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/enrichments:
+    options:
+      tags:
+      - Enrichments
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Enrichments
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - enrichments
+                properties:
+                  enrichments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnrichmentCategoryWithValues'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Enrichments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - enrichment
+              properties:
+                enrichment:
+                  $ref: '#/components/schemas/EnrichmentCategory1'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Enrichments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - enrichmentId
+              properties:
+                enrichmentId:
+                  type: string
+                  maxLength: 40
+                  minLength: 1
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    EnrichmentCategory1:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Public ID of the enrichment category
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+        name:
+          type: string
+          description: Display name of the enrichment category
+          maxLength: 100
+          pattern: ^[^<>]*$
+        sortOrder:
+          type: integer
+          description: Optional sort order of the enrichment category (if not set, sorts by name)
+          nullable: true
+          maximum: 2147483647
+        cap:
+          type: integer
+          description: The maximum visitor score allowed for enrichment keys in this category
+          minimum: 1
+          default: 99999999
+          maximum: 2147483647
+    EnrichmentCategoryWithValues:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/EnrichmentCategory1'
+      - type: object
+        required:
+        - values
+        properties:
+          values:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnrichmentValue'
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    EnrichmentValue:
+      type: object
+      required:
+      - id
+      - value
+      properties:
+        id:
+          type: string
+          description: Public ID of the enrichment value
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+        value:
+          type: string
+          description: Display name of the enrichment value
+          maxLength: 100
+          minLength: 1
+          pattern: ^[^<>]{1,100}$
+        sortOrder:
+          type: integer
+          description: Optional sort order of the enrichment value (if not set, sorts by name)
+          nullable: true
+          maximum: 2147483647
+          minimum: -2147483648
+      additionalProperties: false
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

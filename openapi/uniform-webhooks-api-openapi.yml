@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Webhooks API
+  version: '2.0'
+tags:
+- name: Webhooks
+paths:
+  /api/v1/svix-dashboard:
+    get:
+      deprecated: true
+      tags:
+      - Webhooks
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - activated
+                - zapier_activated
+                properties:
+                  activated:
+                    type: boolean
+                  dashboard_url:
+                    type: string
+                  zapier_activated:
+                    type: boolean
+                    deprecated: true
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

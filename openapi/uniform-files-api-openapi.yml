@@ -1,0 +1,343 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Files API
+  version: '2.0'
+tags:
+- name: Files
+paths:
+  /api/v1/files:
+    get:
+      description: Gets a single file
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: false
+        name: id
+        in: query
+      - schema:
+          type: string
+        required: false
+        name: url
+        in: query
+      - schema:
+          type: string
+        required: false
+        name: sourceId
+        in: query
+      - schema:
+          type: string
+          format: uuid
+        required: false
+        name: projectId
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  state:
+                    type: number
+                  url:
+                    type: string
+                  name:
+                    type: string
+                  mediaType:
+                    type: string
+                  metadata:
+                    nullable: true
+                  size:
+                    type: number
+                  sourceId:
+                    type: string
+                  expiresAt:
+                    type: string
+                    format: date-time
+                required:
+                - id
+                - state
+                - name
+                - mediaType
+                - size
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Files
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Deletes a file
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                fileId:
+                  type: string
+                sourceId:
+                  type: string
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                required:
+                - id
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Files
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    post:
+      description: Creates a new file
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                projectId:
+                  type: string
+                  format: uuid
+                sourceId:
+                  type: string
+                  maxLength: 128
+                teamId:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 128
+                size:
+                  type: number
+                  minimum: 1
+                  maximum: 52428800
+                mediaType:
+                  type: string
+                  minLength: 1
+                width:
+                  type: number
+                  minimum: 1
+                height:
+                  type: number
+                  minimum: 1
+                expiresAt:
+                  type: string
+                  format: date-time
+                  description: Optional expiry time for temporary uploads. If set, and the file is not attached to an asset at that time, it will be automatically deleted.
+              required:
+              - name
+              - size
+              - mediaType
+              additionalProperties: false
+      responses:
+        '202':
+          description: 202 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  uploadUrl:
+                    type: string
+                  method:
+                    type: string
+                    enum:
+                    - POST
+                    - PUT
+                required:
+                - id
+                - uploadUrl
+                - method
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Files
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    patch:
+      description: Replaces a file while preserving the existing URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                existingFileId:
+                  type: string
+                  format: uuid
+                replacementFileId:
+                  type: string
+                  format: uuid
+              required:
+              - projectId
+              - existingFileId
+              - replacementFileId
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  state:
+                    type: number
+                  url:
+                    type: string
+                  name:
+                    type: string
+                  mediaType:
+                    type: string
+                  metadata:
+                    nullable: true
+                  size:
+                    type: number
+                  sourceId:
+                    type: string
+                  expiresAt:
+                    type: string
+                    format: date-time
+                  deletedReplacementFileId:
+                    type: string
+                    format: uuid
+                required:
+                - id
+                - state
+                - name
+                - mediaType
+                - size
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Files
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

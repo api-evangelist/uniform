@@ -1,0 +1,1336 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Routes API
+  version: '2.0'
+tags:
+- name: Routes
+paths:
+  /api/v1/route:
+    options:
+      tags:
+      - Routes
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Routes
+      description: "Fetches the correct response action for a given route (redirection, composition, not found).\n\nIn addition to the named parameters below, this endpoint accepts data projection syntax:\n`select.<bucket>[<op>]` — documented below.\n\n#### Data projection (`select.*`)\n\nProjection returns a subset of the matched composition by pruning fields\n(parameters), field types, and slots before values are resolved. It only\napplies when the route resolves to a composition; redirect and notFound\nresponses are returned unchanged. The allowed names are project-specific —\nthey come from the project's component definitions and content types —\nwhich is why `select.*` parameters are pattern-validated rather than\ndeclared as named parameters.\n\nSyntax: `select.<bucket>[<operator>]=<value>`. Values are comma-separated\nlists of names. `*` is the only wildcard and matches zero or more\ncharacters (e.g. `seo_*`).\n\n| Parameter | Effect |\n|---|---|\n| `select.fields[only]=a,b` | Keep only the named fields/parameters; drop everything else. |\n| `select.fields[except]=a,b` | Drop the named fields/parameters; keep everything else. |\n| `select.fields[locales]=a,b` | For the named fields that survive filtering, return the full per-locale value map instead of only the requested locale's value. |\n| `select.fields[blockDepth]=N` | Limit how many levels of block field children are kept. `0` removes all block fields; `preserveAll` prevents projection from trimming fields inside block children. |\n| `select.fieldTypes[only]=a,b` | Keep only fields of the named types (type IDs such as `text`, `richText`, `asset`). |\n| `select.fieldTypes[except]=a,b` | Drop fields of the named types. |\n| `select.slots[only]=a,b` | Keep only the named slots. |\n| `select.slots[except]=a,b` | Drop the named slots. |\n| `select.slots[depth]=N` | Limit how many levels of nested components are kept in slots. |\n| `select.slots.<name>[depth]=N` | Depth limit for one specific slot; overrides `slots[depth]`. |\n\nBehavior:\n\n* Projection applies recursively at every component and block in the\n  returned tree, and is forwarded into entries resolved through reference\n  fields.\n* When operators combine, all `[only]` sets are intersected first, then\n  `[except]` sets are subtracted — exclusion always wins.\n* Unknown field, slot, or type names are silent no-ops (the tree shape is\n  preserved; non-matching content is simply absent). Unknown operators\n  return HTTP 400.\n* An empty list (`select.fields[only]=` or `select.slots[only]=`) strips\n  every member of that bucket; `[except]=*` is equivalent.\n* `[depth]` counts nesting within a single fetched tree and resets inside\n  referenced entries.\n\nExamples:\n\n* `select.fields[only]=title,slug&select.slots[only]=` — title and slug of the resolved page with all slots flattened (e.g. for breadcrumbs).\n* `select.fieldTypes[except]=richText` — everything except rich-text fields.\n* `select.slots[depth]=2&select.fields[only]=label,url` — two levels of nested components, trimmed to `label` and `url`.\n"
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/path'
+      - $ref: '#/components/parameters/projectMapId'
+      - $ref: '#/components/parameters/state'
+      - $ref: '#/components/parameters/withComponentIDs'
+      - $ref: '#/components/parameters/withContentSourceMap'
+      - $ref: '#/components/parameters/locale'
+      - $ref: '#/components/parameters/releaseId'
+      - $ref: '#/components/parameters/dataSourceVariant'
+      - $ref: '#/components/parameters/ignoreRedirects'
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    path:
+      in: query
+      name: path
+      description: "The path to resolve. Dynamic project map nodes and redirects can be resolved when a matching path is passed.\nQuery string parameters may be passed with the path. They are ignored for route matching.\nIf the route matches a composition and the project map node allows passed query string parameters, query parameters will\nbe returned as as dynamic inputs to the composition.\n\nExamples:\n* route \"/company/about-us\" would match \"/company/about-us\" in project map or redirects\n* route \"/products/123\" would match \"/products/:productId\" in project map or \"/products/*\" in redirects\n* route \"/products/123?color=red\" would match \"/products/:productId\" in project map, and provde productId=123 and color=red as dynamic inputs to the composition\n\nConflict resolution:\nIf a route matches multiple possible project map or redirect nodes, the resulting action will use the following logic:\n* If a redirect matches, it wins over project map nodes in all cases\n* If multiple redirects or project map nodes match the route, the one with the most specific path wins:\n    * The route with the most path segments wins\n    * If several matches have the same number of segments, the one with the fewest dynamic segments wins\n    * If still ambiguous, the first matching route arbitrarily wins\n"
+      required: true
+      schema:
+        type: string
+        maxLength: 8000
+        minLength: 1
+    locale:
+      in: query
+      name: locale
+      description: 'One or more locales to filter and localize by.
+
+        Only entries that enable one of the specified locales _or enable no locales_ will be returned.
+
+        The response will be localized to include only the first matching locale''s data.
+
+
+        This parameter accepts a single value, a comma-delimited list of values, or the Accept-Language header syntax. Examples:
+
+        en-US
+
+        fr-CA,fr
+
+        de-AT;q=0.9,de-DE;q=0.8,en;q=0.7
+
+
+        When this parameter is not passed, all locales'' data will be returned
+
+        '
+      schema:
+        type: string
+        maxLength: 128
+    dataSourceVariant:
+      in: query
+      name: dataSourceVariant
+      description: 'Indicates the data variant that was fetched for data resources.
+
+        undefined: Data resources were resolved using published data from their data source
+
+        unpublished: Data resources which support unpublished data retrieved unpublished data from their data source. Data resources that did not support unpublished data retrieved published data instead.
+
+        '
+      schema:
+        type: string
+        enum:
+        - unpublished
+    projectId:
+      in: query
+      name: projectId
+      description: The project the entry/entries are on
+      required: true
+      schema:
+        type: string
+        format: uuid
+    withContentSourceMap:
+      in: query
+      name: withContentSourceMap
+      deprecated: true
+      description: Includes content source map metadata on supported parameters
+      schema:
+        type: boolean
+        default: false
+    releaseId:
+      in: query
+      name: releaseId
+      description: 'The ID of a release to fetch the content for.
+
+
+        - When unspecified, all release content is excluded from the result(s).
+
+        - When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.
+
+
+        Content copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be null
+
+        '
+      schema:
+        type: string
+        format: uuid
+    ignoreRedirects:
+      in: query
+      name: ignoreRedirects
+      description: 'When true, redirects are not evaluated for the route matching; the result will be either a composition or not found.
+
+        Note: this is always true when state=63 (internal RSC editor state) to allow contextual editing of compositions
+
+        that have redirects configured on their paths.
+
+        '
+      schema:
+        type: boolean
+        default: false
+    projectMapId:
+      in: query
+      name: projectMapId
+      description: Specify a project map ID to fetch route from. If not specified, the default project map for the projectId is used
+      schema:
+        type: string
+        format: uuid
+    state:
+      in: query
+      name: state
+      description: Publishing state to fetch. 0 = draft, 64 = published
+      schema:
+        default: 64
+        type: number
+        minimum: 0
+        maximum: 64
+    withComponentIDs:
+      in: query
+      name: withComponentIDs
+      description: 'If true the `_id` unique identifier of blocks will be part of the response data.
+
+        If false, the `_id` will not be present in the API response
+
+        '
+      schema:
+        type: boolean
+        default: false
+  schemas:
+    DataResourceDefinition:
+      type: object
+      description: Defines a data resource, which is a named JSON document, usually from an API response, which may be projected onto parameters
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Public ID of the data type that provides this data
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        isPatternParameter:
+          type: boolean
+          description: Whether this data is a pattern data resource that can be overridden when a pattern is referenced on another composition. If this is not a pattern composition, this has no meaning and should not be used. If unspecified, the default is false
+        ignorePatternParameterDefault:
+          type: boolean
+          description: 'When true, the default data resource of a pattern data parameter (isPatternParameter=true) will be ignored when the pattern is referenced.
+
+            Unless specifically overridden, the pattern data parameter will be provided with a null default value - leaving any data connections to it unresolvable.
+
+            If isPatternParameter is false or undefined, this has no meaning
+
+            '
+        optionalPatternParameter:
+          type: boolean
+          description: 'When true, the data resource does not create an error forcing the choosing of override value when there is no default.
+
+            If isPatternParameter is false or undefined, or if ignorePatternParameterDefault is false, this has no meaning
+
+            '
+        variables:
+          $ref: '#/components/schemas/DataResourceVariables'
+      additionalProperties: false
+    RouteResponseRedirect:
+      description: 'The route matches a redirection configured in Uniform
+
+        '
+      type: object
+      required:
+      - type
+      - matchedRoute
+      - redirect
+      properties:
+        matchedRoute:
+          type: string
+          description: The route that was matched in the redirects
+        dynamicInputs:
+          $ref: '#/components/schemas/RouteDynamicInputs'
+        type:
+          type: string
+          enum:
+          - redirect
+        redirect:
+          $ref: '#/components/schemas/Redirect'
+    ComponentOverride:
+      type: object
+      description: 'Defines how to override a specific component.
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      properties:
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        slots:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        variant:
+          type: string
+          maxLength: 100
+        dataResources:
+          type: object
+          description: 'Overrides data resource definitions for a pattern component.
+
+            Object keys defined under this property override the corresponding keys in the pattern''s data resources.
+
+            Overrides defined here replace values in either _dataResources or _patternDataResources on the target component.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+    ComponentOverridability:
+      description: 'Defines how a component on a pattern may have its values overridden.
+
+        NOTE: Data resources'' overridability is defined in the data resource definition, not here.
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      type: object
+      properties:
+        parameters:
+          type: object
+          description: Defines component parameter value overrides. Keys are the parameter public ID
+          additionalProperties:
+            $ref: '#/components/schemas/OverrideOptions'
+        variants:
+          description: Allows overriding a display variant is allowed if it is defined on the component the pattern is derived from. Default = false
+          type: boolean
+        hideLockedParameters:
+          description: 'If true, parameters that are not overridable will be hidden by default on pattern instances'' editors.
+
+            If false, all parameters will be shown on pattern instances'' editors, but locked parameters will be read-only.
+
+            If not set, the default is false
+
+            '
+          type: boolean
+    WorkflowStagePermission:
+      type: object
+      description: Permissions for a workflow stage
+      additionalProperties: false
+      properties:
+        write:
+          type: boolean
+          description: Allows writing to entities assigned to this stage. When false or unspecified the data is read-only
+        publish:
+          type: boolean
+          description: Allows publishing entities assigned to this stage. When false or unspecified publishing is disabled
+    ProjectMapNodeAllowedQueryString:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          description: The name of the query string parameter
+          type: string
+          minLength: 1
+          maxLength: 50
+        value:
+          description: The default value of the query string if it is not provided by an incoming route path
+          type: string
+          minLength: 0
+          maxLength: 2048
+        helpText:
+          description: Help text for authors who might be setting up a preview value for this query string
+          type: string
+          minLength: 0
+          maxLength: 256
+        optionsSource:
+          description: Configuration for providing a list of allowed values for this query string
+          type: object
+          properties:
+            source:
+              type: string
+              enum:
+              - static
+              description: The source type for the options
+            options:
+              type: array
+              items:
+                type: object
+                required:
+                - name
+                - value
+                properties:
+                  name:
+                    type: string
+                    description: Display name for the option
+                    pattern: ^[^<>]+$
+                    minLength: 1
+                    maxLength: 50
+                  value:
+                    type: string
+                    description: The actual value to be used
+                    pattern: ^[^<>]+$
+                    minLength: 0
+                    maxLength: 500
+              minItems: 1
+              maxItems: 100
+          required:
+          - source
+          - options
+      additionalProperties: false
+    RouteResponseComposition:
+      description: 'The route matches a composition.
+
+        If any dynamic segments or query parameters are present in the route, they will be returned as dynamic inputs in the response
+
+        '
+      type: object
+      required:
+      - type
+      - matchedRoute
+      - compositionApiResponse
+      properties:
+        matchedRoute:
+          type: string
+          description: The route that was matched in the project map
+        dynamicInputs:
+          $ref: '#/components/schemas/RouteDynamicInputs'
+        dataResourcesVariant:
+          type: string
+          enum:
+          - unpublished
+          description: 'Indicates the data variant that was fetched for data resources.
+
+            undefined: Data resources were resolved using published data from their data source
+
+            unpublished: Data resources which support unpublished data retrieved unpublished data from their data source. Data resources that did not support unpublished data retrieved published data instead.
+
+            '
+        type:
+          type: string
+          enum:
+          - composition
+        compositionApiResponse:
+          $ref: '#/components/schemas/CompositionApiResponse'
+    ProjectMapNodeData:
+      type: object
+      properties:
+        isSearchHit:
+          description: While performing a search if a node is a hit, this property will return true.  If it's supporting structure, like a parent of a search hit, it will return false
+          type: boolean
+        queryStrings:
+          description: Query strings that are allowed to be passed to the node
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
+        previewValue:
+          description: 'For dynamic nodes, this is the preview value for the dynamic value.
+
+            The preview value is used when editing a connected composition, and is the default
+
+            dynamic node value unless the author has explicitly chosen a different value
+
+            '
+          type: string
+          maxLength: 512
+      additionalProperties: false
+    PatternError:
+      type: string
+      description: 'Describes why the pattern could not be resolved, if a pattern could not be resolved. For PUTs, this is allowed but ignored.
+
+        CYCLIC: A cyclic pattern graph was detected, which could not be resolved because it would cause an infinite loop.
+
+        NOTFOUND: The pattern ID referenced could not be found. It may have been deleted, en published yet.
+
+        Means nothing for PUTs; it will be ignored
+
+        '
+      enum:
+      - NOTFOUND
+      - CYCLIC
+    ComponentParameterConditionalValue:
+      type: object
+      description: 'Defines a conditional value for a component parameter
+
+        '
+      properties:
+        when:
+          $ref: '#/components/schemas/VisibilityCriteriaGroup'
+        value:
+          description: 'The value of the parameter. Any JSON-serializable value is acceptable.
+
+            A value of `null` will cause the parameter value to be removed, if it matches.
+
+            '
+        id:
+          type: number
+          description: 'Unique sequence identifier of the conditional value within the component parameter.
+
+            This value must be unique within the conditional values array, and it should not change after a condition is created.
+
+            '
+      required:
+      - when
+      - id
+      - value
+      additionalProperties: false
+    DataResourceDefinitions:
+      type: object
+      description: 'Data definitions attached to this component. The property name is the key of the data in the data document.
+
+        Note: data definitions are inherited from ancestors at runtime (and may be overridden by descendants that use the same key)
+
+        '
+      additionalProperties:
+        $ref: '#/components/schemas/DataResourceDefinition'
+    RouteResponse:
+      oneOf:
+      - $ref: '#/components/schemas/RouteResponseRedirect'
+      - $ref: '#/components/schemas/RouteResponseComposition'
+      - $ref: '#/components/schemas/RouteResponseNotFound'
+    OverrideOptions:
+      description: 'Whether a parameter is overridable
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      type: string
+      enum:
+      - 'yes'
+      - 'no'
+    DataElementConnectionDefinition:
+      type: object
+      description: 'Defines a connection to a dynamic token on a data resource
+
+        '
+      properties:
+        pointer:
+          description: A JSON Pointer expression that defines the data resource dynamic token value
+          type: string
+          maxLength: 256
+        syntax:
+          type: string
+          description: The syntax used to select the dynamic token to bind to
+          enum:
+          - jptr
+        failureAction:
+          type: string
+          description: "The action to take if the dynamic token cannot be resolved\n- t: TOKEN: Removes the failed dynamic token value, leaving the rest of the property value, if any, intact [default]\n        NOTE: If the _only_ value in the property is a dynamic token, the property value is removed (as with 'p' below)\n        NOTE: If the _failureDefault_ property is also set, that default value will be used instead of removing the token.\n              this only applies when the failureAction is 't' or undefined, the default is otherwise ignored\n- p: PROPERTY: Removes the entire property value, including any other dynamic tokens or static values in the property\n- c: COMPONENT: Removes the whole parent component or block that contains the property.\n        NOTE: If a 'component' failure occurs on the root component of a composition, or an entry,\n        it is treated as an 'a' failure because removing the root means we must remove all\n- a: ALL: Fails the whole entry or composition. This will result in the item returning a 404 from APIs, and being removed from API list responses\n"
+          enum:
+          - t
+          - p
+          - c
+          - a
+        failureLogLevel:
+          type: string
+          description: 'How to report when the dynamic token cannot be resolved
+
+            - e: ERROR: Report an error message (this will prevent publishing)
+
+            - w: WARNING: Report a warning message [default]
+
+            - i: INFO: Log an informative message (failure is expected/normal, i.e. optional data)
+
+            '
+          enum:
+          - e
+          - w
+          - i
+        failureDefault:
+          type: string
+          description: 'The default value to use if the dynamic token cannot be resolved.
+
+            This is only used if the failureAction is the default (undefined, or explicitly token)
+
+            '
+      required:
+      - pointer
+      - syntax
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ComponentParameterConditions:
+      type: array
+      description: 'Array of alternate values which are based on conditions.
+
+
+        When requested with an explicit locale parameter, or via the route API:
+
+        * Conditions are evaluated sequentially and the first match is used. If a match is found, the conditions are eliminated.
+
+        * If no conditions match, the `value` property is used.
+
+        * If a condition cannot be evaluated yet (i.e. a client-side criteria), it is left alone.
+
+
+        When no locale is passed to a non-route API, conditions are not processed and all conditions are returned.
+
+        '
+      items:
+        $ref: '#/components/schemas/ComponentParameterConditionalValue'
+    CompositionApiResponse:
+      type: object
+      required:
+      - state
+      - projectId
+      - composition
+      - created
+      - modified
+      - pattern
+      properties:
+        state:
+          type: integer
+          description: Publishing state to fetch. 0 = draft, 64 = published
+          minimum: 0
+          maximum: 64
+        uiStatus:
+          type: string
+          deprecated: true
+          description: UI status value. Subject to change without notice; do not rely on this value. Present only when `withUIStatus` is true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+          - Previous
+          - Unknown
+        projectId:
+          type: string
+          description: The project ID this composition is part of
+          format: uuid
+        created:
+          type: string
+          description: Created date string for this composition
+          format: date-time
+        modified:
+          type: string
+          description: Modified date string for this composition
+          format: date-time
+        creator:
+          type: string
+          description: User name of the creator of this composition
+          minLength: 1
+          maxLength: 255
+        author:
+          type: string
+          description: User name of the last editor of this composition
+          minLength: 1
+          maxLength: 255
+        categoryId:
+          type: string
+          format: uuid
+          description: Reference to the category this component definition belongs to
+        description:
+          type: string
+          description: A description of the component definition
+          maxLength: 2024
+        previewImageUrl:
+          type: string
+          description: A preview image URL of the component definition
+          maxLength: 2024
+        pattern:
+          type: boolean
+          description: Indicates if the composition is a pattern that can be referenced in other compositions
+        patternType:
+          description: If the instance is a pattern, this indicates if it's a component pattern or a composition pattern
+          type: string
+          enum:
+          - component
+          - composition
+        releaseId:
+          type: string
+          format: uuid
+          description: The release this composition belongs to. If not set, it belongs to the base
+        composition:
+          $ref: '#/components/schemas/RootComponentInstance'
+        workflowId:
+          type: string
+          format: uuid
+          description: The workflow ID assigned to this composition, if any. Normally comes from the component definition
+        workflowStageId:
+          type: string
+          format: uuid
+          description: The stage ID the composition is in within its assigned workflow. If undefined, it is implicitly in the initial stage of the workflow
+        workflowDefinition:
+          description: The full definition of the assigned workflow, if any, including stages, permissions, etc. Returned only when `withWorkflowDefinition` is true
+          $ref: '#/components/schemas/WorkflowDefinition'
+        editionId:
+          type: string
+          format: uuid
+          description: 'The edition ID. When set, this is a child edition of the composition in _id.
+
+            '
+        editionName:
+          type: string
+          maxLength: 100
+          description: 'The name of the composition or edition as shown in the editions listing.
+
+            Describes the purpose of an edition.
+
+            '
+        editionPriority:
+          type: integer
+          description: 'The priority of the edition or composition. Higher numbers are higher priority.
+
+            When multiple editions enable the same locale, the highest priority edition is used.
+
+            '
+    WorkflowDefinition:
+      type: object
+      additionalProperties: false
+      description: Definition of a workflow that can be assigned to entities
+      required:
+      - id
+      - name
+      - initialStage
+      - stages
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the workflow definition
+        name:
+          type: string
+          description: Workflow name
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        initialStage:
+          type: string
+          format: uuid
+          description: The ID of the initial stage in the stages object.
+        stages:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStage'
+          description: All stages of the workflow
+          minProperties: 2
+        modified:
+          type: string
+          description: Last modified ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        created:
+          type: string
+          description: Created ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        createdBy:
+          type: string
+          description: 'Name of the original creator of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+        modifiedBy:
+          type: string
+          description: 'Name of the last modifier of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+    WorkflowStageTransitionPermission:
+      type: object
+      description: Permissions for a workflow stage transition
+      additionalProperties: false
+      properties:
+        execute:
+          type: boolean
+          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
+    RouteResponseNotFound:
+      description: 'The route does not match any configured redirections or compositions.
+
+        NOTE: This response differs from a HTTP 404, which indicates that the project map or project ID was not found.
+
+        Receiving this response with HTTP 200 means that the project was found, but the route did not match anything
+
+        '
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - notFound
+    VisibilityCriteriaGroup:
+      deprecated: true
+      description: beta functionality subject to change
+      type: object
+      properties:
+        op:
+          type: string
+          description: The boolean operator to join the clauses with. Defaults to & if not specified.
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/VisibilityCriteria'
+            - $ref: '#/components/schemas/VisibilityCriteriaGroup'
+      required:
+      - clauses
+      additionalProperties: false
+    VisibilityCriteria:
+      deprecated: true
+      description: beta functionality subject to change
+      type: object
+      properties:
+        rule:
+          type: string
+          description: The rule type to execute
+          maxLength: 32
+        source:
+          type: string
+          description: 'The source value of the rule.
+
+            For rules which have multiple classes of match, for example a dynamic input matches on a named DI, the rule is dynamic input and the DI name is the source.
+
+            '
+          maxLength: 128
+        op:
+          type: string
+          description: The rule-definition-specific operator to test against
+          maxLength: 10
+        value:
+          oneOf:
+          - type: string
+            maxLength: 1024
+          - type: array
+            items:
+              type: string
+              maxLength: 1024
+          description: The value, or if an array several potential values, to test against. In most rules, multiple values are OR'd together ('any of') but this is not a hard requirement.
+      required:
+      - rule
+      - op
+      - value
+      additionalProperties: false
+    ComponentInstance:
+      type: object
+      description: Defines the shape of a component instance served by the composition API
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Type of the component instance (public_id of its definition)
+          maxLength: 100
+          minLength: 1
+        parameters:
+          type: object
+          description: Component parameter values for the component instance
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        variant:
+          type: string
+          description: Public ID of alternate visual appearance for this component, if any selected
+        slots:
+          type: object
+          description: Slots containing any child components
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        _id:
+          type: string
+          description: 'Unique identifier of the component within the composition.
+
+            No assumptions should be made about the format of this value other than "it will be unique."
+
+            This is not returned in GET replies unless specifically requested via `withComponentIDs` API parameter.
+
+            When updating or creating a composition, if you do not specify an _id for each component, one will be created and stored for you
+
+            '
+          minLength: 1
+          maxLength: 2000
+        _pattern:
+          type: string
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          description: Indicates this component instance should be sourced from a pattern library pattern
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        _patternDataResources:
+          type: object
+          description: 'Data definitions coming from a pattern resolved for this component. Merged with _dataResources during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+        _patternError:
+          $ref: '#/components/schemas/PatternError'
+        _overrides:
+          type: object
+          description: 'Defines patch overrides to component IDs that live in the composition.
+
+            This can be used to override parameters that are defined on patterns,
+
+            including nested patterns, with values that are specific to this composition.
+
+            The keys in this object are component IDs.
+
+            Overrides are applied from the top down, so for example if both the composition
+
+            and a pattern on the composition define an override on a nested pattern,
+
+            the composition''s override replaces the pattern''s.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _patternOverrides:
+          type: object
+          description: 'Overrides coming from a pattern resolved for this component. Merged with _overrides during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _overridability:
+          description: 'When used on a pattern, defines how the pattern''s parameters may be overridden
+
+            by consumers of the pattern.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          $ref: '#/components/schemas/ComponentOverridability'
+        _locales:
+          description: Array of locales that have data defined. Only set for pattern references or composition defaults
+          type: array
+          items:
+            type: string
+            maxLength: 32
+      additionalProperties: false
+    DataResourceVariables:
+      type: object
+      description: Variable values for a data resource
+      additionalProperties:
+        type: string
+    RouteDynamicInputs:
+      type: object
+      additionalProperties:
+        type: string
+    Redirect:
+      additionalProperties: false
+      type: object
+      required:
+      - sourceUrl
+      - targetStatusCode
+      - targetUrl
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the redirect
+        sourceUrl:
+          type: string
+          maxLength: 500
+          description: Source meant to match a url that needs to be redirected
+        targetUrl:
+          type: string
+          maxLength: 500
+          description: Target meant to be redirected to
+        targetStatusCode:
+          type: integer
+          description: Redirect type to occur from this redirect
+        sourceProjectMapNodeId:
+          type: string
+          format: uuid
+          description: Project map node related to the source this redirect
+        targetProjectMapNodeId:
+          type: string
+          format: uuid
+          description: Project map node related to the target this redirect
+        projectMapId:
+          type: string
+          format: uuid
+          description: Project map related to this redirect
+        sourceRetainQuerystring:
+          type: boolean
+          description: Signals the redirect engine to retain query string parameters to the target url
+        sourceMustMatchDomain:
+          type: boolean
+          description: Incoming requests must match the domain that's defined in the redirection source
+        targetPreserveIncomingProtocol:
+          type: boolean
+          description: Rewritten url should match the protocol (http / https) of the incoming request instead of whatever is defined in the redirection target
+        targetPreserveIncomingDomain:
+          type: boolean
+          description: Rewritten url should match the domain of the incoming request regardless of what is defined in the redirection target
+        targetMergeQuerystring:
+          type: boolean
+          description: Merge incoming querystring with the querystring defined on the redirection target, taking the incoming querystring parameter where a merge is not possible
+        labelAsSystem:
+          type: boolean
+          description: Label as system generated or user generated
+    RootComponentInstance:
+      type: object
+      description: Defines the shape of the root component in a composition
+      required:
+      - type
+      - _id
+      - _name
+      properties:
+        type:
+          type: string
+          description: Type of the component instance (public_id of its definition)
+          maxLength: 100
+          minLength: 1
+        parameters:
+          type: object
+          description: Component parameter values for the component instance
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        variant:
+          type: string
+          description: Public ID of alternate visual appearance for this component, if any selected
+          maxLength: 100
+        projectMapNodes:
+          type: array
+          description: Project map nodes associated with this component.  Must pass withProjectMapNodes parameter to be populated
+          items:
+            $ref: '#/components/schemas/CompositionProjectMapNodeInfo'
+        slots:
+          type: object
+          description: Slots containing any child components
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        _id:
+          type: string
+          description: The ID of the composition
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          minLength: 1
+        _slug:
+          type: string
+          description: Slug pattern of this component
+          nullable: true
+          maxLength: 512
+          pattern: ^[^<>]*$
+        _name:
+          type: string
+          description: Friendly name of this component
+          maxLength: 100
+          minLength: 1
+        _author:
+          type: string
+          description: Name of the author of the most recent change
+          minLength: 1
+          maxLength: 255
+        _authorSubject:
+          type: string
+          description: Identity subject of the author of the most recent change
+          minLength: 1
+          maxLength: 255
+        _creator:
+          type: string
+          description: Name of the original creator
+          minLength: 1
+          maxLength: 255
+        _creatorSubject:
+          type: string
+          description: Identity subject of the original creator
+          minLength: 1
+          maxLength: 255
+        _pattern:
+          type: string
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          description: Indicates this component instance should be sourced from a pattern library pattern
+        _patternDataResources:
+          type: object
+          description: 'Data definitions coming from a pattern resolved for this component. Merged with _dataResources during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        _patternError:
+          $ref: '#/components/schemas/PatternError'
+        _overrides:
+          type: object
+          description: 'Defines patch overrides to component IDs that live in the composition.
+
+            This can be used to override parameters that are defined on patterns,
+
+            including nested patterns, with values that are specific to this composition.
+
+            The keys in this object are component IDs.
+
+            Overrides are applied from the top down, so for example if both the composition
+
+            and a pattern on the composition define an override on a nested pattern,
+
+            the composition''s override replaces the pattern''s.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _patternOverrides:
+          type: object
+          description: 'Overrides coming from a pattern resolved for this component. Merged with _overrides during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _overridability:
+          description: 'When used on a pattern, defines how the pattern''s parameters may be overridden
+
+            by consumers of the pattern.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          $ref: '#/components/schemas/ComponentOverridability'
+        _locales:
+          description: Array of locales which have data defined on the composition. If empty, the current default locale implicitly has data
+          type: array
+          items:
+            type: string
+            maxLength: 32
+      additionalProperties: false
+    ComponentParameter:
+      type: object
+      description: Defines an editable parameter on a component
+      properties:
+        value:
+          description: The value of the parameter. Any JSON-serializable value is acceptable
+        type:
+          type: string
+          description: The type of the parameter. Determines how it is displayed when editing and tells the consumer how to process it
+          minLength: 1
+        connectedData:
+          deprecated: true
+          $ref: '#/components/schemas/DataElementConnectionDefinition'
+        locales:
+          type: object
+          description: 'Locale-specific values for this parameter. Keys are locale codes, and values are the `value` in that locale.
+
+            Note that locales must be registered on the entry/composition `_locales` before being used
+
+            '
+          additionalProperties:
+            example: '{ en-US: ''hello'', de: ''hallo'' }
+
+              '
+        conditions:
+          $ref: '#/components/schemas/ComponentParameterConditions'
+        localesConditions:
+          type: object
+          description: 'Locale-specific conditional values for this parameter. Keys are locale codes, and values are the `conditions` for that locale.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameterConditions'
+            example: '{ en-US: [{ when: { rule: ''$di'', source: ''productId'', op: ''is'', value: ''123'' }, value: ''hello 123'' }] }
+
+              '
+      required:
+      - type
+      additionalProperties: false
+    WorkflowStageTransition:
+      type: object
+      description: Definition of a transition from one stage to another in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - to
+      - permissions
+      properties:
+        to:
+          type: string
+          format: uuid
+          description: The target stage to transition to
+        name:
+          type: string
+          description: 'Name shown to the user when they execute this transition.
+
+            If not provided, a default name will be assigned automatically based on the target stage
+
+            '
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStageTransitionPermission'
+          description: 'Permissions for the stage transition.
+
+            NOTE: Users without membership in any role listed here will be unable to execute the transition unless they are team admins
+
+            '
+    WorkflowStage:
+      type: object
+      description: Definition of a stage in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - permissions
+      - transitions
+      properties:
+        name:
+          type: string
+          description: Name of the stage
+          minLength: 1
+          maxLength: 32
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStagePermission'
+          description: 'Defines roles which have permissions to this workflow stage
+
+            NOTE: Being able to write or publish to entities in a workflow stage requires both core write or publish permissions,
+
+            as well as membership in a role which grants the explicit rights to the stage. If a user is not a member of any role
+
+            listed here, the stage is read-only and publishing is disabled
+
+            '
+        autoPublish:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will automatically publish the entity.
+
+            If the user making the transition does not have publish permissions to the stage as well as publish permission on the entity, the action will not run.
+
+            Setting this to true is equivalent to setting requireValidity to true, as publishing cannot be performed with validation errors.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        requireValidity:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will require the entity to have no validation errors.
+
+            If the entity is not valid, the transition will not be allowed.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        transitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowStageTransition'
+          description: 'Defines transitions to other stages
+
+            Every stage must define at least one transition, to avoid creating a workflow that
+
+            has a stage that can never be escaped
+
+            '
+          minItems: 1
+        icon:
+          type: string
+          description: Icon name for the stage (e.g. 'chevron-double-right-o')
+          default: chevron-double-right-o
+          maxLength: 64
+        order:
+          type: number
+          description: Sets the order of the stage when displayed in a list with other stages. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+    CompositionProjectMapNodeInfo:
+      type: object
+      description: Project map node information related to a component
+      required:
+      - id
+      - path
+      - projectMapId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the project map node
+        path:
+          type: string
+          description: 'Fallback path of the project map node.
+
+            Note that the node may have matched via a locale-specific path which is in the `locales` object
+
+            '
+          minLength: 1
+          maxLength: 2048
+        projectMapId:
+          type: string
+          format: uuid
+          description: Unique identifier for the project map that this node belongs to
+        data:
+          $ref: '#/components/schemas/ProjectMapNodeData'
+        locales:
+          type: object
+          description: 'Locale-specific paths of the project map node.
+
+            Keys are locale codes
+
+            '
+          additionalProperties:
+            type: object
+            required:
+            - path
+            - inherited
+            properties:
+              path:
+                type: string
+                description: Locale-specific path of the project map node
+                minLength: 1
+                maxLength: 2048
+              inherited:
+                type: boolean
+                description: 'Whether the path is inherited from a parent node which defined a path segment in this locale
+
+                  '
+      additionalProperties: false
+  responses:
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

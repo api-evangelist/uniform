@@ -1,0 +1,368 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Redirects API
+  version: '2.0'
+tags:
+- name: Redirects
+paths:
+  /api/v1/redirect:
+    options:
+      tags:
+      - Redirects
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      description: Called to retrieve a list of redirects related to a project
+      tags:
+      - Redirects
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch redirects for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: id
+        description: Id of the redirect to retrieve
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: ids
+        description: Ids of the redirects to retrieve
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - in: query
+        name: sourceUrl
+        description: Source url to attempt to find redirects for
+        schema:
+          type: string
+          maxLength: 2048
+      - in: query
+        name: targetUrl
+        description: Find redirects that could redirect to this url
+        schema:
+          type: string
+          maxLength: 2048
+      - in: query
+        name: projectMapId
+        description: Id of the project map the source or target belongs to
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: sourceProjectMapNodeId
+        description: Id of the project map node to find redirects for
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: targetProjectMapNodeId
+        description: Id of the project map node to find redirects for
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: orderBy
+        description: Column to order results by, only applicable if trie is not active
+        schema:
+          type: string
+          enum:
+          - updated_at asc
+          - updated_at desc
+          - source_url asc
+          - source_url desc
+          - target_url asc
+          - target_url desc
+          - created_by asc
+          - created_by desc
+      - in: query
+        name: limit
+        description: Limit the results to this number of results, ignored if using trie parameter
+        schema:
+          type: number
+          maximum: 500
+      - in: query
+        name: offset
+        description: Offset the results a certain amount, useful for pagination
+        schema:
+          type: number
+      - in: query
+        name: search
+        description: Search text to filter redirects by, filtering on the source and target urls
+        schema:
+          type: string
+          maxLength: 50
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - redirects
+                properties:
+                  redirects:
+                    $ref: '#/components/schemas/RedirectGetResponse'
+                  total:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Redirects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - redirect
+              properties:
+                redirect:
+                  description: Redirect object to insert
+                  $ref: '#/components/schemas/Redirect'
+                projectId:
+                  description: Project id to insert the redirect into
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: Id of the redirect
+                additionalProperties: false
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      description: Called to delete a redirect
+      tags:
+      - Redirects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              - projectId
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Redirect id to be deleted
+                projectId:
+                  type: string
+                  format: uuid
+                  description: Project the redirect belongs to
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: Id of the redirect
+                additionalProperties: false
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    RedirectGetResponse:
+      type: array
+      items:
+        type: object
+        required:
+        - redirect
+        - metadata
+        properties:
+          redirect:
+            $ref: '#/components/schemas/Redirect'
+          metadata:
+            $ref: '#/components/schemas/RedirectMetadata'
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    Redirect:
+      additionalProperties: false
+      type: object
+      required:
+      - sourceUrl
+      - targetStatusCode
+      - targetUrl
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the redirect
+        sourceUrl:
+          type: string
+          maxLength: 500
+          description: Source meant to match a url that needs to be redirected
+        targetUrl:
+          type: string
+          maxLength: 500
+          description: Target meant to be redirected to
+        targetStatusCode:
+          type: integer
+          description: Redirect type to occur from this redirect
+        sourceProjectMapNodeId:
+          type: string
+          format: uuid
+          description: Project map node related to the source this redirect
+        targetProjectMapNodeId:
+          type: string
+          format: uuid
+          description: Project map node related to the target this redirect
+        projectMapId:
+          type: string
+          format: uuid
+          description: Project map related to this redirect
+        sourceRetainQuerystring:
+          type: boolean
+          description: Signals the redirect engine to retain query string parameters to the target url
+        sourceMustMatchDomain:
+          type: boolean
+          description: Incoming requests must match the domain that's defined in the redirection source
+        targetPreserveIncomingProtocol:
+          type: boolean
+          description: Rewritten url should match the protocol (http / https) of the incoming request instead of whatever is defined in the redirection target
+        targetPreserveIncomingDomain:
+          type: boolean
+          description: Rewritten url should match the domain of the incoming request regardless of what is defined in the redirection target
+        targetMergeQuerystring:
+          type: boolean
+          description: Merge incoming querystring with the querystring defined on the redirection target, taking the incoming querystring parameter where a merge is not possible
+        labelAsSystem:
+          type: boolean
+          description: Label as system generated or user generated
+    RedirectMetadata:
+      type: object
+      properties:
+        updatedAt:
+          type: string
+          maxLength: 100
+          description: The last time the redirect was modified in UTC
+        updatedBy:
+          type: string
+          maxLength: 100
+          description: The last user who modified this redirect
+        createdAt:
+          type: string
+          maxLength: 100
+          description: The time the redirect was created in UTC
+        createdBy:
+          type: string
+          maxLength: 100
+          description: The user who created this redirect
+        createdByName:
+          type: string
+          maxLength: 200
+          description: The user who created this redirect's name
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,1482 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Roles API
+  version: '2.0'
+tags:
+- name: Roles
+paths:
+  /api/v1/roles:
+    get:
+      description: Reads roles for a team. Team admin permissions are required.
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: teamId
+        in: query
+      responses:
+        '200':
+          description: Roles read
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        singleRole:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            publicId:
+                              type: string
+                              minLength: 0
+                              maxLength: 100
+                              pattern: ^[A-Za-z0-9$-]+$
+                            teamId:
+                              type: string
+                            name:
+                              type: string
+                              minLength: 1
+                              maxLength: 100
+                              pattern: ^[^<>]{1,100}$
+                            description:
+                              type: string
+                              maxLength: 1000
+                            permissions:
+                              type: array
+                              items:
+                                type: string
+                                enum:
+                                - LBL_CREATE
+                                - LBL_DELETE
+                                - LBL_UPDATE
+                                - OPT_CREATE_ENRICHMENTS
+                                - OPT_CREATE_INTENTS
+                                - OPT_CREATE_QUIRKS
+                                - OPT_CREATE_SIGNALS
+                                - OPT_CREATE_TESTS
+                                - OPT_DELETE_ENRICHMENTS
+                                - OPT_DELETE_INTENTS
+                                - OPT_DELETE_QUIRKS
+                                - OPT_DELETE_SIGNALS
+                                - OPT_DELETE_TESTS
+                                - OPT_PUB
+                                - OPT_PUBLISH
+                                - OPT_READ
+                                - OPT_WRITE_ENRICHMENTS
+                                - OPT_WRITE_INTENTS
+                                - OPT_WRITE_QUIRKS
+                                - OPT_WRITE_SIGNALS
+                                - OPT_WRITE_TESTS
+                                - PRM_SCHEMA
+                                - PROJECT
+                                - RDT_ADVANCED
+                                - RDT_CREATE
+                                - RDT_DELETE
+                                - RDT_UPDATE
+                                - UPM_COMPOSITION_SCHEMA
+                                - UPM_CREATE
+                                - UPM_DATACONN
+                                - UPM_DATATYPE
+                                - UPM_DELETE
+                                - UPM_ENTRY_SCHEMA
+                                - UPM_PROMPT_SCHEMA
+                                - UPM_PUB
+                                - UPM_PUBLISH
+                                - UPM_READ
+                                - UPM_RELEASE_CREATE
+                                - UPM_RELEASE_DELETE
+                                - UPM_RELEASE_LAUNCH
+                                - UPM_RELEASE_UPDATE
+                                - UPM_SCHEMA
+                                - UPM_WRITE
+                                - UTM_PUB
+                                - UTM_WRITE
+                          required:
+                          - id
+                          - teamId
+                          - name
+                          - permissions
+                        users:
+                          type: array
+                          items:
+                            type: string
+                        apiKeys:
+                          type: array
+                          items:
+                            type: string
+                        policies:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            properties:
+                              allowing:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    entityGroup:
+                                      type: string
+                                      enum:
+                                      - compositions
+                                      - entries
+                                      - assets
+                                      - componentPatterns
+                                      - compositionPatterns
+                                      - entryPatterns
+                                      - aiPrompts
+                                      - components
+                                      - contentTypes
+                                      - dataSources
+                                      - dataTypes
+                                      - enrichments
+                                      - intentsAndAudiences
+                                      - labels
+                                      - manifest
+                                      - projectMap
+                                      - quirks
+                                      - redirects
+                                      - releases
+                                      - signals
+                                      - tests
+                                      - utmMapper
+                                    permission:
+                                      anyOf:
+                                      - type: string
+                                        enum:
+                                        - LBL_CREATE
+                                        - LBL_DELETE
+                                        - LBL_UPDATE
+                                        - OPT_CREATE_ENRICHMENTS
+                                        - OPT_CREATE_INTENTS
+                                        - OPT_CREATE_QUIRKS
+                                        - OPT_CREATE_SIGNALS
+                                        - OPT_CREATE_TESTS
+                                        - OPT_DELETE_ENRICHMENTS
+                                        - OPT_DELETE_INTENTS
+                                        - OPT_DELETE_QUIRKS
+                                        - OPT_DELETE_SIGNALS
+                                        - OPT_DELETE_TESTS
+                                        - OPT_PUB
+                                        - OPT_PUBLISH
+                                        - OPT_READ
+                                        - OPT_WRITE_ENRICHMENTS
+                                        - OPT_WRITE_INTENTS
+                                        - OPT_WRITE_QUIRKS
+                                        - OPT_WRITE_SIGNALS
+                                        - OPT_WRITE_TESTS
+                                        - PRM_SCHEMA
+                                        - PROJECT
+                                        - RDT_ADVANCED
+                                        - RDT_CREATE
+                                        - RDT_DELETE
+                                        - RDT_UPDATE
+                                        - UPM_COMPOSITION_SCHEMA
+                                        - UPM_CREATE
+                                        - UPM_DATACONN
+                                        - UPM_DATATYPE
+                                        - UPM_DELETE
+                                        - UPM_ENTRY_SCHEMA
+                                        - UPM_PROMPT_SCHEMA
+                                        - UPM_PUB
+                                        - UPM_PUBLISH
+                                        - UPM_READ
+                                        - UPM_RELEASE_CREATE
+                                        - UPM_RELEASE_DELETE
+                                        - UPM_RELEASE_LAUNCH
+                                        - UPM_RELEASE_UPDATE
+                                        - UPM_SCHEMA
+                                        - UPM_WRITE
+                                        - UTM_PUB
+                                        - UTM_WRITE
+                                      - type: array
+                                        items:
+                                          type: string
+                                          enum:
+                                          - LBL_CREATE
+                                          - LBL_DELETE
+                                          - LBL_UPDATE
+                                          - OPT_CREATE_ENRICHMENTS
+                                          - OPT_CREATE_INTENTS
+                                          - OPT_CREATE_QUIRKS
+                                          - OPT_CREATE_SIGNALS
+                                          - OPT_CREATE_TESTS
+                                          - OPT_DELETE_ENRICHMENTS
+                                          - OPT_DELETE_INTENTS
+                                          - OPT_DELETE_QUIRKS
+                                          - OPT_DELETE_SIGNALS
+                                          - OPT_DELETE_TESTS
+                                          - OPT_PUB
+                                          - OPT_PUBLISH
+                                          - OPT_READ
+                                          - OPT_WRITE_ENRICHMENTS
+                                          - OPT_WRITE_INTENTS
+                                          - OPT_WRITE_QUIRKS
+                                          - OPT_WRITE_SIGNALS
+                                          - OPT_WRITE_TESTS
+                                          - PRM_SCHEMA
+                                          - PROJECT
+                                          - RDT_ADVANCED
+                                          - RDT_CREATE
+                                          - RDT_DELETE
+                                          - RDT_UPDATE
+                                          - UPM_COMPOSITION_SCHEMA
+                                          - UPM_CREATE
+                                          - UPM_DATACONN
+                                          - UPM_DATATYPE
+                                          - UPM_DELETE
+                                          - UPM_ENTRY_SCHEMA
+                                          - UPM_PROMPT_SCHEMA
+                                          - UPM_PUB
+                                          - UPM_PUBLISH
+                                          - UPM_READ
+                                          - UPM_RELEASE_CREATE
+                                          - UPM_RELEASE_DELETE
+                                          - UPM_RELEASE_LAUNCH
+                                          - UPM_RELEASE_UPDATE
+                                          - UPM_SCHEMA
+                                          - UPM_WRITE
+                                          - UTM_PUB
+                                          - UTM_WRITE
+                                        minItems: 1
+                                    condition:
+                                      anyOf:
+                                      - type: object
+                                        properties:
+                                          property:
+                                            type: string
+                                            enum:
+                                            - id
+                                            - type
+                                            - pattern
+                                          value:
+                                            anyOf:
+                                            - type: string
+                                            - type: array
+                                              items:
+                                                type: string
+                                              minItems: 1
+                                        required:
+                                        - property
+                                        - value
+                                      - type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            property:
+                                              type: string
+                                              enum:
+                                              - id
+                                              - type
+                                              - pattern
+                                            value:
+                                              anyOf:
+                                              - type: string
+                                              - type: array
+                                                items:
+                                                  type: string
+                                                minItems: 1
+                                          required:
+                                          - property
+                                          - value
+                                  required:
+                                  - entityGroup
+                                  - permission
+                              denying:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    entityGroup:
+                                      type: string
+                                      enum:
+                                      - compositions
+                                      - entries
+                                      - assets
+                                      - componentPatterns
+                                      - compositionPatterns
+                                      - entryPatterns
+                                      - aiPrompts
+                                      - components
+                                      - contentTypes
+                                      - dataSources
+                                      - dataTypes
+                                      - enrichments
+                                      - intentsAndAudiences
+                                      - labels
+                                      - manifest
+                                      - projectMap
+                                      - quirks
+                                      - redirects
+                                      - releases
+                                      - signals
+                                      - tests
+                                      - utmMapper
+                                    permission:
+                                      anyOf:
+                                      - type: string
+                                        enum:
+                                        - LBL_CREATE
+                                        - LBL_DELETE
+                                        - LBL_UPDATE
+                                        - OPT_CREATE_ENRICHMENTS
+                                        - OPT_CREATE_INTENTS
+                                        - OPT_CREATE_QUIRKS
+                                        - OPT_CREATE_SIGNALS
+                                        - OPT_CREATE_TESTS
+                                        - OPT_DELETE_ENRICHMENTS
+                                        - OPT_DELETE_INTENTS
+                                        - OPT_DELETE_QUIRKS
+                                        - OPT_DELETE_SIGNALS
+                                        - OPT_DELETE_TESTS
+                                        - OPT_PUB
+                                        - OPT_PUBLISH
+                                        - OPT_READ
+                                        - OPT_WRITE_ENRICHMENTS
+                                        - OPT_WRITE_INTENTS
+                                        - OPT_WRITE_QUIRKS
+                                        - OPT_WRITE_SIGNALS
+                                        - OPT_WRITE_TESTS
+                                        - PRM_SCHEMA
+                                        - PROJECT
+                                        - RDT_ADVANCED
+                                        - RDT_CREATE
+                                        - RDT_DELETE
+                                        - RDT_UPDATE
+                                        - UPM_COMPOSITION_SCHEMA
+                                        - UPM_CREATE
+                                        - UPM_DATACONN
+                                        - UPM_DATATYPE
+                                        - UPM_DELETE
+                                        - UPM_ENTRY_SCHEMA
+                                        - UPM_PROMPT_SCHEMA
+                                        - UPM_PUB
+                                        - UPM_PUBLISH
+                                        - UPM_READ
+                                        - UPM_RELEASE_CREATE
+                                        - UPM_RELEASE_DELETE
+                                        - UPM_RELEASE_LAUNCH
+                                        - UPM_RELEASE_UPDATE
+                                        - UPM_SCHEMA
+                                        - UPM_WRITE
+                                        - UTM_PUB
+                                        - UTM_WRITE
+                                      - type: array
+                                        items:
+                                          type: string
+                                          enum:
+                                          - LBL_CREATE
+                                          - LBL_DELETE
+                                          - LBL_UPDATE
+                                          - OPT_CREATE_ENRICHMENTS
+                                          - OPT_CREATE_INTENTS
+                                          - OPT_CREATE_QUIRKS
+                                          - OPT_CREATE_SIGNALS
+                                          - OPT_CREATE_TESTS
+                                          - OPT_DELETE_ENRICHMENTS
+                                          - OPT_DELETE_INTENTS
+                                          - OPT_DELETE_QUIRKS
+                                          - OPT_DELETE_SIGNALS
+                                          - OPT_DELETE_TESTS
+                                          - OPT_PUB
+                                          - OPT_PUBLISH
+                                          - OPT_READ
+                                          - OPT_WRITE_ENRICHMENTS
+                                          - OPT_WRITE_INTENTS
+                                          - OPT_WRITE_QUIRKS
+                                          - OPT_WRITE_SIGNALS
+                                          - OPT_WRITE_TESTS
+                                          - PRM_SCHEMA
+                                          - PROJECT
+                                          - RDT_ADVANCED
+                                          - RDT_CREATE
+                                          - RDT_DELETE
+                                          - RDT_UPDATE
+                                          - UPM_COMPOSITION_SCHEMA
+                                          - UPM_CREATE
+                                          - UPM_DATACONN
+                                          - UPM_DATATYPE
+                                          - UPM_DELETE
+                                          - UPM_ENTRY_SCHEMA
+                                          - UPM_PROMPT_SCHEMA
+                                          - UPM_PUB
+                                          - UPM_PUBLISH
+                                          - UPM_READ
+                                          - UPM_RELEASE_CREATE
+                                          - UPM_RELEASE_DELETE
+                                          - UPM_RELEASE_LAUNCH
+                                          - UPM_RELEASE_UPDATE
+                                          - UPM_SCHEMA
+                                          - UPM_WRITE
+                                          - UTM_PUB
+                                          - UTM_WRITE
+                                        minItems: 1
+                                    condition:
+                                      anyOf:
+                                      - type: object
+                                        properties:
+                                          property:
+                                            type: string
+                                            enum:
+                                            - id
+                                            - type
+                                            - pattern
+                                          value:
+                                            anyOf:
+                                            - type: string
+                                            - type: array
+                                              items:
+                                                type: string
+                                              minItems: 1
+                                        required:
+                                        - property
+                                        - value
+                                      - type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            property:
+                                              type: string
+                                              enum:
+                                              - id
+                                              - type
+                                              - pattern
+                                            value:
+                                              anyOf:
+                                              - type: string
+                                              - type: array
+                                                items:
+                                                  type: string
+                                                minItems: 1
+                                          required:
+                                          - property
+                                          - value
+                                  required:
+                                  - entityGroup
+                                  - permission
+                      required:
+                      - singleRole
+                      - users
+                      - apiKeys
+                      - policies
+                required:
+                - roles
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Roles
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Deletes a role. Team admin permissions are required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roleId:
+                  type: string
+              required:
+              - roleId
+      responses:
+        '204':
+          description: Role deleted
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 0
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Roles
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Creates a new role. Team admin permissions are required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                singleRole:
+                  type: object
+                  properties:
+                    id:
+                      anyOf:
+                      - type: string
+                      - type: string
+                        maxLength: 0
+                    publicId:
+                      type: string
+                      minLength: 0
+                      maxLength: 100
+                      pattern: ^[A-Za-z0-9$-]+$
+                    teamId:
+                      type: string
+                    name:
+                      type: string
+                      minLength: 1
+                      maxLength: 100
+                      pattern: ^[^<>]{1,100}$
+                    description:
+                      type: string
+                      maxLength: 1000
+                    permissions:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                        - LBL_CREATE
+                        - LBL_DELETE
+                        - LBL_UPDATE
+                        - OPT_CREATE_ENRICHMENTS
+                        - OPT_CREATE_INTENTS
+                        - OPT_CREATE_QUIRKS
+                        - OPT_CREATE_SIGNALS
+                        - OPT_CREATE_TESTS
+                        - OPT_DELETE_ENRICHMENTS
+                        - OPT_DELETE_INTENTS
+                        - OPT_DELETE_QUIRKS
+                        - OPT_DELETE_SIGNALS
+                        - OPT_DELETE_TESTS
+                        - OPT_PUB
+                        - OPT_PUBLISH
+                        - OPT_READ
+                        - OPT_WRITE_ENRICHMENTS
+                        - OPT_WRITE_INTENTS
+                        - OPT_WRITE_QUIRKS
+                        - OPT_WRITE_SIGNALS
+                        - OPT_WRITE_TESTS
+                        - PRM_SCHEMA
+                        - PROJECT
+                        - RDT_ADVANCED
+                        - RDT_CREATE
+                        - RDT_DELETE
+                        - RDT_UPDATE
+                        - UPM_COMPOSITION_SCHEMA
+                        - UPM_CREATE
+                        - UPM_DATACONN
+                        - UPM_DATATYPE
+                        - UPM_DELETE
+                        - UPM_ENTRY_SCHEMA
+                        - UPM_PROMPT_SCHEMA
+                        - UPM_PUB
+                        - UPM_PUBLISH
+                        - UPM_READ
+                        - UPM_RELEASE_CREATE
+                        - UPM_RELEASE_DELETE
+                        - UPM_RELEASE_LAUNCH
+                        - UPM_RELEASE_UPDATE
+                        - UPM_SCHEMA
+                        - UPM_WRITE
+                        - UTM_PUB
+                        - UTM_WRITE
+                  required:
+                  - teamId
+                  - name
+                  - permissions
+                policies:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      allowing:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            entityGroup:
+                              type: string
+                              enum:
+                              - compositions
+                              - entries
+                              - assets
+                              - componentPatterns
+                              - compositionPatterns
+                              - entryPatterns
+                              - aiPrompts
+                              - components
+                              - contentTypes
+                              - dataSources
+                              - dataTypes
+                              - enrichments
+                              - intentsAndAudiences
+                              - labels
+                              - manifest
+                              - projectMap
+                              - quirks
+                              - redirects
+                              - releases
+                              - signals
+                              - tests
+                              - utmMapper
+                            permission:
+                              anyOf:
+                              - type: string
+                                enum:
+                                - LBL_CREATE
+                                - LBL_DELETE
+                                - LBL_UPDATE
+                                - OPT_CREATE_ENRICHMENTS
+                                - OPT_CREATE_INTENTS
+                                - OPT_CREATE_QUIRKS
+                                - OPT_CREATE_SIGNALS
+                                - OPT_CREATE_TESTS
+                                - OPT_DELETE_ENRICHMENTS
+                                - OPT_DELETE_INTENTS
+                                - OPT_DELETE_QUIRKS
+                                - OPT_DELETE_SIGNALS
+                                - OPT_DELETE_TESTS
+                                - OPT_PUB
+                                - OPT_PUBLISH
+                                - OPT_READ
+                                - OPT_WRITE_ENRICHMENTS
+                                - OPT_WRITE_INTENTS
+                                - OPT_WRITE_QUIRKS
+                                - OPT_WRITE_SIGNALS
+                                - OPT_WRITE_TESTS
+                                - PRM_SCHEMA
+                                - PROJECT
+                                - RDT_ADVANCED
+                                - RDT_CREATE
+                                - RDT_DELETE
+                                - RDT_UPDATE
+                                - UPM_COMPOSITION_SCHEMA
+                                - UPM_CREATE
+                                - UPM_DATACONN
+                                - UPM_DATATYPE
+                                - UPM_DELETE
+                                - UPM_ENTRY_SCHEMA
+                                - UPM_PROMPT_SCHEMA
+                                - UPM_PUB
+                                - UPM_PUBLISH
+                                - UPM_READ
+                                - UPM_RELEASE_CREATE
+                                - UPM_RELEASE_DELETE
+                                - UPM_RELEASE_LAUNCH
+                                - UPM_RELEASE_UPDATE
+                                - UPM_SCHEMA
+                                - UPM_WRITE
+                                - UTM_PUB
+                                - UTM_WRITE
+                              - type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - LBL_CREATE
+                                  - LBL_DELETE
+                                  - LBL_UPDATE
+                                  - OPT_CREATE_ENRICHMENTS
+                                  - OPT_CREATE_INTENTS
+                                  - OPT_CREATE_QUIRKS
+                                  - OPT_CREATE_SIGNALS
+                                  - OPT_CREATE_TESTS
+                                  - OPT_DELETE_ENRICHMENTS
+                                  - OPT_DELETE_INTENTS
+                                  - OPT_DELETE_QUIRKS
+                                  - OPT_DELETE_SIGNALS
+                                  - OPT_DELETE_TESTS
+                                  - OPT_PUB
+                                  - OPT_PUBLISH
+                                  - OPT_READ
+                                  - OPT_WRITE_ENRICHMENTS
+                                  - OPT_WRITE_INTENTS
+                                  - OPT_WRITE_QUIRKS
+                                  - OPT_WRITE_SIGNALS
+                                  - OPT_WRITE_TESTS
+                                  - PRM_SCHEMA
+                                  - PROJECT
+                                  - RDT_ADVANCED
+                                  - RDT_CREATE
+                                  - RDT_DELETE
+                                  - RDT_UPDATE
+                                  - UPM_COMPOSITION_SCHEMA
+                                  - UPM_CREATE
+                                  - UPM_DATACONN
+                                  - UPM_DATATYPE
+                                  - UPM_DELETE
+                                  - UPM_ENTRY_SCHEMA
+                                  - UPM_PROMPT_SCHEMA
+                                  - UPM_PUB
+                                  - UPM_PUBLISH
+                                  - UPM_READ
+                                  - UPM_RELEASE_CREATE
+                                  - UPM_RELEASE_DELETE
+                                  - UPM_RELEASE_LAUNCH
+                                  - UPM_RELEASE_UPDATE
+                                  - UPM_SCHEMA
+                                  - UPM_WRITE
+                                  - UTM_PUB
+                                  - UTM_WRITE
+                                minItems: 1
+                            condition:
+                              anyOf:
+                              - type: object
+                                properties:
+                                  property:
+                                    type: string
+                                    enum:
+                                    - id
+                                    - type
+                                    - pattern
+                                  value:
+                                    anyOf:
+                                    - type: string
+                                    - type: array
+                                      items:
+                                        type: string
+                                      minItems: 1
+                                required:
+                                - property
+                                - value
+                              - type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    property:
+                                      type: string
+                                      enum:
+                                      - id
+                                      - type
+                                      - pattern
+                                    value:
+                                      anyOf:
+                                      - type: string
+                                      - type: array
+                                        items:
+                                          type: string
+                                        minItems: 1
+                                  required:
+                                  - property
+                                  - value
+                          required:
+                          - entityGroup
+                          - permission
+                      denying:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            entityGroup:
+                              type: string
+                              enum:
+                              - compositions
+                              - entries
+                              - assets
+                              - componentPatterns
+                              - compositionPatterns
+                              - entryPatterns
+                              - aiPrompts
+                              - components
+                              - contentTypes
+                              - dataSources
+                              - dataTypes
+                              - enrichments
+                              - intentsAndAudiences
+                              - labels
+                              - manifest
+                              - projectMap
+                              - quirks
+                              - redirects
+                              - releases
+                              - signals
+                              - tests
+                              - utmMapper
+                            permission:
+                              anyOf:
+                              - type: string
+                                enum:
+                                - LBL_CREATE
+                                - LBL_DELETE
+                                - LBL_UPDATE
+                                - OPT_CREATE_ENRICHMENTS
+                                - OPT_CREATE_INTENTS
+                                - OPT_CREATE_QUIRKS
+                                - OPT_CREATE_SIGNALS
+                                - OPT_CREATE_TESTS
+                                - OPT_DELETE_ENRICHMENTS
+                                - OPT_DELETE_INTENTS
+                                - OPT_DELETE_QUIRKS
+                                - OPT_DELETE_SIGNALS
+                                - OPT_DELETE_TESTS
+                                - OPT_PUB
+                                - OPT_PUBLISH
+                                - OPT_READ
+                                - OPT_WRITE_ENRICHMENTS
+                                - OPT_WRITE_INTENTS
+                                - OPT_WRITE_QUIRKS
+                                - OPT_WRITE_SIGNALS
+                                - OPT_WRITE_TESTS
+                                - PRM_SCHEMA
+                                - PROJECT
+                                - RDT_ADVANCED
+                                - RDT_CREATE
+                                - RDT_DELETE
+                                - RDT_UPDATE
+                                - UPM_COMPOSITION_SCHEMA
+                                - UPM_CREATE
+                                - UPM_DATACONN
+                                - UPM_DATATYPE
+                                - UPM_DELETE
+                                - UPM_ENTRY_SCHEMA
+                                - UPM_PROMPT_SCHEMA
+                                - UPM_PUB
+                                - UPM_PUBLISH
+                                - UPM_READ
+                                - UPM_RELEASE_CREATE
+                                - UPM_RELEASE_DELETE
+                                - UPM_RELEASE_LAUNCH
+                                - UPM_RELEASE_UPDATE
+                                - UPM_SCHEMA
+                                - UPM_WRITE
+                                - UTM_PUB
+                                - UTM_WRITE
+                              - type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - LBL_CREATE
+                                  - LBL_DELETE
+                                  - LBL_UPDATE
+                                  - OPT_CREATE_ENRICHMENTS
+                                  - OPT_CREATE_INTENTS
+                                  - OPT_CREATE_QUIRKS
+                                  - OPT_CREATE_SIGNALS
+                                  - OPT_CREATE_TESTS
+                                  - OPT_DELETE_ENRICHMENTS
+                                  - OPT_DELETE_INTENTS
+                                  - OPT_DELETE_QUIRKS
+                                  - OPT_DELETE_SIGNALS
+                                  - OPT_DELETE_TESTS
+                                  - OPT_PUB
+                                  - OPT_PUBLISH
+                                  - OPT_READ
+                                  - OPT_WRITE_ENRICHMENTS
+                                  - OPT_WRITE_INTENTS
+                                  - OPT_WRITE_QUIRKS
+                                  - OPT_WRITE_SIGNALS
+                                  - OPT_WRITE_TESTS
+                                  - PRM_SCHEMA
+                                  - PROJECT
+                                  - RDT_ADVANCED
+                                  - RDT_CREATE
+                                  - RDT_DELETE
+                                  - RDT_UPDATE
+                                  - UPM_COMPOSITION_SCHEMA
+                                  - UPM_CREATE
+                                  - UPM_DATACONN
+                                  - UPM_DATATYPE
+                                  - UPM_DELETE
+                                  - UPM_ENTRY_SCHEMA
+                                  - UPM_PROMPT_SCHEMA
+                                  - UPM_PUB
+                                  - UPM_PUBLISH
+                                  - UPM_READ
+                                  - UPM_RELEASE_CREATE
+                                  - UPM_RELEASE_DELETE
+                                  - UPM_RELEASE_LAUNCH
+                                  - UPM_RELEASE_UPDATE
+                                  - UPM_SCHEMA
+                                  - UPM_WRITE
+                                  - UTM_PUB
+                                  - UTM_WRITE
+                                minItems: 1
+                            condition:
+                              anyOf:
+                              - type: object
+                                properties:
+                                  property:
+                                    type: string
+                                    enum:
+                                    - id
+                                    - type
+                                    - pattern
+                                  value:
+                                    anyOf:
+                                    - type: string
+                                    - type: array
+                                      items:
+                                        type: string
+                                      minItems: 1
+                                required:
+                                - property
+                                - value
+                              - type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    property:
+                                      type: string
+                                      enum:
+                                      - id
+                                      - type
+                                      - pattern
+                                    value:
+                                      anyOf:
+                                      - type: string
+                                      - type: array
+                                        items:
+                                          type: string
+                                        minItems: 1
+                                  required:
+                                  - property
+                                  - value
+                          required:
+                          - entityGroup
+                          - permission
+              required:
+              - singleRole
+      responses:
+        '204':
+          description: Role created
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 0
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Roles
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    patch:
+      description: Updates a role. Team admin permissions are required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                singleRole:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    publicId:
+                      type: string
+                      minLength: 0
+                      maxLength: 100
+                      pattern: ^[A-Za-z0-9$-]+$
+                    teamId:
+                      type: string
+                    name:
+                      type: string
+                      minLength: 1
+                      maxLength: 100
+                      pattern: ^[^<>]{1,100}$
+                    description:
+                      type: string
+                      maxLength: 1000
+                    permissions:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                        - LBL_CREATE
+                        - LBL_DELETE
+                        - LBL_UPDATE
+                        - OPT_CREATE_ENRICHMENTS
+                        - OPT_CREATE_INTENTS
+                        - OPT_CREATE_QUIRKS
+                        - OPT_CREATE_SIGNALS
+                        - OPT_CREATE_TESTS
+                        - OPT_DELETE_ENRICHMENTS
+                        - OPT_DELETE_INTENTS
+                        - OPT_DELETE_QUIRKS
+                        - OPT_DELETE_SIGNALS
+                        - OPT_DELETE_TESTS
+                        - OPT_PUB
+                        - OPT_PUBLISH
+                        - OPT_READ
+                        - OPT_WRITE_ENRICHMENTS
+                        - OPT_WRITE_INTENTS
+                        - OPT_WRITE_QUIRKS
+                        - OPT_WRITE_SIGNALS
+                        - OPT_WRITE_TESTS
+                        - PRM_SCHEMA
+                        - PROJECT
+                        - RDT_ADVANCED
+                        - RDT_CREATE
+                        - RDT_DELETE
+                        - RDT_UPDATE
+                        - UPM_COMPOSITION_SCHEMA
+                        - UPM_CREATE
+                        - UPM_DATACONN
+                        - UPM_DATATYPE
+                        - UPM_DELETE
+                        - UPM_ENTRY_SCHEMA
+                        - UPM_PROMPT_SCHEMA
+                        - UPM_PUB
+                        - UPM_PUBLISH
+                        - UPM_READ
+                        - UPM_RELEASE_CREATE
+                        - UPM_RELEASE_DELETE
+                        - UPM_RELEASE_LAUNCH
+                        - UPM_RELEASE_UPDATE
+                        - UPM_SCHEMA
+                        - UPM_WRITE
+                        - UTM_PUB
+                        - UTM_WRITE
+                  required:
+                  - id
+                  - teamId
+                  - name
+                  - permissions
+                policies:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      allowing:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            entityGroup:
+                              type: string
+                              enum:
+                              - compositions
+                              - entries
+                              - assets
+                              - componentPatterns
+                              - compositionPatterns
+                              - entryPatterns
+                              - aiPrompts
+                              - components
+                              - contentTypes
+                              - dataSources
+                              - dataTypes
+                              - enrichments
+                              - intentsAndAudiences
+                              - labels
+                              - manifest
+                              - projectMap
+                              - quirks
+                              - redirects
+                              - releases
+                              - signals
+                              - tests
+                              - utmMapper
+                            permission:
+                              anyOf:
+                              - type: string
+                                enum:
+                                - LBL_CREATE
+                                - LBL_DELETE
+                                - LBL_UPDATE
+                                - OPT_CREATE_ENRICHMENTS
+                                - OPT_CREATE_INTENTS
+                                - OPT_CREATE_QUIRKS
+                                - OPT_CREATE_SIGNALS
+                                - OPT_CREATE_TESTS
+                                - OPT_DELETE_ENRICHMENTS
+                                - OPT_DELETE_INTENTS
+                                - OPT_DELETE_QUIRKS
+                                - OPT_DELETE_SIGNALS
+                                - OPT_DELETE_TESTS
+                                - OPT_PUB
+                                - OPT_PUBLISH
+                                - OPT_READ
+                                - OPT_WRITE_ENRICHMENTS
+                                - OPT_WRITE_INTENTS
+                                - OPT_WRITE_QUIRKS
+                                - OPT_WRITE_SIGNALS
+                                - OPT_WRITE_TESTS
+                                - PRM_SCHEMA
+                                - PROJECT
+                                - RDT_ADVANCED
+                                - RDT_CREATE
+                                - RDT_DELETE
+                                - RDT_UPDATE
+                                - UPM_COMPOSITION_SCHEMA
+                                - UPM_CREATE
+                                - UPM_DATACONN
+                                - UPM_DATATYPE
+                                - UPM_DELETE
+                                - UPM_ENTRY_SCHEMA
+                                - UPM_PROMPT_SCHEMA
+                                - UPM_PUB
+                                - UPM_PUBLISH
+                                - UPM_READ
+                                - UPM_RELEASE_CREATE
+                                - UPM_RELEASE_DELETE
+                                - UPM_RELEASE_LAUNCH
+                                - UPM_RELEASE_UPDATE
+                                - UPM_SCHEMA
+                                - UPM_WRITE
+                                - UTM_PUB
+                                - UTM_WRITE
+                              - type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - LBL_CREATE
+                                  - LBL_DELETE
+                                  - LBL_UPDATE
+                                  - OPT_CREATE_ENRICHMENTS
+                                  - OPT_CREATE_INTENTS
+                                  - OPT_CREATE_QUIRKS
+                                  - OPT_CREATE_SIGNALS
+                                  - OPT_CREATE_TESTS
+                                  - OPT_DELETE_ENRICHMENTS
+                                  - OPT_DELETE_INTENTS
+                                  - OPT_DELETE_QUIRKS
+                                  - OPT_DELETE_SIGNALS
+                                  - OPT_DELETE_TESTS
+                                  - OPT_PUB
+                                  - OPT_PUBLISH
+                                  - OPT_READ
+                                  - OPT_WRITE_ENRICHMENTS
+                                  - OPT_WRITE_INTENTS
+                                  - OPT_WRITE_QUIRKS
+                                  - OPT_WRITE_SIGNALS
+                                  - OPT_WRITE_TESTS
+                                  - PRM_SCHEMA
+                                  - PROJECT
+                                  - RDT_ADVANCED
+                                  - RDT_CREATE
+                                  - RDT_DELETE
+                                  - RDT_UPDATE
+                                  - UPM_COMPOSITION_SCHEMA
+                                  - UPM_CREATE
+                                  - UPM_DATACONN
+                                  - UPM_DATATYPE
+                                  - UPM_DELETE
+                                  - UPM_ENTRY_SCHEMA
+                                  - UPM_PROMPT_SCHEMA
+                                  - UPM_PUB
+                                  - UPM_PUBLISH
+                                  - UPM_READ
+                                  - UPM_RELEASE_CREATE
+                                  - UPM_RELEASE_DELETE
+                                  - UPM_RELEASE_LAUNCH
+                                  - UPM_RELEASE_UPDATE
+                                  - UPM_SCHEMA
+                                  - UPM_WRITE
+                                  - UTM_PUB
+                                  - UTM_WRITE
+                                minItems: 1
+                            condition:
+                              anyOf:
+                              - type: object
+                                properties:
+                                  property:
+                                    type: string
+                                    enum:
+                                    - id
+                                    - type
+                                    - pattern
+                                  value:
+                                    anyOf:
+                                    - type: string
+                                    - type: array
+                                      items:
+                                        type: string
+                                      minItems: 1
+                                required:
+                                - property
+                                - value
+                              - type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    property:
+                                      type: string
+                                      enum:
+                                      - id
+                                      - type
+                                      - pattern
+                                    value:
+                                      anyOf:
+                                      - type: string
+                                      - type: array
+                                        items:
+                                          type: string
+                                        minItems: 1
+                                  required:
+                                  - property
+                                  - value
+                          required:
+                          - entityGroup
+                          - permission
+                      denying:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            entityGroup:
+                              type: string
+                              enum:
+                              - compositions
+                              - entries
+                              - assets
+                              - componentPatterns
+                              - compositionPatterns
+                              - entryPatterns
+                              - aiPrompts
+                              - components
+                              - contentTypes
+                              - dataSources
+                              - dataTypes
+                              - enrichments
+                              - intentsAndAudiences
+                              - labels
+                              - manifest
+                              - projectMap
+                              - quirks
+                              - redirects
+                              - releases
+                              - signals
+                              - tests
+                              - utmMapper
+                            permission:
+                              anyOf:
+                              - type: string
+                                enum:
+                                - LBL_CREATE
+                                - LBL_DELETE
+                                - LBL_UPDATE
+                                - OPT_CREATE_ENRICHMENTS
+                                - OPT_CREATE_INTENTS
+                                - OPT_CREATE_QUIRKS
+                                - OPT_CREATE_SIGNALS
+                                - OPT_CREATE_TESTS
+                                - OPT_DELETE_ENRICHMENTS
+                                - OPT_DELETE_INTENTS
+                                - OPT_DELETE_QUIRKS
+                                - OPT_DELETE_SIGNALS
+                                - OPT_DELETE_TESTS
+                                - OPT_PUB
+                                - OPT_PUBLISH
+                                - OPT_READ
+                                - OPT_WRITE_ENRICHMENTS
+                                - OPT_WRITE_INTENTS
+                                - OPT_WRITE_QUIRKS
+                                - OPT_WRITE_SIGNALS
+                                - OPT_WRITE_TESTS
+                                - PRM_SCHEMA
+                                - PROJECT
+                                - RDT_ADVANCED
+                                - RDT_CREATE
+                                - RDT_DELETE
+                                - RDT_UPDATE
+                                - UPM_COMPOSITION_SCHEMA
+                                - UPM_CREATE
+                                - UPM_DATACONN
+                                - UPM_DATATYPE
+                                - UPM_DELETE
+                                - UPM_ENTRY_SCHEMA
+                                - UPM_PROMPT_SCHEMA
+                                - UPM_PUB
+                                - UPM_PUBLISH
+                                - UPM_READ
+                                - UPM_RELEASE_CREATE
+                                - UPM_RELEASE_DELETE
+                                - UPM_RELEASE_LAUNCH
+                                - UPM_RELEASE_UPDATE
+                                - UPM_SCHEMA
+                                - UPM_WRITE
+                                - UTM_PUB
+                                - UTM_WRITE
+                              - type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - LBL_CREATE
+                                  - LBL_DELETE
+                                  - LBL_UPDATE
+                                  - OPT_CREATE_ENRICHMENTS
+                                  - OPT_CREATE_INTENTS
+                                  - OPT_CREATE_QUIRKS
+                                  - OPT_CREATE_SIGNALS
+                                  - OPT_CREATE_TESTS
+                                  - OPT_DELETE_ENRICHMENTS
+                                  - OPT_DELETE_INTENTS
+                                  - OPT_DELETE_QUIRKS
+                                  - OPT_DELETE_SIGNALS
+                                  - OPT_DELETE_TESTS
+                                  - OPT_PUB
+                                  - OPT_PUBLISH
+                                  - OPT_READ
+                                  - OPT_WRITE_ENRICHMENTS
+                                  - OPT_WRITE_INTENTS
+                                  - OPT_WRITE_QUIRKS
+                                  - OPT_WRITE_SIGNALS
+                                  - OPT_WRITE_TESTS
+                                  - PRM_SCHEMA
+                                  - PROJECT
+                                  - RDT_ADVANCED
+                                  - RDT_CREATE
+                                  - RDT_DELETE
+                                  - RDT_UPDATE
+                                  - UPM_COMPOSITION_SCHEMA
+                                  - UPM_CREATE
+                                  - UPM_DATACONN
+                                  - UPM_DATATYPE
+                                  - UPM_DELETE
+                                  - UPM_ENTRY_SCHEMA
+                                  - UPM_PROMPT_SCHEMA
+                                  - UPM_PUB
+                                  - UPM_PUBLISH
+                                  - UPM_READ
+                                  - UPM_RELEASE_CREATE
+                                  - UPM_RELEASE_DELETE
+                                  - UPM_RELEASE_LAUNCH
+                                  - UPM_RELEASE_UPDATE
+                                  - UPM_SCHEMA
+                                  - UPM_WRITE
+                                  - UTM_PUB
+                                  - UTM_WRITE
+                                minItems: 1
+                            condition:
+                              anyOf:
+                              - type: object
+                                properties:
+                                  property:
+                                    type: string
+                                    enum:
+                                    - id
+                                    - type
+                                    - pattern
+                                  value:
+                                    anyOf:
+                                    - type: string
+                                    - type: array
+                                      items:
+                                        type: string
+                                      minItems: 1
+                                required:
+                                - property
+                                - value
+                              - type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    property:
+                                      type: string
+                                      enum:
+                                      - id
+                                      - type
+                                      - pattern
+                                    value:
+                                      anyOf:
+                                      - type: string
+                                      - type: array
+                                        items:
+                                          type: string
+                                        minItems: 1
+                                  required:
+                                  - property
+                                  - value
+                          required:
+                          - entityGroup
+                          - permission
+              required:
+              - singleRole
+      responses:
+        '204':
+          description: Role updated
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 0
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Roles
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

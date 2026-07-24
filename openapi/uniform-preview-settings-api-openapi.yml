@@ -1,0 +1,410 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Preview Settings API
+  version: '2.0'
+tags:
+- name: Preview Settings
+paths:
+  /api/v1/preview-urls:
+    get:
+      description: Gets all preview URLs
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: projectId
+        in: query
+      - schema:
+          type: string
+        required: false
+        name: id
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  previewUrls:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        url:
+                          type: string
+                        order:
+                          type: number
+                          description: Order in which the preview URL should be displayed in the UI. Lower numbers are displayed first.
+                      required:
+                      - id
+                      - name
+                      - url
+                      additionalProperties: false
+                required:
+                - previewUrls
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Preview Settings
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Deletes a preview URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                projectId:
+                  type: string
+              required:
+              - id
+              - projectId
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Preview Settings
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Upserts a preview URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                projectId:
+                  type: string
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                url:
+                  type: string
+                  minLength: 1
+                  maxLength: 512
+                order:
+                  type: number
+                  minimum: 0
+                  description: Order in which the preview URL should be displayed in the UI. Lower numbers are displayed first.
+              required:
+              - projectId
+              - name
+              - url
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '201':
+          description: 201 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Preview Settings
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+  /api/v1/preview-viewports:
+    get:
+      description: Gets all preview viewports
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: projectId
+        in: query
+      - schema:
+          type: string
+        required: false
+        name: id
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  previewViewports:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        icon:
+                          type: string
+                        width:
+                          type: number
+                          description: Width in pixels
+                      required:
+                      - id
+                      - name
+                      - icon
+                      - width
+                      additionalProperties: false
+                required:
+                - previewViewports
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Preview Settings
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Deletes a preview viewport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                projectId:
+                  type: string
+              required:
+              - id
+              - projectId
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Preview Settings
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Upserts a preview viewport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                projectId:
+                  type: string
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                icon:
+                  type: string
+                  maxLength: 255
+                width:
+                  type: number
+                  maximum: 8192
+                  minimum: 1
+                  description: Width in pixels
+              required:
+              - projectId
+              - name
+              - icon
+              - width
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '201':
+          description: 201 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Preview Settings
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

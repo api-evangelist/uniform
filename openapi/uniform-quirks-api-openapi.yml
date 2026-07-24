@@ -1,0 +1,244 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Quirks API
+  version: '2.0'
+tags:
+- name: Quirks
+paths:
+  /api/v2/quirk:
+    options:
+      tags:
+      - Quirks
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Quirks
+      description: Gets quirk definitions for a project
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch quirk definitions for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: quirkId
+        description: Limit the results to a specific quirk ID
+        required: false
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-]+$
+      - in: query
+        name: withIntegrations
+        description: Include quirks that are defined by integrations
+        required: false
+        schema:
+          type: boolean
+          default: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - quirks
+                properties:
+                  quirks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Quirk'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Quirks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - quirk
+              properties:
+                quirk:
+                  $ref: '#/components/schemas/Quirk'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Quirks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - quirkId
+              properties:
+                quirkId:
+                  type: string
+                  maxLength: 36
+                  minLength: 1
+                  pattern: ^[A-Za-z0-9\-\$]+$
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Quirk:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-]+$
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        description:
+          type: string
+          maxLength: 512
+          pattern: ^[^<>]*$
+          nullable: true
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuirkOptions'
+        source:
+          $ref: '#/components/schemas/QuirkSource'
+      additionalProperties: false
+    QuirkSource:
+      type: object
+      description: The source of this quirk. When not defined, it is user specified.
+      required:
+      - name
+      - id
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        id:
+          type: string
+          maxLength: 100
+    QuirkOptions:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        value:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[^<>]+$
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

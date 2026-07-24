@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Vercel API
+  version: '2.0'
+tags:
+- name: Vercel
+paths:
+  /api/v1/vercel-patch:
+    get:
+      description: Gets the value of the parameter
+      deprecated: true
+      parameters:
+      - in: query
+        name: projectId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: compositionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: componentId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: parameter
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+                required:
+                - value
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Vercel
+      security:
+      - BearerAuth: []
+    post:
+      description: Sets the value of the parameter
+      deprecated: true
+      parameters:
+      - in: query
+        name: projectId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: compositionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: componentId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: parameter
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+              required:
+              - value
+              additionalProperties: true
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                required:
+                - success
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Vercel
+      security:
+      - BearerAuth: []
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

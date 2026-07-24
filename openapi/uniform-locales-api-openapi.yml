@@ -1,0 +1,224 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Locales API
+  version: '2.0'
+tags:
+- name: Locales
+paths:
+  /api/v1/locales:
+    get:
+      tags:
+      - Locales
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: 'Gets a list of all defined locales for a project
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Locale'
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Locales
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocalePutBody'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Locales
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocaleDeleteBody'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    LocalePutBody:
+      type: object
+      required:
+      - locale
+      - projectId
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+      additionalProperties: false
+    LocaleDeleteBody:
+      type: object
+      required:
+      - locale
+      - projectId
+      properties:
+        locale:
+          type: string
+          maxLength: 32
+          pattern: ^[^<>]+$
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+      additionalProperties: false
+    Locale:
+      type: object
+      required:
+      - locale
+      - displayName
+      properties:
+        locale:
+          type: string
+          description: The locale code
+          example: en-US
+          maxLength: 32
+          pattern: ^[^<>]+$
+        displayName:
+          type: string
+          description: The locale's display name in the UI
+          example: English (United States)
+          maxLength: 255
+          pattern: ^[^<>]+$
+        isDefault:
+          type: boolean
+          description: Whether this is the default locale
+          example: true
+        group:
+          type: string
+          description: 'Primary grouping to place the locale in, i.e. region or other business-specific grouping type.
+
+            When not set, the locale is not placed in any grouping.
+
+            Used only for display purposes.
+
+            '
+          example: EMEA, Belgium, North America, etc.
+          maxLength: 32
+          pattern: ^[^<>]+$
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 32
+            pattern: ^[^<>]+$
+          description: 'Arbitrary tags to associate with the locale. Used to create locale selection presets.
+
+            '
+          example:
+          - all-english
+          - english-emea
+          - core
+        order:
+          type: integer
+          description: 'Order in which the locale should be displayed in the UI.
+
+            Lower numbers are displayed first.
+
+            '
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

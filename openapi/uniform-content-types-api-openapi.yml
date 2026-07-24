@@ -1,0 +1,447 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Content Types API
+  version: '2.0'
+tags:
+- name: Content Types
+paths:
+  /api/v1/content-types:
+    options:
+      tags:
+      - Content Types
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Content Types
+      parameters:
+      - in: query
+        name: projectId
+        description: The project ID to get content type for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: offset
+        description: Number of records to skip
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: Max number of records to return
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10000
+          default: 100
+      - in: query
+        name: type
+        description: Limit the types of content type to return. If not specified, both block types and content types are returned
+        schema:
+          type: string
+          enum:
+          - block
+          - contentType
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - contentTypes
+                properties:
+                  contentTypes:
+                    type: array
+                    description: Content types that match the query
+                    items:
+                      $ref: '#/components/schemas/ContentType'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Content Types
+      description: Upserts a content type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - contentType
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                  description: The project ID to upsert the content type to
+                contentType:
+                  $ref: '#/components/schemas/ContentType'
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Content Types
+      description: Deletes a content type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - contentTypeId
+              - projectId
+              properties:
+                contentTypeId:
+                  type: string
+                  description: The public ID of the content type to delete
+                projectId:
+                  type: string
+                  format: uuid
+                  description: The ID of the project the content type to delete belongs to
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    ComponentDefinitionPermission:
+      type: object
+      description: Permission set for a component definition
+      required:
+      - roleId
+      - permission
+      - state
+      properties:
+        roleId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        permission:
+          type: string
+          description: 'Permission type for this permission ComponentDefinition:
+
+            read | write | create | delete
+
+            '
+          enum:
+          - read
+          - write
+          - create
+          - delete
+        state:
+          type: integer
+          description: State of the component that this permission applies to
+          maximum: 64
+          minimum: 0
+      additionalProperties: false
+    ComponentDefinitionSlugSettings:
+      type: object
+      description: The definition of a composition's slug settings
+      properties:
+        required:
+          type: string
+          description: 'Whether the slug is required
+
+            no: slug is optional
+
+            yes: slug is required
+
+            disabled: slug is disabled and will not be shown in the editor
+
+            '
+          default: 'no'
+          enum:
+          - 'no'
+          - 'yes'
+          - disabled
+        unique:
+          type: string
+          description: 'Slug uniqueness configuration.
+
+            no = no unique constraint
+
+            local = must be unique within this component type
+
+            global = must be unique across all component types
+
+            '
+          enum:
+          - 'no'
+          - local
+          - global
+        regularExpression:
+          type: string
+          description: Regular expression slugs must match
+        regularExpressionMessage:
+          type: string
+          description: 'Custom error message when regular expression validation fails.
+
+            Has no effect if `regularExpression` is not set
+
+            '
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
+    ContentTypePreviewConfiguration:
+      type: object
+      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
+      required:
+      - type
+      - label
+      - id
+      properties:
+        type:
+          type: string
+          description: The type of preview configuration
+          enum:
+          - pattern
+          - project-map
+        label:
+          type: string
+          description: Display label for the preview configuration
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]*$
+        id:
+          type: string
+          description: Target preview entity ID (project map node ID or pattern ID)
+          format: uuid
+        dynamicInputs:
+          type: object
+          description: Optional mapping of dynamic input names to their values
+          additionalProperties:
+            type: string
+      additionalProperties: false
+    ContentType:
+      type: object
+      description: Defines a content type
+      required:
+      - id
+      - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the content type
+          maxLength: 100
+          minLength: 1
+          pattern: ^[^<>]*$
+        entryName:
+          type: string
+          description: 'The public ID of the field whose value should be used to create a display name for entries of this content type in the UI.
+
+            The field type must support being used as an entry name for this to work
+
+            '
+          maxLength: 100
+          nullable: true
+        thumbnailField:
+          type: string
+          description: 'The public ID of the field whose value should be used as a thumbnail for entries of this content type in the UI
+
+            '
+          maxLength: 100
+          nullable: true
+          default: null
+        fields:
+          type: array
+          description: The fields for this content type. Fields are key-value pairs that can be text, numbers, JSON objects, etc.
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionParameter'
+        description:
+          type: string
+          description: Description of the content type
+          maxLength: 2024
+        icon:
+          type: string
+          description: Icon name for the content type (e.g. 'screen')
+          default: file-document
+          maxLength: 2024
+        created:
+          type: string
+          description: Created date string for this content type (ignored for writes)
+          maxLength: 50
+        updated:
+          type: string
+          description: Last modified date string for this content type (ignored for writes)
+          maxLength: 50
+        slugSettings:
+          $ref: '#/components/schemas/ComponentDefinitionSlugSettings'
+        type:
+          description: The definition type of this content type (block or content type)
+          type: string
+          enum:
+          - contentType
+          - block
+          default: contentType
+        useTeamPermissions:
+          type: boolean
+          description: if this content type uses team permissions or custom permissions
+          default: true
+        permissions:
+          type: array
+          description: Custom role permissions for this content type
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionPermission'
+        workflowId:
+          type: string
+          format: uuid
+          description: ID of the workflow that instances of this content type will use by default. When not set, no workflow is attached
+        previewConfigurations:
+          type: array
+          description: Configurations for previewing an entry on a consuming pattern or composition.
+          items:
+            $ref: '#/components/schemas/ContentTypePreviewConfiguration'
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ComponentDefinitionParameter:
+      type: object
+      description: The definition of a component parameter
+      required:
+      - id
+      - name
+      - type
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the parameter
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Appears next to the parameter in the Composition editor
+          maxLength: 256
+          minLength: 0
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this parameter. May also be shown to humans.
+          maxLength: 3000
+          pattern: ^[^<>]+$
+        type:
+          type: string
+          description: Type name of the parameter (provided by a Uniform integration)
+          maxLength: 50
+          minLength: 1
+        localizable:
+          type: boolean
+          description: 'If true, this property can have locale-specific values. If false or not defined,
+
+            this property will have a single value that is shared for all locales
+
+            '
+        notLocalizedByDefault:
+          type: boolean
+          description: 'When `localizable` is true, this property controls the default localizability of the property.
+
+            true - when the property has no existing value, it will be in ''single value'' mode and not store locale specific values
+
+            false/undefined - when the property has no existing value, it will store separate values for each enabled locale
+
+
+            If `localized` is false, this has no effect.
+
+            '
+        allowConditionalValues:
+          type: boolean
+          description: 'Enables creating additional conditional values for the parameter based on criteria such as dynamic inputs.
+
+            When combined with a localized value, each locale has independent conditional values.
+
+
+            When not defined, conditional values are not allowed.
+
+            '
+        typeConfig:
+          description: The configuration object for the type (type-specific)
+      additionalProperties: false
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

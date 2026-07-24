@@ -1,0 +1,989 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Members API
+  version: '2.0'
+tags:
+- name: Members
+paths:
+  /api/v1/invitations:
+    get:
+      description: Lists pending invitations for a team. Requires team admin.
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: teamId
+        in: query
+      responses:
+        '200':
+          description: Invitations list retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invitations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        email:
+                          type: string
+                        name:
+                          type: string
+                        teamRole:
+                          type: string
+                          enum:
+                          - Admin
+                          - User
+                        createdAt:
+                          type: string
+                        createdBy:
+                          type: string
+                        invitationUrl:
+                          type: string
+                          description: URL to accept the invitation
+                      required:
+                      - id
+                      - email
+                      - name
+                      - teamRole
+                      - createdAt
+                      - invitationUrl
+                required:
+                - invitations
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Revokes a pending invitation. Requires team admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                invitationId:
+                  type: string
+              required:
+              - teamId
+              - invitationId
+      responses:
+        '204':
+          description: Invitation revoked successfully
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+  /api/v1/members:
+    get:
+      description: Lists members of a team and their permissions. Callers that are not a team admin will see all members, but project roles and team admin status will only be provided for the caller identity.
+      deprecated: true
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: teamId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - member
+          - apiKey
+          - pat
+          - serviceAccount
+          description: 'Filter by member type: member (oauth login), apiKey (all API keys, both service accounts and PATs), pat (PATs only), serviceAccount (service accounts only)'
+        required: false
+        description: 'Filter by member type: member (oauth login), apiKey (all API keys, both service accounts and PATs), pat (PATs only), serviceAccount (service accounts only)'
+        name: type
+        in: query
+      - schema:
+          type: string
+          description: Filter PATs by owner subject. Returns only PATs owned by this user.
+        required: false
+        description: Filter PATs by owner subject. Returns only PATs owned by this user.
+        name: ownerSubject
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Includes additional metaddata with member info, specifically created timestamp and project names.
+        required: false
+        description: Includes additional metaddata with member info, specifically created timestamp and project names.
+        name: includeMetadata
+        in: query
+      responses:
+        '200':
+          description: Members list retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        subject:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        picture:
+                          type: string
+                        isTeamAdmin:
+                          type: boolean
+                        projects:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            properties:
+                              roles:
+                                type: array
+                                items:
+                                  type: string
+                              customPermissions:
+                                type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - LBL_CREATE
+                                  - LBL_DELETE
+                                  - LBL_UPDATE
+                                  - OPT_CREATE_ENRICHMENTS
+                                  - OPT_CREATE_INTENTS
+                                  - OPT_CREATE_QUIRKS
+                                  - OPT_CREATE_SIGNALS
+                                  - OPT_CREATE_TESTS
+                                  - OPT_DELETE_ENRICHMENTS
+                                  - OPT_DELETE_INTENTS
+                                  - OPT_DELETE_QUIRKS
+                                  - OPT_DELETE_SIGNALS
+                                  - OPT_DELETE_TESTS
+                                  - OPT_PUB
+                                  - OPT_PUBLISH
+                                  - OPT_READ
+                                  - OPT_WRITE_ENRICHMENTS
+                                  - OPT_WRITE_INTENTS
+                                  - OPT_WRITE_QUIRKS
+                                  - OPT_WRITE_SIGNALS
+                                  - OPT_WRITE_TESTS
+                                  - PRM_SCHEMA
+                                  - PROJECT
+                                  - RDT_ADVANCED
+                                  - RDT_CREATE
+                                  - RDT_DELETE
+                                  - RDT_UPDATE
+                                  - UPM_COMPOSITION_SCHEMA
+                                  - UPM_CREATE
+                                  - UPM_DATACONN
+                                  - UPM_DATATYPE
+                                  - UPM_DELETE
+                                  - UPM_ENTRY_SCHEMA
+                                  - UPM_PROMPT_SCHEMA
+                                  - UPM_PUB
+                                  - UPM_PUBLISH
+                                  - UPM_READ
+                                  - UPM_RELEASE_CREATE
+                                  - UPM_RELEASE_DELETE
+                                  - UPM_RELEASE_LAUNCH
+                                  - UPM_RELEASE_UPDATE
+                                  - UPM_SCHEMA
+                                  - UPM_WRITE
+                                  - UTM_PUB
+                                  - UTM_WRITE
+                                description: When this is present, roles are ignored and custom permission assignment is used instead. Using roles is recommended instead.
+                                deprecated: true
+                              name:
+                                type: string
+                                description: Only present if includeMetadata is true
+                            required:
+                            - roles
+                        type:
+                          type: string
+                          enum:
+                          - member
+                          - apiKey
+                        apiKeyType:
+                          type: string
+                          enum:
+                          - serviceAccount
+                          - pat
+                          description: Distinguishes between service accounts and personal access tokens. Only present when type is "apiKey".
+                        memberSince:
+                          type: string
+                          description: Only present if includeMetadata is true
+                        expiresAt:
+                          type: string
+                          description: ISO 8601 datetime when the token expires. Only present for API keys/PATs if includeMetadata is true and an expiration was set.
+                      required:
+                      - subject
+                      - name
+                      - isTeamAdmin
+                      - projects
+                      - type
+                required:
+                - members
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Removes a team member or API key from the team. Team admin permissions are required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                subject:
+                  type: string
+                  description: The identity subject to remove from the team
+              required:
+              - teamId
+              - subject
+              additionalProperties: false
+      responses:
+        '204':
+          description: Delete successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Identity to remove from team was not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    post:
+      description: Invites a new member to the team via email, with specific permissions. Team admin permissions are required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projects:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      projectId:
+                        type: string
+                      useCustom:
+                        type: boolean
+                        description: This is no longer used. If `permissions` is present and not empty, custom permissions are used and roles are ignored. Otherwise, roles are used.
+                        deprecated: true
+                      roles:
+                        type: array
+                        items:
+                          type: string
+                          description: The public ID of the role
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                          enum:
+                          - LBL_CREATE
+                          - LBL_DELETE
+                          - LBL_UPDATE
+                          - OPT_CREATE_ENRICHMENTS
+                          - OPT_CREATE_INTENTS
+                          - OPT_CREATE_QUIRKS
+                          - OPT_CREATE_SIGNALS
+                          - OPT_CREATE_TESTS
+                          - OPT_DELETE_ENRICHMENTS
+                          - OPT_DELETE_INTENTS
+                          - OPT_DELETE_QUIRKS
+                          - OPT_DELETE_SIGNALS
+                          - OPT_DELETE_TESTS
+                          - OPT_PUB
+                          - OPT_PUBLISH
+                          - OPT_READ
+                          - OPT_WRITE_ENRICHMENTS
+                          - OPT_WRITE_INTENTS
+                          - OPT_WRITE_QUIRKS
+                          - OPT_WRITE_SIGNALS
+                          - OPT_WRITE_TESTS
+                          - PRM_SCHEMA
+                          - PROJECT
+                          - RDT_ADVANCED
+                          - RDT_CREATE
+                          - RDT_DELETE
+                          - RDT_UPDATE
+                          - UPM_COMPOSITION_SCHEMA
+                          - UPM_CREATE
+                          - UPM_DATACONN
+                          - UPM_DATATYPE
+                          - UPM_DELETE
+                          - UPM_ENTRY_SCHEMA
+                          - UPM_PROMPT_SCHEMA
+                          - UPM_PUB
+                          - UPM_PUBLISH
+                          - UPM_READ
+                          - UPM_RELEASE_CREATE
+                          - UPM_RELEASE_DELETE
+                          - UPM_RELEASE_LAUNCH
+                          - UPM_RELEASE_UPDATE
+                          - UPM_SCHEMA
+                          - UPM_WRITE
+                          - UTM_PUB
+                          - UTM_WRITE
+                    required:
+                    - projectId
+                    - roles
+                isAdmin:
+                  type: boolean
+                  description: If true, the API key will be a team admin and all other roles and permissions are irrelevant
+                email:
+                  type: string
+                  format: email
+                  description: The email address of the person to invite
+                teamId:
+                  type: string
+                sendEmail:
+                  type: boolean
+                  description: If true, an email will be sent to the person. If false, the invitation link returned from the request must be shared with the user via some other channel.
+                name:
+                  type: string
+                  maxLength: 100
+                  pattern: ^[^<>]+$/g
+                  description: 'The name of the person to invite. NOTE: only used for the email, does not set a name for the account'
+              required:
+              - projects
+              - isAdmin
+              - email
+              - teamId
+              - sendEmail
+              - name
+      responses:
+        '200':
+          description: Invitation sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invitationUrl:
+                    type: string
+                    description: The URL to send to the person to accept the invitation
+                required:
+                - invitationUrl
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Creates an API key. Team admin permissions are required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projects:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      projectId:
+                        type: string
+                      useCustom:
+                        type: boolean
+                        description: This is no longer used. If `permissions` is present and not empty, custom permissions are used and roles are ignored. Otherwise, roles are used.
+                        deprecated: true
+                      roles:
+                        type: array
+                        items:
+                          type: string
+                          description: The public ID of the role
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                          enum:
+                          - LBL_CREATE
+                          - LBL_DELETE
+                          - LBL_UPDATE
+                          - OPT_CREATE_ENRICHMENTS
+                          - OPT_CREATE_INTENTS
+                          - OPT_CREATE_QUIRKS
+                          - OPT_CREATE_SIGNALS
+                          - OPT_CREATE_TESTS
+                          - OPT_DELETE_ENRICHMENTS
+                          - OPT_DELETE_INTENTS
+                          - OPT_DELETE_QUIRKS
+                          - OPT_DELETE_SIGNALS
+                          - OPT_DELETE_TESTS
+                          - OPT_PUB
+                          - OPT_PUBLISH
+                          - OPT_READ
+                          - OPT_WRITE_ENRICHMENTS
+                          - OPT_WRITE_INTENTS
+                          - OPT_WRITE_QUIRKS
+                          - OPT_WRITE_SIGNALS
+                          - OPT_WRITE_TESTS
+                          - PRM_SCHEMA
+                          - PROJECT
+                          - RDT_ADVANCED
+                          - RDT_CREATE
+                          - RDT_DELETE
+                          - RDT_UPDATE
+                          - UPM_COMPOSITION_SCHEMA
+                          - UPM_CREATE
+                          - UPM_DATACONN
+                          - UPM_DATATYPE
+                          - UPM_DELETE
+                          - UPM_ENTRY_SCHEMA
+                          - UPM_PROMPT_SCHEMA
+                          - UPM_PUB
+                          - UPM_PUBLISH
+                          - UPM_READ
+                          - UPM_RELEASE_CREATE
+                          - UPM_RELEASE_DELETE
+                          - UPM_RELEASE_LAUNCH
+                          - UPM_RELEASE_UPDATE
+                          - UPM_SCHEMA
+                          - UPM_WRITE
+                          - UTM_PUB
+                          - UTM_WRITE
+                    required:
+                    - projectId
+                    - roles
+                isAdmin:
+                  type: boolean
+                  description: If true, the API key will be a team admin and all other roles and permissions are irrelevant
+                teamId:
+                  type: string
+                name:
+                  type: string
+                  maxLength: 100
+                  pattern: ^[^<>]+$/g
+                  description: The name of the API key
+                ownerSubject:
+                  type: string
+                  description: If provided, creates a Personal Access Token (PAT) owned by this identity. Must be the callers own subject.
+                expiresAt:
+                  type: string
+                  format: date-time
+                  description: ISO 8601 datetime when the token should expire. If not set, the token has no expiration.
+                  example: '2026-12-31T23:59:59Z'
+              required:
+              - projects
+              - teamId
+              - name
+      responses:
+        '201':
+          description: API key created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiKey:
+                    type: string
+                required:
+                - apiKey
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    patch:
+      description: Updates permissions for an existing member or API key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identity_subject:
+                  type: string
+                  description: The subject of the identity to update permissions on
+                projects:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      projectId:
+                        type: string
+                      useCustom:
+                        type: boolean
+                        description: This is no longer used. If `permissions` is present and not empty, custom permissions are used and roles are ignored. Otherwise, roles are used.
+                        deprecated: true
+                      roles:
+                        type: array
+                        items:
+                          type: string
+                          description: The public ID of the role
+                      permissions:
+                        type: array
+                        items:
+                          type: string
+                          enum:
+                          - LBL_CREATE
+                          - LBL_DELETE
+                          - LBL_UPDATE
+                          - OPT_CREATE_ENRICHMENTS
+                          - OPT_CREATE_INTENTS
+                          - OPT_CREATE_QUIRKS
+                          - OPT_CREATE_SIGNALS
+                          - OPT_CREATE_TESTS
+                          - OPT_DELETE_ENRICHMENTS
+                          - OPT_DELETE_INTENTS
+                          - OPT_DELETE_QUIRKS
+                          - OPT_DELETE_SIGNALS
+                          - OPT_DELETE_TESTS
+                          - OPT_PUB
+                          - OPT_PUBLISH
+                          - OPT_READ
+                          - OPT_WRITE_ENRICHMENTS
+                          - OPT_WRITE_INTENTS
+                          - OPT_WRITE_QUIRKS
+                          - OPT_WRITE_SIGNALS
+                          - OPT_WRITE_TESTS
+                          - PRM_SCHEMA
+                          - PROJECT
+                          - RDT_ADVANCED
+                          - RDT_CREATE
+                          - RDT_DELETE
+                          - RDT_UPDATE
+                          - UPM_COMPOSITION_SCHEMA
+                          - UPM_CREATE
+                          - UPM_DATACONN
+                          - UPM_DATATYPE
+                          - UPM_DELETE
+                          - UPM_ENTRY_SCHEMA
+                          - UPM_PROMPT_SCHEMA
+                          - UPM_PUB
+                          - UPM_PUBLISH
+                          - UPM_READ
+                          - UPM_RELEASE_CREATE
+                          - UPM_RELEASE_DELETE
+                          - UPM_RELEASE_LAUNCH
+                          - UPM_RELEASE_UPDATE
+                          - UPM_SCHEMA
+                          - UPM_WRITE
+                          - UTM_PUB
+                          - UTM_WRITE
+                    required:
+                    - projectId
+                    - roles
+                isAdmin:
+                  type: boolean
+                  description: If true, the API key will be a team admin and all other roles and permissions are irrelevant
+                teamId:
+                  type: string
+                name:
+                  type: string
+                  maxLength: 100
+                  pattern: ^[^<>]+$/g
+                  description: 'The name of the person or API key. NOTE: user accounts may have this overwritten by their identity provider.'
+              required:
+              - identity_subject
+              - projects
+              - teamId
+              - name
+      responses:
+        '200':
+          description: Permissions updated
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Members
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+  /api/v2/members:
+    get:
+      description: Lists members of a team and their permissions. Callers that are not a team admin will see all members, but project roles and team admin status will only be provided for the caller identity.
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: teamId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - member
+          - apiKey
+          - pat
+          - serviceAccount
+          description: 'Filter by member type: member (oauth login), apiKey (all API keys), pat (PATs only), serviceAccount (service accounts only)'
+        required: false
+        description: 'Filter by member type: member (oauth login), apiKey (all API keys), pat (PATs only), serviceAccount (service accounts only)'
+        name: type
+        in: query
+      - schema:
+          type: string
+          description: Filter PATs by owner subject. Returns only PATs owned by this user.
+        required: false
+        description: Filter PATs by owner subject. Returns only PATs owned by this user.
+        name: ownerSubject
+        in: query
+      - schema:
+          type: string
+          description: Filter to a specific member by subject. Useful for fetching a single member.
+        required: false
+        description: Filter to a specific member by subject. Useful for fetching a single member.
+        name: subject
+        in: query
+      - schema:
+          type: string
+          description: Search keyword to filter members by name or email (case-insensitive).
+        required: false
+        description: Search keyword to filter members by name or email (case-insensitive).
+        name: keyword
+        in: query
+      - schema:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Number of records to skip for pagination. Defaults to 0.
+        required: false
+        description: Number of records to skip for pagination. Defaults to 0.
+        name: offset
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: Maximum number of records to return. Maximum 1000 when specified, but no limit is used when unspecified.
+        required: false
+        description: Maximum number of records to return. Maximum 1000 when specified, but no limit is used when unspecified.
+        name: limit
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Includes additional metadata with member info, specifically created timestamp and project names.
+        required: false
+        description: Includes additional metadata with member info, specifically created timestamp and project names.
+        name: includeMetadata
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Includes project and role assignments for each member. Required to see role information.
+        required: false
+        description: Includes project and role assignments for each member. Required to see role information.
+        name: includeProjects
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Includes custom permissions for each member (deprecated feature). Requires includeProjects to be true.
+          deprecated: true
+        required: false
+        description: Includes custom permissions for each member (deprecated feature). Requires includeProjects to be true.
+        name: includeCustomPermissions
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: When true, includes totalCount in the response for pagination. May add slight overhead.
+        required: false
+        description: When true, includes totalCount in the response for pagination. May add slight overhead.
+        name: withTotalCount
+        in: query
+      - schema:
+          type: string
+          enum:
+          - name_ASC
+          - name_DESC
+          - email_ASC
+          - email_DESC
+          - created_ASC
+          - created_DESC
+          description: Sort order for results. Defaults to name_ASC.
+        required: false
+        description: Sort order for results. Defaults to name_ASC.
+        name: orderBy
+        in: query
+      responses:
+        '200':
+          description: Members list retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        subject:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        picture:
+                          type: string
+                        isTeamAdmin:
+                          type: boolean
+                        projects:
+                          type: object
+                          additionalProperties:
+                            type: object
+                            properties:
+                              roles:
+                                type: array
+                                items:
+                                  type: string
+                              customPermissions:
+                                type: array
+                                items:
+                                  type: string
+                                  enum:
+                                  - LBL_CREATE
+                                  - LBL_DELETE
+                                  - LBL_UPDATE
+                                  - OPT_CREATE_ENRICHMENTS
+                                  - OPT_CREATE_INTENTS
+                                  - OPT_CREATE_QUIRKS
+                                  - OPT_CREATE_SIGNALS
+                                  - OPT_CREATE_TESTS
+                                  - OPT_DELETE_ENRICHMENTS
+                                  - OPT_DELETE_INTENTS
+                                  - OPT_DELETE_QUIRKS
+                                  - OPT_DELETE_SIGNALS
+                                  - OPT_DELETE_TESTS
+                                  - OPT_PUB
+                                  - OPT_PUBLISH
+                                  - OPT_READ
+                                  - OPT_WRITE_ENRICHMENTS
+                                  - OPT_WRITE_INTENTS
+                                  - OPT_WRITE_QUIRKS
+                                  - OPT_WRITE_SIGNALS
+                                  - OPT_WRITE_TESTS
+                                  - PRM_SCHEMA
+                                  - PROJECT
+                                  - RDT_ADVANCED
+                                  - RDT_CREATE
+                                  - RDT_DELETE
+                                  - RDT_UPDATE
+                                  - UPM_COMPOSITION_SCHEMA
+                                  - UPM_CREATE
+                                  - UPM_DATACONN
+                                  - UPM_DATATYPE
+                                  - UPM_DELETE
+                                  - UPM_ENTRY_SCHEMA
+                                  - UPM_PROMPT_SCHEMA
+                                  - UPM_PUB
+                                  - UPM_PUBLISH
+                                  - UPM_READ
+                                  - UPM_RELEASE_CREATE
+                                  - UPM_RELEASE_DELETE
+                                  - UPM_RELEASE_LAUNCH
+                                  - UPM_RELEASE_UPDATE
+                                  - UPM_SCHEMA
+                                  - UPM_WRITE
+                                  - UTM_PUB
+                                  - UTM_WRITE
+                                description: When this is present, roles are ignored and custom permission assignment is used instead. Using roles is recommended instead.
+                                deprecated: true
+                              name:
+                                type: string
+                                description: Only present if includeMetadata is true
+                            required:
+                            - roles
+                          description: Only present if includeProjects is true
+                        type:
+                          type: string
+                          enum:
+                          - member
+                          - apiKey
+                        apiKeyType:
+                          type: string
+                          enum:
+                          - serviceAccount
+                          - pat
+                          description: Distinguishes between service accounts and personal access tokens. Only present when type is "apiKey".
+                        ownerSubject:
+                          type: string
+                          description: The subject of the user who owns this PAT. Only present when apiKeyType is "pat".
+                        expiresAt:
+                          type: string
+                          description: ISO 8601 datetime when the token expires. Only present for API keys/PATs if includeMetadata is true and an expiration was set.
+                        apiKeyDisplay:
+                          type: string
+                          description: Displayable identifier for the API key (e.g. "uf2...a9a3"). Not set for older API keys.
+                        memberSince:
+                          type: string
+                          description: Only present if includeMetadata is true
+                        createdBy:
+                          type: string
+                          description: The subject of the user who added this member to the team. For users, this is who sent the invitation. For API keys, this is who created the key. Only present if includeMetadata is true.
+                      required:
+                      - subject
+                      - name
+                      - isTeamAdmin
+                      - type
+                  totalCount:
+                    type: number
+                    description: Total number of members matching the query. Only present if withTotalCount is true.
+                required:
+                - members
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Members
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Members
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

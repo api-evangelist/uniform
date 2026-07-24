@@ -1,0 +1,507 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates AI Agents API
+  version: '2.0'
+tags:
+- name: AI Agents
+paths:
+  /api/v1/mcp-servers:
+    get:
+      description: 'Gets a list of MCP server configurations for a project.
+
+
+        This is experimental functionality that is subject to change without notice.'
+      deprecated: true
+      parameters:
+      - schema:
+          type: string
+          description: The project ID
+        required: true
+        description: The project ID
+        name: projectId
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        publicId:
+                          type: string
+                          minLength: 1
+                          maxLength: 63
+                          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]{0,61}[a-zA-Z0-9])?$
+                        siteId:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                        authConfig:
+                          oneOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - none
+                            required:
+                            - type
+                            additionalProperties: false
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - custom_headers
+                              headerNames:
+                                type: array
+                                items:
+                                  type: string
+                            required:
+                            - type
+                            - headerNames
+                            additionalProperties: false
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - oauth
+                              clientId:
+                                type: string
+                              hasClientSecret:
+                                type: boolean
+                            required:
+                            - type
+                            additionalProperties: false
+                        enabledTools:
+                          type: array
+                          nullable: true
+                          items:
+                            type: string
+                        isActive:
+                          type: boolean
+                        createdBy:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - publicId
+                      - siteId
+                      - url
+                      - authConfig
+                      - enabledTools
+                      - isActive
+                      - createdBy
+                      - createdAt
+                      - updatedAt
+                      additionalProperties: false
+                required:
+                - results
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - AI Agents
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: 'Deletes an MCP server configuration.
+
+
+        This is experimental functionality that is subject to change without notice.'
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                publicId:
+                  type: string
+                  minLength: 1
+                  maxLength: 63
+                  pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]{0,61}[a-zA-Z0-9])?$
+                  description: The MCP server public ID
+              required:
+              - projectId
+              - publicId
+              additionalProperties: false
+      responses:
+        '204':
+          description: MCP server deleted
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: MCP server not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - AI Agents
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: 'Upserts an MCP server configuration (create or update by publicId within the project).
+
+
+        This is experimental functionality that is subject to change without notice.'
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                data:
+                  type: object
+                  properties:
+                    publicId:
+                      type: string
+                      minLength: 1
+                      maxLength: 63
+                      pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]{0,61}[a-zA-Z0-9])?$
+                    url:
+                      type: string
+                      format: uri
+                    authConfig:
+                      oneOf:
+                      - type: object
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - none
+                        required:
+                        - type
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - custom_headers
+                          headers:
+                            type: object
+                            additionalProperties:
+                              type: string
+                        required:
+                        - type
+                        - headers
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - oauth
+                          clientId:
+                            type: string
+                          clientSecret:
+                            type: string
+                        required:
+                        - type
+                        additionalProperties: false
+                    enabledTools:
+                      type: array
+                      nullable: true
+                      items:
+                        type: string
+                    isActive:
+                      type: boolean
+                  required:
+                  - publicId
+                  - url
+                  - authConfig
+                  additionalProperties: false
+              required:
+              - projectId
+              - data
+              additionalProperties: false
+      responses:
+        '204':
+          description: MCP server created or updated
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - AI Agents
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - AI Agents
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+  /api/v1/skills:
+    get:
+      description: 'Gets a list of agent skills for a project (max 10 per project).
+
+
+        This is experimental functionality that is subject to change without notice.'
+      deprecated: true
+      parameters:
+      - schema:
+          type: string
+          description: The project ID
+        required: true
+        description: The project ID
+        name: projectId
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        autoLoad:
+                          type: boolean
+                          default: false
+                        enabled:
+                          type: boolean
+                          default: true
+                        files:
+                          type: object
+                          additionalProperties:
+                            type: string
+                            maxLength: 10000
+                        id:
+                          type: string
+                        createdBy:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - files
+                      - id
+                      - createdBy
+                      - createdAt
+                      - updatedAt
+                required:
+                - results
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - AI Agents
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: 'Deletes a skill.
+
+
+        This is experimental functionality that is subject to change without notice.'
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                id:
+                  type: string
+                  description: The skill ID
+              required:
+              - projectId
+              - id
+              additionalProperties: false
+      responses:
+        '204':
+          description: Skill deleted
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Skill not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - AI Agents
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: 'Upserts a skill (create or update by id).
+
+
+        This is experimental functionality that is subject to change without notice.'
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                data:
+                  type: object
+                  properties:
+                    autoLoad:
+                      type: boolean
+                      default: false
+                    enabled:
+                      type: boolean
+                      default: true
+                    files:
+                      type: object
+                      additionalProperties:
+                        type: string
+                        maxLength: 10000
+                    id:
+                      type: string
+                  required:
+                  - files
+              required:
+              - projectId
+              - data
+              additionalProperties: false
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                required:
+                - id
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - AI Agents
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - AI Agents
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

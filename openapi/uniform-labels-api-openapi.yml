@@ -1,0 +1,322 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Labels API
+  version: '2.0'
+tags:
+- name: Labels
+paths:
+  /api/v1/labels:
+    get:
+      description: Gets labels for a project
+      parameters:
+      - schema:
+          type: string
+          description: The project ID to get labels for
+        required: true
+        description: The project ID to get labels for
+        name: projectId
+        in: query
+      - schema:
+          type: number
+          nullable: true
+          minimum: 0
+          default: 0
+          description: Number of records to skip
+        required: false
+        description: Number of records to skip
+        name: offset
+        in: query
+      - schema:
+          type: number
+          minimum: 1
+          default: 100
+          description: Maximum number of records to return
+        required: false
+        description: Maximum number of records to return
+        name: limit
+        in: query
+      - schema:
+          type: string
+          description: Comma-separated list of label public IDs
+        required: false
+        description: Comma-separated list of label public IDs
+        name: labelIds
+        in: query
+      - schema:
+          type: string
+          description: Public ID of the parent group label
+        required: false
+        description: Public ID of the parent group label
+        name: groupId
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Filter to only group labels
+        required: false
+        description: Filter to only group labels
+        name: isGroup
+        in: query
+      - schema:
+          type: string
+          description: Filter labels with public ID prefix
+        required: false
+        description: Filter labels with public ID prefix
+        name: idPrefix
+        in: query
+      - schema:
+          type: string
+          description: Filter labels with display name prefix (case insensitive)
+        required: false
+        description: Filter labels with display name prefix (case insensitive)
+        name: namePrefix
+        in: query
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  labels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        projectId:
+                          type: string
+                        label:
+                          type: object
+                          properties:
+                            publicId:
+                              type: string
+                              pattern: ^[a-z0-9_-]{1,40}$
+                              description: Public ID of the label (cannot be changed after creation)
+                            displayName:
+                              type: string
+                              maxLength: 80
+                              description: Human readable name of the label
+                            isGroup:
+                              type: boolean
+                              description: Whether this label is a group label (cannot be changed after creation)
+                            parent:
+                              type: string
+                              pattern: ^[a-z0-9_-]{1,40}$
+                              description: Public ID of the parent group label
+                            color:
+                              type: string
+                              description: Human readable color identifier
+                            description:
+                              type: string
+                              description: Short description of what the label is about
+                            scope:
+                              type: array
+                              items:
+                                type: string
+                              description: Scope of the label (currently unused)
+                          required:
+                          - publicId
+                          - displayName
+                          - isGroup
+                          - color
+                          - scope
+                          additionalProperties: false
+                        created:
+                          type: string
+                          format: date-time
+                        modified:
+                          type: string
+                          format: date-time
+                        createdBy:
+                          type: string
+                        modifiedBy:
+                          type: string
+                      required:
+                      - projectId
+                      - label
+                      - created
+                      - modified
+                      additionalProperties: false
+                  totalCount:
+                    type: number
+                required:
+                - labels
+                - totalCount
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Labels
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Deletes a label
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                labelId:
+                  type: string
+                  description: Public ID of the label to delete
+              required:
+              - projectId
+              - labelId
+              additionalProperties: false
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 0
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Labels
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Creates or updates a label
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                label:
+                  type: object
+                  properties:
+                    publicId:
+                      type: string
+                      pattern: ^[a-z0-9_-]{1,40}$
+                      description: Public ID of the label
+                    displayName:
+                      type: string
+                      minLength: 1
+                      maxLength: 40
+                    isGroup:
+                      type: boolean
+                      default: false
+                    parent:
+                      type: string
+                      pattern: ^[a-z0-9_-]{1,40}$
+                    color:
+                      type: string
+                    description:
+                      type: string
+                    scope:
+                      type: array
+                      items:
+                        type: string
+                      description: Ignored on PUT
+                  required:
+                  - publicId
+                  - displayName
+                  - color
+                  additionalProperties: false
+              required:
+              - projectId
+              - label
+              additionalProperties: false
+      responses:
+        '204':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 0
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Labels
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Labels
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

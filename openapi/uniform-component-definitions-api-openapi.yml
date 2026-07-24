@@ -1,0 +1,951 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Component Definitions API
+  version: '2.0'
+tags:
+- name: Component Definitions
+paths:
+  /api/v1/canvas-definitions:
+    options:
+      tags:
+      - Component Definitions
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Component Definitions
+      parameters:
+      - in: query
+        name: projectId
+        description: The project ID to get component definitions for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: componentId
+        description: Limit the list to one result by ID (response remains an array)
+        schema:
+          type: string
+      - in: query
+        name: offset
+        description: Number of records to skip
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: Maximum number of records to return
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10000
+          default: 100
+      - in: query
+        name: includeSystem
+        description: Whether to fetch system meta-component definitions (personalize, test, etc.)
+        schema:
+          type: boolean
+          default: false
+      - in: query
+        name: categories
+        description: Filter by category ID
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - componentDefinitions
+                properties:
+                  componentDefinitions:
+                    type: array
+                    description: Component definitions that match the query
+                    items:
+                      $ref: '#/components/schemas/ComponentDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Component Definitions
+      description: Upserts a component definition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - componentDefinition
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                  description: The project ID to upsert the component definition to
+                componentDefinition:
+                  $ref: '#/components/schemas/ComponentDefinition'
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Component Definitions
+      description: Deletes a component definition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - componentId
+              - projectId
+              properties:
+                componentId:
+                  type: string
+                  description: The public ID of the component definition to delete
+                projectId:
+                  type: string
+                  format: uuid
+                  description: The project ID the component definition to delete belongs to
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    DataResourceDefinition:
+      type: object
+      description: Defines a data resource, which is a named JSON document, usually from an API response, which may be projected onto parameters
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Public ID of the data type that provides this data
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        isPatternParameter:
+          type: boolean
+          description: Whether this data is a pattern data resource that can be overridden when a pattern is referenced on another composition. If this is not a pattern composition, this has no meaning and should not be used. If unspecified, the default is false
+        ignorePatternParameterDefault:
+          type: boolean
+          description: 'When true, the default data resource of a pattern data parameter (isPatternParameter=true) will be ignored when the pattern is referenced.
+
+            Unless specifically overridden, the pattern data parameter will be provided with a null default value - leaving any data connections to it unresolvable.
+
+            If isPatternParameter is false or undefined, this has no meaning
+
+            '
+        optionalPatternParameter:
+          type: boolean
+          description: 'When true, the data resource does not create an error forcing the choosing of override value when there is no default.
+
+            If isPatternParameter is false or undefined, or if ignorePatternParameterDefault is false, this has no meaning
+
+            '
+        variables:
+          $ref: '#/components/schemas/DataResourceVariables'
+      additionalProperties: false
+    ComponentOverride:
+      type: object
+      description: 'Defines how to override a specific component.
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      properties:
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        slots:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        variant:
+          type: string
+          maxLength: 100
+        dataResources:
+          type: object
+          description: 'Overrides data resource definitions for a pattern component.
+
+            Object keys defined under this property override the corresponding keys in the pattern''s data resources.
+
+            Overrides defined here replace values in either _dataResources or _patternDataResources on the target component.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+    ComponentOverridability:
+      description: 'Defines how a component on a pattern may have its values overridden.
+
+        NOTE: Data resources'' overridability is defined in the data resource definition, not here.
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      type: object
+      properties:
+        parameters:
+          type: object
+          description: Defines component parameter value overrides. Keys are the parameter public ID
+          additionalProperties:
+            $ref: '#/components/schemas/OverrideOptions'
+        variants:
+          description: Allows overriding a display variant is allowed if it is defined on the component the pattern is derived from. Default = false
+          type: boolean
+        hideLockedParameters:
+          description: 'If true, parameters that are not overridable will be hidden by default on pattern instances'' editors.
+
+            If false, all parameters will be shown on pattern instances'' editors, but locked parameters will be read-only.
+
+            If not set, the default is false
+
+            '
+          type: boolean
+    ComponentDefinitionVariant:
+      type: object
+      description: The definition of a component variant
+      required:
+      - id
+      - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the variant
+          maxLength: 100
+          minLength: 1
+      additionalProperties: false
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
+    ComponentDefinitionSlot:
+      type: object
+      description: The definition of a named component slot that can contain other components
+      required:
+      - id
+      - name
+      - inheritAllowedComponents
+      - allowedComponents
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the slot
+          maxLength: 100
+          minLength: 1
+        allowedComponents:
+          type: array
+          description: A list of component definition public IDs that are allowed in this named slot
+          items:
+            type: string
+            maxLength: 100
+        inheritAllowedComponents:
+          type: boolean
+          description: 'Whether this slot inherits its allowed components from the parent slot it lives in. If true, `allowedComponents` is irrelevant.
+
+            If `allowAllComponents` is true, this value is ignored
+
+            '
+          default: false
+        allowAllComponents:
+          type: boolean
+          description: 'When false or not defined, only components in `allowedComponents` may be added to this slot - and if `allowedComponents` is empty, nothing can be added.
+
+            When true, every component and pattern that is defined may be added to this slot regardless of any other setting including `inheritAllowedComponents`
+
+            '
+        patternsInAllowedComponents:
+          type: boolean
+          description: 'When not defined, or false: all patterns for components listed in `allowedComponents` are automatically allowed in the slot.
+
+            When true: patterns for components listed in `allowedComponents` are not allowed in the slot unless explicitly added to `allowedComponents` as `$p:<patternid>`
+
+            '
+        minComponents:
+          type: integer
+          description: Minimum valid number of components in this slot
+          maximum: 2147483647
+        maxComponents:
+          type: integer
+          description: Maximum valid number of components in this slot
+          maximum: 2147483647
+      additionalProperties: false
+    PatternError:
+      type: string
+      description: 'Describes why the pattern could not be resolved, if a pattern could not be resolved. For PUTs, this is allowed but ignored.
+
+        CYCLIC: A cyclic pattern graph was detected, which could not be resolved because it would cause an infinite loop.
+
+        NOTFOUND: The pattern ID referenced could not be found. It may have been deleted, en published yet.
+
+        Means nothing for PUTs; it will be ignored
+
+        '
+      enum:
+      - NOTFOUND
+      - CYCLIC
+    ComponentDefinitionPermission:
+      type: object
+      description: Permission set for a component definition
+      required:
+      - roleId
+      - permission
+      - state
+      properties:
+        roleId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        permission:
+          type: string
+          description: 'Permission type for this permission ComponentDefinition:
+
+            read | write | create | delete
+
+            '
+          enum:
+          - read
+          - write
+          - create
+          - delete
+        state:
+          type: integer
+          description: State of the component that this permission applies to
+          maximum: 64
+          minimum: 0
+      additionalProperties: false
+    ComponentParameterConditionalValue:
+      type: object
+      description: 'Defines a conditional value for a component parameter
+
+        '
+      properties:
+        when:
+          $ref: '#/components/schemas/VisibilityCriteriaGroup'
+        value:
+          description: 'The value of the parameter. Any JSON-serializable value is acceptable.
+
+            A value of `null` will cause the parameter value to be removed, if it matches.
+
+            '
+        id:
+          type: number
+          description: 'Unique sequence identifier of the conditional value within the component parameter.
+
+            This value must be unique within the conditional values array, and it should not change after a condition is created.
+
+            '
+      required:
+      - when
+      - id
+      - value
+      additionalProperties: false
+    ComponentDefinitionSlugSettings:
+      type: object
+      description: The definition of a composition's slug settings
+      properties:
+        required:
+          type: string
+          description: 'Whether the slug is required
+
+            no: slug is optional
+
+            yes: slug is required
+
+            disabled: slug is disabled and will not be shown in the editor
+
+            '
+          default: 'no'
+          enum:
+          - 'no'
+          - 'yes'
+          - disabled
+        unique:
+          type: string
+          description: 'Slug uniqueness configuration.
+
+            no = no unique constraint
+
+            local = must be unique within this component type
+
+            global = must be unique across all component types
+
+            '
+          enum:
+          - 'no'
+          - local
+          - global
+        regularExpression:
+          type: string
+          description: Regular expression slugs must match
+        regularExpressionMessage:
+          type: string
+          description: 'Custom error message when regular expression validation fails.
+
+            Has no effect if `regularExpression` is not set
+
+            '
+    DataResourceDefinitions:
+      type: object
+      description: 'Data definitions attached to this component. The property name is the key of the data in the data document.
+
+        Note: data definitions are inherited from ancestors at runtime (and may be overridden by descendants that use the same key)
+
+        '
+      additionalProperties:
+        $ref: '#/components/schemas/DataResourceDefinition'
+    OverrideOptions:
+      description: 'Whether a parameter is overridable
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      type: string
+      enum:
+      - 'yes'
+      - 'no'
+    DataElementConnectionDefinition:
+      type: object
+      description: 'Defines a connection to a dynamic token on a data resource
+
+        '
+      properties:
+        pointer:
+          description: A JSON Pointer expression that defines the data resource dynamic token value
+          type: string
+          maxLength: 256
+        syntax:
+          type: string
+          description: The syntax used to select the dynamic token to bind to
+          enum:
+          - jptr
+        failureAction:
+          type: string
+          description: "The action to take if the dynamic token cannot be resolved\n- t: TOKEN: Removes the failed dynamic token value, leaving the rest of the property value, if any, intact [default]\n        NOTE: If the _only_ value in the property is a dynamic token, the property value is removed (as with 'p' below)\n        NOTE: If the _failureDefault_ property is also set, that default value will be used instead of removing the token.\n              this only applies when the failureAction is 't' or undefined, the default is otherwise ignored\n- p: PROPERTY: Removes the entire property value, including any other dynamic tokens or static values in the property\n- c: COMPONENT: Removes the whole parent component or block that contains the property.\n        NOTE: If a 'component' failure occurs on the root component of a composition, or an entry,\n        it is treated as an 'a' failure because removing the root means we must remove all\n- a: ALL: Fails the whole entry or composition. This will result in the item returning a 404 from APIs, and being removed from API list responses\n"
+          enum:
+          - t
+          - p
+          - c
+          - a
+        failureLogLevel:
+          type: string
+          description: 'How to report when the dynamic token cannot be resolved
+
+            - e: ERROR: Report an error message (this will prevent publishing)
+
+            - w: WARNING: Report a warning message [default]
+
+            - i: INFO: Log an informative message (failure is expected/normal, i.e. optional data)
+
+            '
+          enum:
+          - e
+          - w
+          - i
+        failureDefault:
+          type: string
+          description: 'The default value to use if the dynamic token cannot be resolved.
+
+            This is only used if the failureAction is the default (undefined, or explicitly token)
+
+            '
+      required:
+      - pointer
+      - syntax
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ComponentParameterConditions:
+      type: array
+      description: 'Array of alternate values which are based on conditions.
+
+
+        When requested with an explicit locale parameter, or via the route API:
+
+        * Conditions are evaluated sequentially and the first match is used. If a match is found, the conditions are eliminated.
+
+        * If no conditions match, the `value` property is used.
+
+        * If a condition cannot be evaluated yet (i.e. a client-side criteria), it is left alone.
+
+
+        When no locale is passed to a non-route API, conditions are not processed and all conditions are returned.
+
+        '
+      items:
+        $ref: '#/components/schemas/ComponentParameterConditionalValue'
+    VisibilityCriteriaGroup:
+      deprecated: true
+      description: beta functionality subject to change
+      type: object
+      properties:
+        op:
+          type: string
+          description: The boolean operator to join the clauses with. Defaults to & if not specified.
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/VisibilityCriteria'
+            - $ref: '#/components/schemas/VisibilityCriteriaGroup'
+      required:
+      - clauses
+      additionalProperties: false
+    DataResourceVariables:
+      type: object
+      description: Variable values for a data resource
+      additionalProperties:
+        type: string
+    VisibilityCriteria:
+      deprecated: true
+      description: beta functionality subject to change
+      type: object
+      properties:
+        rule:
+          type: string
+          description: The rule type to execute
+          maxLength: 32
+        source:
+          type: string
+          description: 'The source value of the rule.
+
+            For rules which have multiple classes of match, for example a dynamic input matches on a named DI, the rule is dynamic input and the DI name is the source.
+
+            '
+          maxLength: 128
+        op:
+          type: string
+          description: The rule-definition-specific operator to test against
+          maxLength: 10
+        value:
+          oneOf:
+          - type: string
+            maxLength: 1024
+          - type: array
+            items:
+              type: string
+              maxLength: 1024
+          description: The value, or if an array several potential values, to test against. In most rules, multiple values are OR'd together ('any of') but this is not a hard requirement.
+      required:
+      - rule
+      - op
+      - value
+      additionalProperties: false
+    ComponentInstance:
+      type: object
+      description: Defines the shape of a component instance served by the composition API
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Type of the component instance (public_id of its definition)
+          maxLength: 100
+          minLength: 1
+        parameters:
+          type: object
+          description: Component parameter values for the component instance
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        variant:
+          type: string
+          description: Public ID of alternate visual appearance for this component, if any selected
+        slots:
+          type: object
+          description: Slots containing any child components
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        _id:
+          type: string
+          description: 'Unique identifier of the component within the composition.
+
+            No assumptions should be made about the format of this value other than "it will be unique."
+
+            This is not returned in GET replies unless specifically requested via `withComponentIDs` API parameter.
+
+            When updating or creating a composition, if you do not specify an _id for each component, one will be created and stored for you
+
+            '
+          minLength: 1
+          maxLength: 2000
+        _pattern:
+          type: string
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          description: Indicates this component instance should be sourced from a pattern library pattern
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        _patternDataResources:
+          type: object
+          description: 'Data definitions coming from a pattern resolved for this component. Merged with _dataResources during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+        _patternError:
+          $ref: '#/components/schemas/PatternError'
+        _overrides:
+          type: object
+          description: 'Defines patch overrides to component IDs that live in the composition.
+
+            This can be used to override parameters that are defined on patterns,
+
+            including nested patterns, with values that are specific to this composition.
+
+            The keys in this object are component IDs.
+
+            Overrides are applied from the top down, so for example if both the composition
+
+            and a pattern on the composition define an override on a nested pattern,
+
+            the composition''s override replaces the pattern''s.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _patternOverrides:
+          type: object
+          description: 'Overrides coming from a pattern resolved for this component. Merged with _overrides during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _overridability:
+          description: 'When used on a pattern, defines how the pattern''s parameters may be overridden
+
+            by consumers of the pattern.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          $ref: '#/components/schemas/ComponentOverridability'
+        _locales:
+          description: Array of locales that have data defined. Only set for pattern references or composition defaults
+          type: array
+          items:
+            type: string
+            maxLength: 32
+      additionalProperties: false
+    ComponentDefinitionParameter:
+      type: object
+      description: The definition of a component parameter
+      required:
+      - id
+      - name
+      - type
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the parameter
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Appears next to the parameter in the Composition editor
+          maxLength: 256
+          minLength: 0
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this parameter. May also be shown to humans.
+          maxLength: 3000
+          pattern: ^[^<>]+$
+        type:
+          type: string
+          description: Type name of the parameter (provided by a Uniform integration)
+          maxLength: 50
+          minLength: 1
+        localizable:
+          type: boolean
+          description: 'If true, this property can have locale-specific values. If false or not defined,
+
+            this property will have a single value that is shared for all locales
+
+            '
+        notLocalizedByDefault:
+          type: boolean
+          description: 'When `localizable` is true, this property controls the default localizability of the property.
+
+            true - when the property has no existing value, it will be in ''single value'' mode and not store locale specific values
+
+            false/undefined - when the property has no existing value, it will store separate values for each enabled locale
+
+
+            If `localized` is false, this has no effect.
+
+            '
+        allowConditionalValues:
+          type: boolean
+          description: 'Enables creating additional conditional values for the parameter based on criteria such as dynamic inputs.
+
+            When combined with a localized value, each locale has independent conditional values.
+
+
+            When not defined, conditional values are not allowed.
+
+            '
+        typeConfig:
+          description: The configuration object for the type (type-specific)
+      additionalProperties: false
+    ComponentParameter:
+      type: object
+      description: Defines an editable parameter on a component
+      properties:
+        value:
+          description: The value of the parameter. Any JSON-serializable value is acceptable
+        type:
+          type: string
+          description: The type of the parameter. Determines how it is displayed when editing and tells the consumer how to process it
+          minLength: 1
+        connectedData:
+          deprecated: true
+          $ref: '#/components/schemas/DataElementConnectionDefinition'
+        locales:
+          type: object
+          description: 'Locale-specific values for this parameter. Keys are locale codes, and values are the `value` in that locale.
+
+            Note that locales must be registered on the entry/composition `_locales` before being used
+
+            '
+          additionalProperties:
+            example: '{ en-US: ''hello'', de: ''hallo'' }
+
+              '
+        conditions:
+          $ref: '#/components/schemas/ComponentParameterConditions'
+        localesConditions:
+          type: object
+          description: 'Locale-specific conditional values for this parameter. Keys are locale codes, and values are the `conditions` for that locale.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameterConditions'
+            example: '{ en-US: [{ when: { rule: ''$di'', source: ''productId'', op: ''is'', value: ''123'' }, value: ''hello 123'' }] }
+
+              '
+      required:
+      - type
+      additionalProperties: false
+    ComponentDefinition:
+      type: object
+      description: Defines a component type that can live on a Composition
+      required:
+      - id
+      - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the component definition
+          maxLength: 100
+          minLength: 1
+          pattern: ^[^<>]*$
+        icon:
+          type: string
+          description: Icon name for the component definition (e.g. 'screen')
+          default: screen
+          maxLength: 2024
+        titleParameter:
+          type: string
+          description: 'The public ID of the parameter whose value should be used to create a display title for this component in the UI.
+
+            The parameter type must support being used as a title parameter for this to work
+
+            '
+          maxLength: 100
+          nullable: true
+          default: null
+        thumbnailParameter:
+          type: string
+          description: 'The public ID of the parameter whose value should be used as a thumbnail for compositions of this component in the UI
+
+            '
+          maxLength: 100
+          nullable: true
+          default: null
+        canBeComposition:
+          type: boolean
+          description: Whether this component type can be the root of a composition. If false, this component is only used within slots on other components
+          default: false
+        parameters:
+          type: array
+          description: The parameters for this component. Parameters are key-value pairs that can be anything from text values to links to CMS entries
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionParameter'
+        categoryId:
+          type: string
+          format: uuid
+          description: Reference to the category this component definition belongs to
+          nullable: true
+          default: null
+        description:
+          type: string
+          description: Description of the component definition
+          maxLength: 2024
+        previewImageUrl:
+          type: string
+          description: Preview image URL for the component definition (shown in the UI)
+          maxLength: 2024
+        useTeamPermissions:
+          type: boolean
+          description: if this component uses team permissions or custom permissions
+          default: true
+        permissions:
+          type: array
+          description: Custom role permissions for this component definition
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionPermission'
+        slots:
+          type: array
+          description: The named slots for this component; placement areas where arrays of other components can be added
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionSlot'
+        slugSettings:
+          $ref: '#/components/schemas/ComponentDefinitionSlugSettings'
+        defaults:
+          description: Default component instance value
+          oneOf:
+          - $ref: '#/components/schemas/ComponentInstance'
+          - enum:
+            - null
+        variants:
+          type: array
+          description: Named variants for this component; enables the creation of visual variants that use the same parameter data
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionVariant'
+        created:
+          type: string
+          description: Created date string for this definition (ignored for writes)
+          maxLength: 50
+        updated:
+          type: string
+          description: Last modified date string for this definition (ignored for writes)
+          maxLength: 50
+        workflowId:
+          type: string
+          format: uuid
+          description: ID of the workflow that instances of this component definition will use by default. When not set, no workflow is attached
+      additionalProperties: false
+  responses:
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

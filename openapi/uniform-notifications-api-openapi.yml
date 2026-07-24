@@ -1,0 +1,190 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Notifications API
+  version: '2.0'
+tags:
+- name: Notifications
+paths:
+  /api/v1/notifications:
+    get:
+      description: Gets user notifications
+      deprecated: true
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: projectId
+        in: query
+      - schema:
+          type: string
+        required: false
+        name: id
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        projectId:
+                          type: string
+                        sourceType:
+                          type: string
+                          enum:
+                          - system
+                          - ai-agent
+                          - integration
+                        sourceId:
+                          type: string
+                        objectType:
+                          type: string
+                          enum:
+                          - composition
+                          - entry
+                        objectId:
+                          type: string
+                        objectUrl:
+                          type: string
+                        eventType:
+                          type: string
+                        title:
+                          type: string
+                        body:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                        isRead:
+                          type: boolean
+                      required:
+                      - id
+                      - projectId
+                      - sourceType
+                      - sourceId
+                      - objectType
+                      - objectId
+                      - objectUrl
+                      - eventType
+                      - title
+                      - body
+                      - createdAt
+                      - updatedAt
+                      additionalProperties: false
+                required:
+                - notifications
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Notifications
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    patch:
+      description: Updates a notification (e.g. Mark it as read.)
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                projectId:
+                  type: string
+                isRead:
+                  type: boolean
+              required:
+              - id
+              - projectId
+              additionalProperties: false
+      responses:
+        '204':
+          description: 204 response
+          content:
+            application/json:
+              schema:
+                nullable: true
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: 404 response
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Notifications
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

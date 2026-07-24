@@ -1,0 +1,925 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Project Map API
+  version: '2.0'
+tags:
+- name: Project Map
+paths:
+  /api/v1/project-map-nodes:
+    options:
+      tags:
+      - Project Map
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      description: Called to get a list of nodes belonging to a specific path or Id
+      tags:
+      - Project Map
+      parameters:
+      - in: query
+        name: projectMapId
+        description: The project map id that the desired nodes belong
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: projectId
+        description: The project id that contains the project map tree that this node belongs to
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: releaseId
+        description: 'The ID of a release to fetch the composition data for.
+
+
+          - When unspecified, composition data is fetched from base.
+
+          - When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.
+
+
+          Content copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will not be defined
+
+          '
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: id
+        description: The id of the node to retrieve, cannot have both this parameter and `path`
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: path
+        description: The path of the root node to retrieve, cannot have both this parameter and `id`
+        required: false
+        schema:
+          type: string
+          pattern: ^\/$|^(\/:?[^\/]+)+$
+      - in: query
+        name: compositionId
+        description: Composition id to find associated project map node for
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: limit
+        description: Limit the number or records returned by a number
+        required: false
+        schema:
+          type: integer
+          default: 100000
+      - in: query
+        name: offset
+        description: Number of records to skip before returning nodes
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - in: query
+        name: depth
+        description: Depth of the tree to fetch. This only applies when fetching by path
+        required: false
+        schema:
+          type: integer
+      - in: query
+        name: state
+        description: State of compositions to fetch. 0 = draft, 64 = published
+        schema:
+          type: number
+          minimum: 0
+          maximum: 64
+      - in: query
+        name: tree
+        description: should the data be returned as a json tree object (or a flat array)
+        required: false
+        schema:
+          type: boolean
+      - in: query
+        name: search
+        description: text search filter
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: includeAncestors
+        description: 'Modifies the results to include all ancestors of matched nodes, in addition to the nodes themselves.
+
+          Results are sorted by path. If multiple nodes are selected, ancestors are not duplicated
+
+          '
+        required: false
+        schema:
+          type: boolean
+      - in: query
+        name: expanded
+        description: include expanded helper computed properties, including `isLeaf`, `parentPath`, `pathSegment` etc
+        schema:
+          type: boolean
+      - in: query
+        name: withCompositionData
+        description: include basic composition information.  ID, type, state, name, and definition id
+        schema:
+          type: boolean
+      - in: query
+        name: withCompositionUIStatus
+        deprecated: true
+        description: 'Returns the UI status string of the composition.
+
+          This internal status is subject to change without notice and is thus marked deprecated to discourage the use of internal data
+
+          '
+        schema:
+          type: boolean
+          default: false
+      - in: query
+        name: withRedirectData
+        description: Include basic redirect information
+        schema:
+          type: boolean
+          default: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProjectMapNodeDefinition'
+                  tree:
+                    $ref: '#/components/schemas/ProjectMapTreeNodeDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      description: Called to insert or update a node or nodes
+      tags:
+      - Project Map
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - nodes
+              - projectId
+              properties:
+                nodes:
+                  description: An array of projectMap node objects to be updated or inserted
+                  type: array
+                  maxItems: 5
+                  items:
+                    type: object
+                    required:
+                    - node
+                    properties:
+                      node:
+                        $ref: '#/components/schemas/ProjectMapNodeUpdate'
+                      previousSibling:
+                        description: The path of the node directly prior to the location where the current node is desired to go or undefined if there isn't one
+                        type: string
+                        maxLength: 2048
+                      nextSibling:
+                        description: The path of the node directly after the location where the current node is desired to go or undefined if there isn't one
+                        type: string
+                        maxLength: 2048
+                projectId:
+                  description: The project id of the project that the projectMap belongs to
+                  type: string
+                  format: uuid
+                projectMapId:
+                  description: The projectMap id that the changing or inserting nodes belong to
+                  type: string
+                  format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      description: Called to delete a particular projectMap node by id or path
+      tags:
+      - Project Map
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - type: object
+                required:
+                - projectId
+                - path
+                properties:
+                  nodeId:
+                    description: Id of the projectMap node to delete
+                    type: string
+                    format: uuid
+                  path:
+                    description: Path to the projectMap node to delete
+                    type: string
+                    minLength: 1
+                    maxLength: 2048
+                  projectMapId:
+                    description: Project map id that the node to delete belongs to
+                    type: string
+                    format: uuid
+                  projectId:
+                    description: Project id that the project map belongs to
+                    type: string
+                    format: uuid
+              - type: object
+                required:
+                - projectId
+                - nodeId
+                properties:
+                  nodeId:
+                    description: Id of the projectMap node to delete
+                    type: string
+                    format: uuid
+                  path:
+                    description: Path to the projectMap node to delete
+                    type: string
+                    minLength: 1
+                    maxLength: 2048
+                  projectMapId:
+                    description: Project map id that the node to delete belongs to
+                    type: string
+                    format: uuid
+                  projectId:
+                    description: Project id that the project map belongs to
+                    type: string
+                    format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/project-map:
+    options:
+      tags:
+      - Project Map
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      description: Called to retrieve a list of project maps related to a project or a specific project map by id
+      tags:
+      - Project Map
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch project map for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: projectMapId
+        description: The id of the project map to fetch
+        required: false
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - projectMaps
+                properties:
+                  projectMaps:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProjectMapDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Project Map
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - projectMap
+              properties:
+                projectMap:
+                  description: Project map object to insert
+                  $ref: '#/components/schemas/ProjectMapDefinition'
+                projectId:
+                  description: Project id to insert the projectMap into
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - projectMapId
+                properties:
+                  projectMapId:
+                    type: string
+                    format: uuid
+                    description: Id of the projectMap
+                additionalProperties: false
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      description: Called to delete a projectMap
+      tags:
+      - Project Map
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - projectMapId
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                  description: Id of the project that this projectMap belongs to
+                projectMapId:
+                  type: string
+                  format: uuid
+                  description: Id of the projectMap to delete
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    ProjectMapNodeLocale:
+      type: object
+      required:
+      - pathSegment
+      properties:
+        name:
+          description: Name of node in the locale
+          type: string
+        path:
+          description: Full path to the current node in this locale, only included if requested with the expanded flag
+          type: string
+        pathSegment:
+          description: Last segment of the url in this locale
+          type: string
+        inherited:
+          description: 'When false, the node explicitly defines a locale-specific path segment.
+
+
+            When true, an ancestor defines a locale-specific path segment,
+
+            which makes its descendants resolvable using that segment.
+
+            This node does not define a locale-specific path segment.
+
+
+            Only included if requested with the expanded flag. Without the expanded flag, inherited locales are not included in the response
+
+            '
+          type: boolean
+      additionalProperties: false
+    ProjectMapDefinition:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          description: The id of the projectMap node
+          type: string
+          minLength: 1
+        name:
+          description: The name of the projectMap node
+          type: string
+          minLength: 1
+        description:
+          description: Description of the projectMap node
+          type: string
+          maxLength: 300
+        baseUrl:
+          pattern: ^http.?:\/\/.*$
+          description: The prefix of the url generated by this projectMap
+          type: string
+          maxLength: 300
+        default:
+          type: boolean
+        globalQueryStrings:
+          description: Global query strings that are allowed on all nodes in this project map
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
+    ProjectMapNodeData:
+      type: object
+      properties:
+        isSearchHit:
+          description: While performing a search if a node is a hit, this property will return true.  If it's supporting structure, like a parent of a search hit, it will return false
+          type: boolean
+        queryStrings:
+          description: Query strings that are allowed to be passed to the node
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
+        previewValue:
+          description: 'For dynamic nodes, this is the preview value for the dynamic value.
+
+            The preview value is used when editing a connected composition, and is the default
+
+            dynamic node value unless the author has explicitly chosen a different value
+
+            '
+          type: string
+          maxLength: 512
+      additionalProperties: false
+    ProjectMapNodeCompositionData:
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - locales
+      description: 'Basic information about the linked composition from the context of a project map node.
+
+        If the linked composition has editions, the editions are included in the `editions` property.
+
+        '
+      properties:
+        type:
+          type: string
+          description: Type of the linked composition (id of its definition)
+          maxLength: 100
+          minLength: 1
+        id:
+          type: string
+          description: The UUID of the linked composition
+          format: uuid
+        editionId:
+          type: string
+          description: 'The edition UUID underneath the linked composition
+
+            This is only present if the composition has not been published, but an edition has
+
+            '
+          format: uuid
+        slug:
+          type: string
+          description: Slug pattern of the linked composition or edition
+          nullable: true
+          maxLength: 512
+        name:
+          type: string
+          description: Friendly name of this composition or edition
+          maxLength: 100
+          minLength: 1
+        uiStatus:
+          type: string
+          deprecated: true
+          description: UI status value. Subject to change without notice; do not rely on this value. Only present when `withCompositionUIStatus` option is true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+        icon:
+          type: string
+          description: Icon name or URL for the composition definition (e.g. 'screen' or 'https://s3/my-component.jpg')
+          default: screen
+          maxLength: 2024
+        typeName:
+          type: string
+          description: Friendly name of this Composition's Definition
+          maxLength: 100
+          minLength: 1
+        locales:
+          type: array
+          description: 'List of locales that the composition _or any of its editions_ is available in.
+
+            If empty, available in all locales.
+
+            '
+          items:
+            type: string
+        editionPriority:
+          type: integer
+          description: Priority of the composition relative to any editions
+        editionName:
+          type: string
+          description: Friendly name of the edition
+        editions:
+          type: array
+          description: 'List of editions available for this composition. The composition is included in the list, it is the edition
+
+            where the editionID equals the node''s compositionID. NOTE: this is not sent if only one edition is available
+
+            '
+          items:
+            $ref: '#/components/schemas/ProjectMapNodeCompositionEditionData'
+        modified:
+          type: string
+          format: date-time
+          description: 'Date and time the composition was last modified (or created if never modified).
+
+            Uses ISO-8859-1 formatting and UTC timezone.
+
+            IMPORTANT: if the composition has more than one edition, this is the modified date of the default edition. Each edition has its own modified date in the `editions` array.
+
+            '
+    ProjectMapSourceRedirectData:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: The public UUID of the source redirect
+            type: string
+            format: uuid
+    ProjectMapTargetRedirectData:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: The public UUID of the target redirect
+            type: string
+            format: uuid
+    ProjectMapNodeDefinition:
+      type: object
+      required:
+      - id
+      - name
+      - path
+      - type
+      properties:
+        id:
+          description: The id of the projectMap entry
+          type: string
+          format: uuid
+        path:
+          description: Path representing the path to the current node
+          type: string
+        order:
+          description: Ordering of the node, higher numbers go after lower numbers
+          type: integer
+        data:
+          $ref: '#/components/schemas/ProjectMapNodeData'
+        name:
+          description: The name of the projectMap entry
+          type: string
+          minLength: 1
+        type:
+          description: The type of the projectMap entry
+          type: string
+          enum:
+          - composition
+          - placeholder
+        compositionId:
+          description: The composition id related to the projectMap entry
+          type: string
+          format: uuid
+        description:
+          description: Description of the projectMap node
+          type: string
+          maxLength: 300
+        parentPath:
+          description: Parent path of the current node, only included if requested with the expanded flag
+          type: string
+        pathSegment:
+          description: Last segment of the url
+          type: string
+        isLeaf:
+          description: returns true if the node is a leaf node, meaning having no children, only included if requested with the expanded flag
+          type: boolean
+        compositionData:
+          $ref: '#/components/schemas/ProjectMapNodeCompositionData'
+        sourceRedirects:
+          $ref: '#/components/schemas/ProjectMapSourceRedirectData'
+        targetRedirects:
+          $ref: '#/components/schemas/ProjectMapTargetRedirectData'
+        locales:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProjectMapNodeLocale'
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ProjectMapNodeUpdate:
+      type: object
+      required:
+      - name
+      - path
+      - type
+      properties:
+        id:
+          description: The id of the projectMap entry
+          type: string
+          format: uuid
+        path:
+          description: Path representing the path to the current node
+          pattern: ^\/$|^(\/[^\/]+)+$
+          type: string
+        order:
+          description: Ordering of the node, higher numbers go after lower numbers
+          type: integer
+        data:
+          $ref: '#/components/schemas/ProjectMapNodeData'
+        name:
+          description: The name of the projectMap entry
+          type: string
+          minLength: 1
+        type:
+          description: The type of the projectMap entry
+          type: string
+          enum:
+          - composition
+          - placeholder
+        compositionId:
+          description: The composition id related to the projectMap entry
+          type: string
+          format: uuid
+        description:
+          description: Description of the projectMap node
+          type: string
+          maxLength: 300
+        locales:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProjectMapNodeLocaleUpdate'
+      additionalProperties: false
+    ProjectMapNodeLocaleUpdate:
+      required:
+      - pathSegment
+      properties:
+        name:
+          description: Name of node in the locale
+          type: string
+        pathSegment:
+          description: Locale specific path segment for this node (not a full path)
+          type: string
+          minLength: 1
+      additionalProperties: false
+    ProjectMapNodeCompositionEditionData:
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - locales
+      description: Basic information about a composition edition from the context of a project map node
+      properties:
+        id:
+          type: string
+          description: The UUID of the linked composition
+          format: uuid
+        type:
+          type: string
+          description: Type of the edition instance (public_id of its definition)
+          maxLength: 100
+          minLength: 1
+        editionId:
+          type: string
+          description: The edition UUID underneath the linked composition
+          format: uuid
+        slug:
+          type: string
+          description: Slug pattern of this edition
+          nullable: true
+        name:
+          type: string
+          description: Friendly name of the linked composition
+        editionName:
+          type: string
+          description: Friendly name of the edition
+        editionPriority:
+          type: integer
+          description: Priority of the edition
+        uiStatus:
+          type: string
+          deprecated: true
+          description: UI status value. Subject to change without notice; do not rely on this value. Only present when `withCompositionUIStatus` option is true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+        icon:
+          type: string
+          description: Icon name or URL for the composition edition (e.g. 'screen' or 'https://s3/my-component.jpg')
+          default: screen
+          maxLength: 2024
+        typeName:
+          type: string
+          description: Friendly name of this edition's definition
+          maxLength: 100
+          minLength: 1
+        locales:
+          type: array
+          description: List of locales that the edition is available in. If empty, available in all locales
+          items:
+            type: string
+        modified:
+          type: string
+          format: date-time
+          description: Date and time the edition was last modified (or created if never modified). Uses ISO-8859-1 formatting and UTC timezone.
+    ProjectMapTreeNodeDefinition:
+      allOf:
+      - $ref: '#/components/schemas/ProjectMapNodeDefinition'
+      type: object
+      required:
+      - name
+      properties:
+        children:
+          description: Children of the node
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectMapTreeNodeDefinition'
+      additionalProperties: false
+    ProjectMapNodeAllowedQueryString:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          description: The name of the query string parameter
+          type: string
+          minLength: 1
+          maxLength: 50
+        value:
+          description: The default value of the query string if it is not provided by an incoming route path
+          type: string
+          minLength: 0
+          maxLength: 2048
+        helpText:
+          description: Help text for authors who might be setting up a preview value for this query string
+          type: string
+          minLength: 0
+          maxLength: 256
+        optionsSource:
+          description: Configuration for providing a list of allowed values for this query string
+          type: object
+          properties:
+            source:
+              type: string
+              enum:
+              - static
+              description: The source type for the options
+            options:
+              type: array
+              items:
+                type: object
+                required:
+                - name
+                - value
+                properties:
+                  name:
+                    type: string
+                    description: Display name for the option
+                    pattern: ^[^<>]+$
+                    minLength: 1
+                    maxLength: 50
+                  value:
+                    type: string
+                    description: The actual value to be used
+                    pattern: ^[^<>]+$
+                    minLength: 0
+                    maxLength: 500
+              minItems: 1
+              maxItems: 100
+          required:
+          - source
+          - options
+      additionalProperties: false
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,533 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Projects API
+  version: '2.0'
+tags:
+- name: Projects
+paths:
+  /api/v1/project:
+    get:
+      tags:
+      - Projects
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: withSearchIndexStatus
+        description: If true it will check if a project has a valid search index
+        required: false
+        schema:
+          type: boolean
+          default: false
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProject'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+      - Projects
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostProject'
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutProjectBody'
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags:
+      - Projects
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchProject'
+      security:
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Projects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                permanent:
+                  type: boolean
+                  description: If true, the project will be permanently removed from the database instead of "soft-deleted" where the record is retained but is marked as deleted. Permanent delete is primarily intended for use by E2E tests
+              additionalProperties: false
+      security:
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/projects:
+    get:
+      description: Lists projects grouped by team. If teamId is provided, returns a single team with its projects. If omitted, returns all accessible teams and their projects.
+      parameters:
+      - schema:
+          type: string
+          description: If provided, only return the specified team and its projects. If omitted, return all accessible teams.
+        required: false
+        description: If provided, only return the specified team and its projects. If omitted, return all accessible teams.
+        name: teamId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - name_ASC
+          - name_DESC
+          - createdAt_ASC
+          - createdAt_DESC
+          description: Sort order for projects within each team. Defaults to name_ASC.
+        required: false
+        description: Sort order for projects within each team. Defaults to name_ASC.
+        name: orderBy
+        in: query
+      responses:
+        '200':
+          description: Projects retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teams:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        isPaid:
+                          type: boolean
+                        teamRole:
+                          type: string
+                          description: The caller's role in this team (e.g. "Admin" or "User")
+                        projects:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              projectTypeId:
+                                type: string
+                              previewUrl:
+                                type: string
+                              createdAt:
+                                type: string
+                              updatedAt:
+                                type: string
+                              isProd:
+                                type: boolean
+                            required:
+                            - id
+                            - name
+                            - projectTypeId
+                            - previewUrl
+                            - createdAt
+                            - updatedAt
+                            - isProd
+                      required:
+                      - id
+                      - name
+                      - isPaid
+                      - teamRole
+                      - projects
+                required:
+                - teams
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Team not found (only when teamId is provided)
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Projects
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+components:
+  schemas:
+    PatchProject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        organization_id:
+          type: string
+          format: uuid
+        url:
+          type: string
+        preview_url:
+          type: string
+        site_type_id:
+          type: string
+          format: uuid
+        ui_version:
+          type: number
+      additionalProperties: false
+    PostProject:
+      type: object
+      required:
+      - name
+      - organization_id
+      properties:
+        name:
+          type: string
+        organization_id:
+          type: string
+          format: uuid
+        url:
+          type: string
+        preview_url:
+          type: string
+        site_type_id:
+          type: string
+          format: uuid
+        ui_version:
+          type: number
+      additionalProperties: false
+    PutProjectBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this project
+          maxLength: 3000
+        guidanceAssets:
+          type: object
+          properties:
+            title:
+              type: string
+              maxLength: 1000
+            description:
+              type: string
+              maxLength: 1000
+            labels:
+              type: string
+              maxLength: 1000
+        teamId:
+          type: string
+          format: uuid
+        previewUrl:
+          type: string
+        projectTypeId:
+          type: string
+          format: uuid
+        uiVersion:
+          type: number
+        sampleSize:
+          type: number
+        createdAt:
+          type: string
+        teamName:
+          type: string
+        searchIndexVersion:
+          type: string
+        searchIndexStatus:
+          type: string
+          enum:
+          - absent
+          - present
+          - unavailable
+          - unknown
+        searchIndexNextVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            When set, a reindex is currently in flight; the dashboard can present
+
+            this project as "reindexing". Cleared when the rebuild swap completes.
+
+            '
+        searchIndexNextVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        dependencyInvalidationHookUrl:
+          type: string
+          deprecated: true
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    GetProject:
+      type: object
+      required:
+      - id
+      - createdAt
+      - name
+      - previewUrl
+      - teamId
+      - teamName
+      - projectTypeId
+      - uiVersion
+      - searchIndexVersion
+      - searchIndexStatus
+      - relationshipsIndexStatus
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+        name:
+          type: string
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this project
+          maxLength: 3000
+        guidanceAssets:
+          type: object
+          properties:
+            title:
+              type: string
+              maxLength: 1000
+            description:
+              type: string
+              maxLength: 1000
+            labels:
+              type: string
+              maxLength: 1000
+        teamId:
+          type: string
+          format: uuid
+        teamName:
+          type: string
+        projectTypeId:
+          type: string
+          format: uuid
+        previewUrl:
+          type: string
+        uiVersion:
+          type: number
+        sampleSize:
+          type: number
+        searchIndexVersion:
+          type: string
+        searchIndexStatus:
+          type: string
+          enum:
+          - absent
+          - present
+          - unavailable
+          - unknown
+        searchIndexNextVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexNextVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        relationshipsIndexStatus:
+          type: string
+          enum:
+          - absent
+          - outdated
+          - indexing
+          - indexed
+          - failed
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,311 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Favorites API
+  version: '2.0'
+tags:
+- name: Favorites
+paths:
+  /api/v1/favorites:
+    get:
+      description: Lists the current user's favorites for a project. Optionally filtered by entityType. Returns stale rows when the underlying entity has been deleted - clients render a gone-state with a one-click 'Remove from favorites' affordance.
+      parameters:
+      - schema:
+          type: string
+          description: Project the favorites belong to.
+        required: true
+        description: Project the favorites belong to.
+        name: projectId
+        in: query
+      - schema:
+          type: string
+          enum:
+          - entry
+          - composition
+          - component
+          - contentType
+          - blockType
+          - entryPattern
+          - componentPattern
+          - compositionPattern
+          - asset
+          description: Optional filter; omit to list every favorite for the project.
+        required: false
+        description: Optional filter; omit to list every favorite for the project.
+        name: entityType
+        in: query
+      - schema:
+          type: number
+          nullable: true
+          minimum: 0
+          default: 0
+          description: Number of records to skip.
+        required: false
+        description: Number of records to skip.
+        name: offset
+        in: query
+      - schema:
+          type: number
+          minimum: 1
+          maximum: 500
+          default: 200
+          description: Maximum number of records to return.
+        required: false
+        description: Maximum number of records to return.
+        name: limit
+        in: query
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  favorites:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        projectId:
+                          type: string
+                        entityType:
+                          type: string
+                          enum:
+                          - entry
+                          - composition
+                          - component
+                          - contentType
+                          - blockType
+                          - entryPattern
+                          - componentPattern
+                          - compositionPattern
+                          - asset
+                        entityId:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                        created:
+                          type: string
+                          format: date-time
+                      required:
+                      - id
+                      - projectId
+                      - entityType
+                      - entityId
+                      - created
+                      additionalProperties: false
+                  totalCount:
+                    type: number
+                required:
+                - favorites
+                - totalCount
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Favorites
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Removes a favorite. Body-keyed by `(entityType, entityId)` rather than by row id so toggling doesn't need a prior fetch. Returns 204 even if the row was already absent (delete is idempotent).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                entityType:
+                  type: string
+                  enum:
+                  - entry
+                  - composition
+                  - component
+                  - contentType
+                  - blockType
+                  - entryPattern
+                  - componentPattern
+                  - compositionPattern
+                  - asset
+                entityId:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+              required:
+              - projectId
+              - entityType
+              - entityId
+              additionalProperties: false
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 0
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Favorites
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Idempotent upsert. Adds a favorite for the current user if none exists; returns the existing row otherwise. Identity is taken from the verified token, never the body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                entityType:
+                  type: string
+                  enum:
+                  - entry
+                  - composition
+                  - component
+                  - contentType
+                  - blockType
+                  - entryPattern
+                  - componentPattern
+                  - compositionPattern
+                  - asset
+                entityId:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+              required:
+              - projectId
+              - entityType
+              - entityId
+              additionalProperties: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  projectId:
+                    type: string
+                  entityType:
+                    type: string
+                    enum:
+                    - entry
+                    - composition
+                    - component
+                    - contentType
+                    - blockType
+                    - entryPattern
+                    - componentPattern
+                    - compositionPattern
+                    - asset
+                  entityId:
+                    type: string
+                    minLength: 1
+                    maxLength: 255
+                  created:
+                    type: string
+                    format: date-time
+                required:
+                - id
+                - projectId
+                - entityType
+                - entityId
+                - created
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          description: 'Quota exceeded: at most 100 favorite entries allowed for this project. Remove an existing entry before creating a new one.'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Favorites
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Favorites
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

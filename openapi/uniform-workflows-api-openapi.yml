@@ -1,0 +1,369 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Workflows API
+  version: '2.0'
+tags:
+- name: Workflows
+paths:
+  /api/v1/workflows:
+    get:
+      tags:
+      - Workflows
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch workflows for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: offset
+        description: Number of records to skip
+        schema:
+          type: integer
+          minimum: 0
+      - in: query
+        name: limit
+        description: Max number of records to return
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          default: 1000
+      - in: query
+        name: keyword
+        description: 'Matches workflows where their name contains the specified keyword.
+
+          '
+        schema:
+          type: string
+          maxLength: 32
+      - in: query
+        name: workflowIDs
+        description: 'Matches workflows where their ID is one of a list.
+
+          '
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WorkflowDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Workflows
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - workflow
+              properties:
+                workflow:
+                  $ref: '#/components/schemas/WorkflowDefinition'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Workflows
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - workflowId
+              properties:
+                workflowId:
+                  type: string
+                  format: uuid
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    WorkflowDefinition:
+      type: object
+      additionalProperties: false
+      description: Definition of a workflow that can be assigned to entities
+      required:
+      - id
+      - name
+      - initialStage
+      - stages
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the workflow definition
+        name:
+          type: string
+          description: Workflow name
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        initialStage:
+          type: string
+          format: uuid
+          description: The ID of the initial stage in the stages object.
+        stages:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStage'
+          description: All stages of the workflow
+          minProperties: 2
+        modified:
+          type: string
+          description: Last modified ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        created:
+          type: string
+          description: Created ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        createdBy:
+          type: string
+          description: 'Name of the original creator of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+        modifiedBy:
+          type: string
+          description: 'Name of the last modifier of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+    WorkflowStageTransition:
+      type: object
+      description: Definition of a transition from one stage to another in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - to
+      - permissions
+      properties:
+        to:
+          type: string
+          format: uuid
+          description: The target stage to transition to
+        name:
+          type: string
+          description: 'Name shown to the user when they execute this transition.
+
+            If not provided, a default name will be assigned automatically based on the target stage
+
+            '
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStageTransitionPermission'
+          description: 'Permissions for the stage transition.
+
+            NOTE: Users without membership in any role listed here will be unable to execute the transition unless they are team admins
+
+            '
+    WorkflowStageTransitionPermission:
+      type: object
+      description: Permissions for a workflow stage transition
+      additionalProperties: false
+      properties:
+        execute:
+          type: boolean
+          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
+    WorkflowStagePermission:
+      type: object
+      description: Permissions for a workflow stage
+      additionalProperties: false
+      properties:
+        write:
+          type: boolean
+          description: Allows writing to entities assigned to this stage. When false or unspecified the data is read-only
+        publish:
+          type: boolean
+          description: Allows publishing entities assigned to this stage. When false or unspecified publishing is disabled
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    WorkflowStage:
+      type: object
+      description: Definition of a stage in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - permissions
+      - transitions
+      properties:
+        name:
+          type: string
+          description: Name of the stage
+          minLength: 1
+          maxLength: 32
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStagePermission'
+          description: 'Defines roles which have permissions to this workflow stage
+
+            NOTE: Being able to write or publish to entities in a workflow stage requires both core write or publish permissions,
+
+            as well as membership in a role which grants the explicit rights to the stage. If a user is not a member of any role
+
+            listed here, the stage is read-only and publishing is disabled
+
+            '
+        autoPublish:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will automatically publish the entity.
+
+            If the user making the transition does not have publish permissions to the stage as well as publish permission on the entity, the action will not run.
+
+            Setting this to true is equivalent to setting requireValidity to true, as publishing cannot be performed with validation errors.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        requireValidity:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will require the entity to have no validation errors.
+
+            If the entity is not valid, the transition will not be allowed.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        transitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowStageTransition'
+          description: 'Defines transitions to other stages
+
+            Every stage must define at least one transition, to avoid creating a workflow that
+
+            has a stage that can never be escaped
+
+            '
+          minItems: 1
+        icon:
+          type: string
+          description: Icon name for the stage (e.g. 'chevron-double-right-o')
+          default: chevron-double-right-o
+          maxLength: 64
+        order:
+          type: number
+          description: Sets the order of the stage when displayed in a list with other stages. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

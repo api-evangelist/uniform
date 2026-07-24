@@ -1,0 +1,425 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Data Sources API
+  version: '2.0'
+tags:
+- name: Data Sources
+paths:
+  /api/v1/data-source:
+    get:
+      tags:
+      - Data Sources
+      parameters:
+      - in: query
+        name: dataSourceId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - result
+                properties:
+                  result:
+                    $ref: '#/components/schemas/DataSource'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Data Sources
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - data
+              properties:
+                data:
+                  $ref: '#/components/schemas/DataSource'
+                projectId:
+                  type: string
+                  format: uuid
+                integrationId:
+                  description: Do not use. May be removed in future
+                  deprecated: true
+                  type: string
+                  format: uuid
+                integrationType:
+                  description: The integration type that the data source is attached to. Must be installed in the project
+                  type: string
+                  minLength: 4
+                  maxLength: 256
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Data Sources
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - dataSourceId
+              properties:
+                dataSourceId:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  pattern: ^[A-Za-z0-9\-]+$
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/data-sources:
+    get:
+      tags:
+      - Data Sources
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: 'Gets a list of data sources.
+
+            Note that all parameters, headers, and variables will have the value ''SECRET'', as this endpoint
+
+            requires minimal permissions. To decrypt secrets, you must be an admin or manage-data-sources privileged
+
+            user, and fetch using the `data-source` endpoint for each data source
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataSource'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    AlternativeDataSourceData:
+      type: object
+      description: 'Additional set of headers, parameters, variables, etc to be used for data resolving in the context like e.g. Unpublished Data.
+
+        '
+      required:
+      - baseUrl
+      properties:
+        baseUrl:
+          type: string
+          description: Base resource URL of the data source. No trailing slash
+          maxLength: 256
+          minLength: 1
+          pattern: ^https://.+[^/]$
+        headers:
+          type: array
+          description: HTTP headers to pass with requests to the data source
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+              omitIfEmpty:
+                type: boolean
+        parameters:
+          type: array
+          description: Query String parameters to pass with requests to the data type. Merged with parameters from the data source, overriding identical keys
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+              omitIfEmpty:
+                type: boolean
+        variables:
+          type: object
+          description: Variables needed to make calls to the data source
+          additionalProperties:
+            $ref: '#/components/schemas/DataVariableDefinition'
+      additionalProperties: false
+    DataSource:
+      type: object
+      description: 'An instance of a data source (i.e. "Master environment of the stable space", "Yelp API", "Sanity dev dataset").
+
+        These are created in the UI and shared across a whole project.
+
+        NOTE: If you acquire a list of data sources or do not have manage permissions, you will receive "SECRET"
+
+        for all header, parameter, and variable values to obscure the actual encrypted secret value
+
+        '
+      required:
+      - id
+      - displayName
+      - connectorType
+      - baseUrl
+      properties:
+        id:
+          type: string
+          description: Public ID of the data source
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        displayName:
+          type: string
+          description: Display name of the data source
+          maxLength: 100
+          minLength: 1
+        connectorType:
+          type: string
+          description: The type of data connector this connects to (e.g. 'cms-items', provided by an installed integration)
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-]+$
+        baseUrl:
+          type: string
+          description: Base resource URL of the data source. No trailing slash
+          maxLength: 256
+          minLength: 1
+          pattern: ^https://.+[^/]$
+        headers:
+          type: array
+          description: HTTP headers to pass with requests to the data source
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+        parameters:
+          type: array
+          description: Query String parameters to pass with requests to the data type. Merged with parameters from the data source, overriding identical keys
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+        variables:
+          type: object
+          description: Variables needed to make calls to the data source
+          additionalProperties:
+            $ref: '#/components/schemas/DataVariableDefinition'
+        localeMapping:
+          type: object
+          description: 'Mapping of locale codes to data source locale codes. Keys are Uniform locale codes, values are data source locale codes.
+
+            If a locale is not mapped, it will be passed through to the data source as-is
+
+            '
+          additionalProperties:
+            type: string
+            maxLength: 32
+        enableUnpublishedMode:
+          type: boolean
+          description: 'If true, data source will require additional credentials to access unpublished data.
+
+            If false, no additional data source credentials are required and data resources of this data source won''t be able to access unpublished data.
+
+            '
+        customPublic:
+          type: object
+          additionalProperties: true
+          description: Custom configuration accessible to all data connector UIs (data source, data type, and data resource editors) and custom edgehancers. This data should not contain secrets
+        custom:
+          type: object
+          additionalProperties: true
+          description: Custom configuration accessible to the data source editor UI and custom edgehancer that may contain secrets. This cannot be read by the data type or data resource editors
+        variants:
+          type: object
+          description: Different connector detail variants to use in the different contexts like e.g. Unpublished Data
+          properties:
+            unpublished:
+              $ref: '#/components/schemas/AlternativeDataSourceData'
+        created:
+          type: string
+          description: Created date of the data source in ISO 8601 format (ignored for writes)
+        modified:
+          type: string
+          description: Last modified date of the data source in ISO 8601 format (ignored for writes)
+        createdBy:
+          type: string
+          description: User or API key ID that created the data source (ignored for writes)
+        modifiedBy:
+          type: string
+          description: User or API key ID that last modified the data source (ignored for writes)
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    DataVariableDefinition:
+      type: object
+      description: Defines the shape of a data variable on a Data Source or Data Type
+      required:
+      - default
+      properties:
+        displayName:
+          type: string
+          description: Display name of the data variable
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Explanatory text that is provided to the data resource editor to explain what this variable does
+          maxLength: 256
+          minLength: 1
+        type:
+          type: string
+          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
+          default: text
+          maxLength: 36
+          minLength: 1
+          pattern: ^[A-Za-z0-9\-]+$
+        default:
+          type: string
+          description: Default value of the data variable
+        order:
+          type: number
+          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+        source:
+          type: string
+          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
+
+            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
+
+            '
+      additionalProperties: false
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

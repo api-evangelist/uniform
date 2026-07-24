@@ -1,0 +1,270 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates UTM Mapper API
+  version: '2.0'
+tags:
+- name: UTM Mapper
+paths:
+  /api/v1/utm-mapper-link-configuration:
+    options:
+      tags:
+      - UTM Mapper
+      deprecated: true
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      deprecated: true
+      tags:
+      - UTM Mapper
+      parameters:
+      - in: query
+        name: projectId
+        description: The project ID to get UTM mapper link configuration for.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkConfiguration'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    LinkConfigurationPart:
+      type: object
+      description: A part of a link configuration
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the link configuration part
+        naming_convention:
+          $ref: '#/components/schemas/NamingConvention'
+        naming_convention_id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the naming convention to use for the link configuration part
+        query_parameter:
+          type: string
+          description: The query parameter to use for the link configuration part, only not null if this is a taxonomy type of part
+          maxLength: 100
+          minLength: 1
+        taxonomy:
+          $ref: '#/components/schemas/Taxonomy'
+        taxonomy_id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy to use for the link configuration part
+      additionalProperties: false
+    LinkConfiguration:
+      type: object
+      description: A link configuration
+      required:
+      - id
+      - parts
+      - template_sort
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the link configuration
+        parts:
+          type: array
+          description: The parts of the link configuration
+          items:
+            $ref: '#/components/schemas/LinkConfigurationPart'
+        template_sort:
+          type: array
+          description: The order of the parts in the link configuration
+          items:
+            type: string
+            format: uuid
+            description: The ID (UUID) of the link configuration part
+      additionalProperties: false
+    TaxonomyValue:
+      type: object
+      description: One of taxonomy possible values
+      required:
+      - id
+      - name
+      - value
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy value
+        name:
+          type: string
+          description: Friendly name of the value
+          maxLength: 100
+          minLength: 1
+        value:
+          type: string
+          description: Actual value of the value
+          maxLength: 100
+          minLength: 1
+      additionalProperties: false
+    NamingConvention:
+      type: object
+      description: Composition of multiple taxonomies
+      required:
+      - id
+      - delimiter
+      - name
+      - query_parameter
+      - taxonomies
+      - taxonomies_sort
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the naming convention
+        delimiter:
+          type: string
+          description: The delimiter to use between taxonomies
+          maxLength: 1
+          minLength: 1
+        name:
+          type: string
+          description: The name of the naming convention
+          maxLength: 100
+          minLength: 1
+        query_parameter:
+          type: string
+          description: The query parameter to use for the naming convention
+          maxLength: 100
+          minLength: 1
+        taxonomies:
+          type: array
+          description: The taxonomies to use in the naming convention
+          items:
+            $ref: '#/components/schemas/Taxonomy'
+        taxonomies_sort:
+          type: array
+          description: The order of the taxonomies in the naming convention
+          items:
+            type: string
+            format: uuid
+            description: The ID (UUID) of the taxonomy
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    Taxonomy:
+      type: object
+      description: A core building block of the link configuration
+      required:
+      - id
+      - name
+      - display_name
+      - required
+      - value_length
+      - values
+      - values_sort
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy
+        name:
+          type: string
+          description: Name of the taxonomy
+          maxLength: 100
+          minLength: 1
+        display_name:
+          type: string
+          description: A short, UI-friendly name of the taxonomy
+          maxLength: 100
+          minLength: 1
+        default_value:
+          type: string
+          description: The default value of the taxonomy, empty if required is true
+          maxLength: 100
+          minLength: 1
+        required:
+          type: boolean
+          description: Whether the taxonomy is required or not
+        value_length:
+          type: integer
+          description: The required length of the taxonomy values value
+          minimum: 1
+          maximum: 100
+        values:
+          type: array
+          description: Possible values of the taxonomy
+          items:
+            $ref: '#/components/schemas/TaxonomyValue'
+        values_sort:
+          type: array
+          description: The order of the values in the taxonomy
+          items:
+            type: string
+            format: uuid
+            description: The ID (UUID) of the taxonomy value
+      additionalProperties: false
+  responses:
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,251 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Security API
+  version: '2.0'
+tags:
+- name: Security
+paths:
+  /api/v1/security-audit-log:
+    get:
+      description: Get paginated security audit log for a team. Requires team admin permissions.
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        required: true
+        name: teamId
+        in: query
+      - schema:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Number of records to skip for pagination. Defaults to 0.
+        required: false
+        description: Number of records to skip for pagination. Defaults to 0.
+        name: offset
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          description: Maximum number of records to return. Defaults to 50, max 100.
+        required: false
+        description: Maximum number of records to return. Defaults to 50, max 100.
+        name: limit
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: When true, includes totalCount in the response for pagination.
+        required: false
+        description: When true, includes totalCount in the response for pagination.
+        name: withTotalCount
+        in: query
+      - schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - CREATE_API_KEY
+            - DELETE_API_KEY
+            - CREATE_PAT
+            - DELETE_PAT
+            - PRUNE_PAT_ROLES
+            - UPDATE_MEMBER_PERMISSIONS
+            - ACCEPT_INVITATION
+            - REMOVE_MEMBER
+            - PURGE_IDENTITY
+            - CREATE_ROLE
+            - UPDATE_ROLE
+            - DELETE_ROLE
+            - UPDATE_POLICIES
+            - CREATE_INTEGRATION_SECRET
+            - REGENERATE_INTEGRATION_SECRET
+            - DELETE_INTEGRATION_SECRET
+            - CREATE_SESSION_TOKEN
+            - CREATE_DELEGATION_TOKEN
+            - REFRESH_DELEGATION_TOKEN
+          description: Filter by one or more action types (comma-separated, e.g. `actions=CREATE_PAT` or `actions=CREATE_PAT,DELETE_PAT`).
+        required: false
+        description: Filter by one or more action types (comma-separated, e.g. `actions=CREATE_PAT` or `actions=CREATE_PAT,DELETE_PAT`).
+        name: actions
+        in: query
+      - schema:
+          type: string
+          description: Filter by the identity subject who performed the action.
+        required: false
+        description: Filter by the identity subject who performed the action.
+        name: identitySubject
+        in: query
+      - schema:
+          type: string
+          enum:
+          - api_key
+          - pat
+          - user
+          - role
+          - policy
+          - integration
+          description: Filter by target type.
+        required: false
+        description: Filter by target type.
+        name: targetType
+        in: query
+      - schema:
+          type: string
+          format: date-time
+          description: Filter events created after this date (ISO 8601).
+        required: false
+        description: Filter events created after this date (ISO 8601).
+        name: startDate
+        in: query
+      - schema:
+          type: string
+          format: date-time
+          description: Filter events created before this date (ISO 8601).
+        required: false
+        description: Filter events created before this date (ISO 8601).
+        name: endDate
+        in: query
+      responses:
+        '200':
+          description: Audit log entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        organizationId:
+                          type: string
+                          format: uuid
+                        identitySubject:
+                          type: string
+                        action:
+                          type: string
+                          enum:
+                          - CREATE_API_KEY
+                          - DELETE_API_KEY
+                          - CREATE_PAT
+                          - DELETE_PAT
+                          - PRUNE_PAT_ROLES
+                          - UPDATE_MEMBER_PERMISSIONS
+                          - ACCEPT_INVITATION
+                          - REMOVE_MEMBER
+                          - PURGE_IDENTITY
+                          - CREATE_ROLE
+                          - UPDATE_ROLE
+                          - DELETE_ROLE
+                          - UPDATE_POLICIES
+                          - CREATE_INTEGRATION_SECRET
+                          - REGENERATE_INTEGRATION_SECRET
+                          - DELETE_INTEGRATION_SECRET
+                          - CREATE_SESSION_TOKEN
+                          - CREATE_DELEGATION_TOKEN
+                          - REFRESH_DELEGATION_TOKEN
+                        targetType:
+                          type: string
+                          enum:
+                          - api_key
+                          - pat
+                          - user
+                          - role
+                          - policy
+                          - integration
+                        targetId:
+                          type: string
+                          nullable: true
+                        targetName:
+                          type: string
+                          nullable: true
+                        projectId:
+                          type: string
+                          nullable: true
+                          format: uuid
+                        metadata:
+                          type: object
+                          nullable: true
+                          additionalProperties:
+                            nullable: true
+                        createdAt:
+                          type: string
+                      required:
+                      - id
+                      - organizationId
+                      - identitySubject
+                      - action
+                      - targetType
+                      - targetId
+                      - targetName
+                      - projectId
+                      - metadata
+                      - createdAt
+                  totalCount:
+                    type: number
+                required:
+                - entries
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Security
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

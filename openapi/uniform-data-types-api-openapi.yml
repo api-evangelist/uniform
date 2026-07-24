@@ -1,0 +1,333 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Data Types API
+  version: '2.0'
+tags:
+- name: Data Types
+paths:
+  /api/v1/data-types:
+    get:
+      tags:
+      - Data Types
+      parameters:
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataType'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Data Types
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - data
+              properties:
+                data:
+                  $ref: '#/components/schemas/DataType'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Data Types
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - typeId
+              properties:
+                typeId:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  pattern: ^[A-Za-z0-9\-]+$
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    DataType:
+      type: object
+      description: A specific type of data that a Data Source can provide (i.e. "Recipe", "Recipes List by Tag", "Yelp Reviews of My Restaurant"). These are created in the UI and shared a whole project
+      required:
+      - id
+      - displayName
+      - path
+      - dataSourceId
+      - method
+      properties:
+        id:
+          type: string
+          description: Public ID of the data type
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        displayName:
+          type: string
+          description: Display name of the data type
+          maxLength: 100
+          minLength: 1
+        dataSourceId:
+          type: string
+          description: Public ID of the associated data source
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        archetype:
+          type: string
+          description: 'A connector-specific archetype for this data type; used to select UI as well as perform any
+
+            necessary post-processing on the response. e.g. ''cms-entry'', ''cms-query''. Can be undefined if
+
+            no special UI or processing is required
+
+            '
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-]+$
+        allowedOnComponents:
+          type: array
+          items:
+            type: string
+            description: 'Public ID of a component type that this data type can be used on.
+
+              For components which are compositions, this allows this data type as resource data.
+
+              For non-composition components, this allows this data type as a pattern resource data
+
+              '
+            minLength: 1
+            maxLength: 100
+            pattern: ^[A-Za-z0-9\-]+$
+        path:
+          type: string
+          description: Resource path, appended to the data source's baseUrl (e.g. baseUrl = https://base.url, path = /v1/endpoint -> final URL https://base.url/v1/endpoint). Must have a leading slash
+          maxLength: 1024
+          minLength: 0
+        ttl:
+          type: integer
+          description: Time-to-live (in seconds) for the resource data cache
+        purgeKey:
+          type: string
+          description: A key for the resource data cache purging
+          minLength: 36
+          maxLength: 36
+        badgeIconUrl:
+          description: URL to a custom badge icon for the Uniform dashboard for this data type. If not set falls back to the data connector or integration icons
+          type: string
+          minLength: 6
+          maxLength: 256
+        headers:
+          description: HTTP headers to pass with requests to the data type. Merged with headers from the data source, overriding identical keys
+          type: array
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+              omitIfEmpty:
+                type: boolean
+        parameters:
+          description: Query String parameters to pass with requests to the data type. Merged with parameters from the data source, overriding identical keys
+          type: array
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+              omitIfEmpty:
+                type: boolean
+        body:
+          type: string
+          description: Body to pass with requests to the data type (ignored unless the method is POST)
+          maxLength: 8192
+        method:
+          type: string
+          description: HTTP method to use with requests to the data type
+          default: GET
+          enum:
+          - GET
+          - POST
+          - HEAD
+        variables:
+          type: object
+          description: Variables needed to make calls to the data type. Merged with variables from the data source, overriding identical keys
+          additionalProperties:
+            $ref: '#/components/schemas/DataVariableDefinition'
+        custom:
+          type: object
+          additionalProperties: true
+          description: Custom configuration specific to the data source being defined
+        created:
+          type: string
+          description: Created date of the data type in ISO 8601 format (ignored for writes)
+        modified:
+          type: string
+          description: Last modified date of the data type in ISO 8601 format (ignored for writes)
+        createdBy:
+          type: string
+          description: User or API key ID that created the data type (ignored for writes)
+        modifiedBy:
+          type: string
+          description: User or API key ID that last modified the data type (ignored for writes)
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    DataVariableDefinition:
+      type: object
+      description: Defines the shape of a data variable on a Data Source or Data Type
+      required:
+      - default
+      properties:
+        displayName:
+          type: string
+          description: Display name of the data variable
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Explanatory text that is provided to the data resource editor to explain what this variable does
+          maxLength: 256
+          minLength: 1
+        type:
+          type: string
+          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
+          default: text
+          maxLength: 36
+          minLength: 1
+          pattern: ^[A-Za-z0-9\-]+$
+        default:
+          type: string
+          description: Default value of the data variable
+        order:
+          type: number
+          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+        source:
+          type: string
+          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
+
+            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
+
+            '
+      additionalProperties: false
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

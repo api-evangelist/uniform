@@ -1,0 +1,286 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates API
+  version: '2.0'
+tags:
+- name: Aggregates
+paths:
+  /api/v2/aggregate:
+    options:
+      tags:
+      - Aggregates
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Aggregates
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch aggregates for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: aggregateId
+        description: Limit the results to a specific aggregate ID
+        required: false
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+      - in: query
+        name: type
+        description: 'Limit the results to a specific aggregate type
+
+          0: Audience
+
+          1: Intent
+
+          '
+        required: false
+        schema:
+          type: number
+          enum:
+          - 0
+          - 1
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - aggregates
+                properties:
+                  aggregates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AggregateData'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Aggregates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - aggregate
+              properties:
+                aggregate:
+                  $ref: '#/components/schemas/AggregateData'
+                projectId:
+                  type: string
+                  format: uuid
+                skipInputs:
+                  type: boolean
+                  default: false
+                  description: 'Skips updating aggregate inputs and upserts only the aggregate definition.
+
+                    Inputs data is still required, but is ignored and not saved or validated.
+
+                    Useful when creating aggregates that reference each other: Create the definitions, then the inputs.
+
+                    '
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Aggregates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - aggregateId
+              properties:
+                aggregateId:
+                  type: string
+                  maxLength: 40
+                  minLength: 1
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    AggregateData:
+      type: object
+      required:
+      - id
+      - name
+      - type
+      - inputs
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]{1,100}$
+        description:
+          type: string
+          maxLength: 1000
+          pattern: ^[^<>]{0,1000}$
+        type:
+          description: 'The type of aggregate
+
+            0: Audience
+
+            1: Intent
+
+            '
+          type: number
+          enum:
+          - 0
+          - 1
+        inputs:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AggregateDimensionInput'
+      additionalProperties: false
+    AggregateDimensionInput:
+      description: Defines an input dimension to an aggregate dimension
+      type: object
+      required:
+      - dim
+      properties:
+        dim:
+          description: 'Dimension name to reference as an input.
+
+            For enrichment inputs, use CATEGORY_KEY as the dimension.
+
+            Enrichments, signals, and other aggregate dimensions may be referenced.
+
+
+            Note that creating a cycle of aggregate dimensions is allowed, however
+
+            the final score will _ignore_ the cycled aggregate dimension in the result.
+
+            This can be used to create mutually exclusive aggregates
+
+            '
+          type: string
+          minLength: 1
+        sign:
+          description: 'The sign of the input dimension controls how it affects the aggregate dimension''s final score.
+
+
+            ''+'' = add to the final score
+
+            ''-'' = subtract from the final score
+
+            ''c'' = clear the final score (if the input dimension has any score at all, this aggregate will have no score regardless of other inputs)
+
+
+            Default if unspecified: ''+''
+
+            '
+          type: string
+          enum:
+          - +
+          - '-'
+          - c
+          default: +
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

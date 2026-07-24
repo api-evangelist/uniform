@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Prompts API
+  version: '2.0'
+tags:
+- name: Prompts
+paths:
+  /api/v1/prompts:
+    get:
+      deprecated: true
+      tags:
+      - Prompts
+      parameters:
+      - in: query
+        name: promptId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: projectId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Prompt'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/Prompt'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      deprecated: true
+      tags:
+      - Prompts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - data
+              properties:
+                data:
+                  $ref: '#/components/schemas/Prompt'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      deprecated: true
+      tags:
+      - Prompts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - promptId
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                promptId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    Prompt:
+      type: object
+      description: AI Prompt definition
+      required:
+      - id
+      - integrationType
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the prompt
+        integrationType:
+          type: string
+          nullable: false
+          description: Unique identifier for the integration that this prompt belongs to
+        name:
+          type: string
+          nullable: true
+          description: Name for the prompt
+        text:
+          type: string
+          nullable: true
+          description: Text for the prompt
+        data:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: Data for the prompt
+        enabled:
+          type: boolean
+          nullable: true
+          description: Turn off/on prompt
+        builtIn:
+          type: boolean
+          nullable: true
+          description: Integration default prompt
+        parameterTypes:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: Supported parameter types
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

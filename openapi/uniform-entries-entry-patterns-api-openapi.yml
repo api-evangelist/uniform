@@ -1,0 +1,1678 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Entries & Entry Patterns API
+  version: '2.0'
+tags:
+- name: Entries & Entry Patterns
+paths:
+  /api/v1/entries-history:
+    get:
+      tags:
+      - Entries & Entry Patterns
+      parameters:
+      - in: query
+        name: entryId
+        description: Specify the entry ID to get history for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: editionId
+        description: 'The edition ID. When set, gets history for a child edition of the entryId.
+
+          '
+        deprecated: true
+        schema:
+          type: string
+          deprecated: true
+          format: uuid
+      - in: query
+        name: projectId
+        description: The project the entries(s) are on.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: cursor
+        description: If a request returns a cursor, pass it in this query parameter to get the next page of results.
+        schema:
+          type: string
+          maxLength: 1024
+      - in: query
+        name: releaseId
+        description: The release ID to get history for. Note that release history is independent of base histories.
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryApiResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Entry not found
+          content:
+            text/plain:
+              schema:
+                type: string
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/v1/entries:
+    options:
+      tags:
+      - Entries & Entry Patterns
+      description: Handles preflight requests. This endpoint allows CORS
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Entries & Entry Patterns
+      description: "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter conventions which are pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n* `select.<bucket>[<op>]` — data projection (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to entries matching field values. The\nallowed field names are project-specific — they come from the project's\ncontent types — which is why `filters.*` parameters are\npattern-validated rather than declared as named parameters.\n\nSyntax: `filters.<field>[<operator>]=<value>`. `<field>` is one of:\n\n* A system field: `name`, `slug`, `type`, `created`, `modified`,\n  `entityId`, `editionId`, `releaseId`, `patternId`, `creator`,\n  `creatorSubject`, `author`, `authorSubject`, `workflowId`,\n  `workflowStageId`, `categoryId`, `labels`, `labelGroups`,\n  `uiStatus`, or `locale`.\n* An entry field, addressed as `fields.<fieldId>`. Filtering by fields\n  requires also filtering to a single content type (e.g.\n  `filters.type[eq]=...`).\n* A sub-property of a field for certain field types: content\n  references (`fields.<id>.slug|name|type`), links\n  (`fields.<id>.type|projectMapNodeId`), and assets\n  (`fields.<id>.url|title|description|mediaType`).\n\n| Operator | Effect |\n|---|---|\n| `[eq]` / `[neq]` | Exact equality / inequality. |\n| `[match]` | Contains (text search) match; text-like fields only. |\n| `[starts]` | Prefix match. Value limited to letters, numbers, `_`, `.`, `-`, and spaces. |\n| `[lt]` / `[lte]` / `[gt]` / `[gte]` | Comparisons for number, date, and datetime fields (including `created` / `modified`). |\n| `[in]` / `[nin]` | Comma-separated list; matches any (OR) / none of the values. |\n| `[all]` | Comma-separated list; list-valued fields (e.g. `labels`, multi-selects) must contain every value (AND). |\n| `[def]` | `true` or `false`; whether the field has a value at all. |\n\nBehavior:\n\n* Values are single strings, or comma-separated lists for `[in]`,\n  `[nin]`, and `[all]`. Dates accept `YYYY-MM-DD` or a full datetime\n  string. An empty value is rejected — use `[def]` to test presence.\n* Not every operator is valid for every field; the allowed set depends\n  on the field's type. An unsupported combination returns HTTP 400\n  with the supported operators listed.\n* Malformed keys, unknown operators, and unknown field names return\n  HTTP 400.\n\nExamples:\n\n* `filters.type[eq]=article` — only entries of type `article`.\n* `filters.modified[gte]=2026-01-01` — modified this year.\n* `filters.type[eq]=article&filters.fields.brandName[match]=adidas` — field filter scoped to one type.\n* `filters.fields.author.slug[eq]=jane-doe` — filter by a referenced entry's slug.\n\n#### Data projection (`select.*`)\n\nProjection returns a subset of the response by pruning fields and field\ntypes before values are resolved. The allowed names are project-specific —\nthey come from the project's content types — which is why `select.*`\nparameters are pattern-validated rather than declared as named parameters.\n\nSyntax: `select.<bucket>[<operator>]=<value>`. Values are comma-separated\nlists of names. `*` is the only wildcard and matches zero or more\ncharacters (e.g. `seo_*`).\n\n| Parameter | Effect |\n|---|---|\n| `select.fields[only]=a,b` | Keep only the named fields; drop everything else. |\n| `select.fields[except]=a,b` | Drop the named fields; keep everything else. |\n| `select.fields[locales]=a,b` | For the named fields that survive filtering, return the full per-locale value map instead of only the requested locale's value. |\n| `select.fields[blockDepth]=N` | Limit how many levels of block field children are kept. `0` removes all block fields; `preserveAll` prevents projection from trimming fields inside block children. |\n| `select.fieldTypes[only]=a,b` | Keep only fields of the named types (type IDs such as `text`, `richText`, `asset`). |\n| `select.fieldTypes[except]=a,b` | Drop fields of the named types. |\n\nThe composition-oriented `select.slots.*` operators are also accepted but\nhave no effect on entry responses (entries have no slots).\n\nBehavior:\n\n* Projection applies recursively at every block in the returned entry,\n  and is forwarded into entries resolved through reference fields.\n* When operators combine, all `[only]` sets are intersected first, then\n  `[except]` sets are subtracted — exclusion always wins.\n* Unknown field or type names are silent no-ops (the entry shape is\n  preserved; non-matching content is simply absent). Unknown operators\n  return HTTP 400.\n* An empty list (`select.fields[only]=`) strips every field; `[except]=*`\n  is equivalent.\n\nExamples:\n\n* `select.fields[only]=title,coverImage` — keep only titles and cover images on every entry in the list.\n* `select.fieldTypes[except]=richText` — everything except rich-text fields.\n* `select.fields[only]=title,seo_*&select.fields[locales]=seo_*` — lean payload keeping all locales on the SEO fields.\n"
+      parameters:
+      - $ref: '#/components/parameters/entryIDs'
+      - $ref: '#/components/parameters/versionId'
+      - $ref: '#/components/parameters/slug'
+      - $ref: '#/components/parameters/createdBy'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/orderBy'
+      - $ref: '#/components/parameters/facetBy'
+      - $ref: '#/components/parameters/pattern'
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/state'
+      - $ref: '#/components/parameters/type'
+      - $ref: '#/components/parameters/uiStatus'
+      - $ref: '#/components/parameters/updatedBy'
+      - $ref: '#/components/parameters/withTotalCount'
+      - $ref: '#/components/parameters/withUIStatus'
+      - $ref: '#/components/parameters/withWorkflowDefinition'
+      - $ref: '#/components/parameters/withComponentIDs'
+      - $ref: '#/components/parameters/keyword'
+      - $ref: '#/components/parameters/skipPatternResolution'
+      - $ref: '#/components/parameters/skipParameterResolution'
+      - $ref: '#/components/parameters/skipOverridesResolution'
+      - $ref: '#/components/parameters/locale'
+      - $ref: '#/components/parameters/releaseId'
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/searchSemantic'
+      - $ref: '#/components/parameters/editions'
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntryListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Entry not found
+          content:
+            text/plain:
+              schema:
+                type: string
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Entries & Entry Patterns
+      description: Upserts an entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - state
+              - entry
+              properties:
+                projectId:
+                  type: string
+                  format: uuid
+                  description: The project ID to upsert the entry to
+                state:
+                  type: number
+                  minimum: 0
+                  maximum: 64
+                  description: The publishing state to upsert into. 0 = draft, 64 = published
+                entry:
+                  $ref: '#/components/schemas/EntryInput'
+                created:
+                  description: Ignored if present
+                  type: string
+                modified:
+                  description: Ignored if present
+                  type: string
+                pattern:
+                  description: True if the entry is a pattern (which can be referenced on other entries)
+                  type: boolean
+                  default: false
+                releaseId:
+                  type: string
+                  format: uuid
+                  description: The release this entry belongs to. If not set, the entry belongs to the base
+                workflowId:
+                  type: string
+                  format: uuid
+                  description: The workflow ID that this entry is assigned, if any
+                workflowStageId:
+                  type: string
+                  format: uuid
+                  description: The stage ID the entry is in on its assigned workflow. When undefined, it is implicitly in the initial stage of the workflow
+                editionId:
+                  type: string
+                  format: uuid
+                  description: 'The edition ID. When set, this is a child edition of the entry in _id.
+
+                    '
+                editionName:
+                  type: string
+                  maxLength: 100
+                  description: 'The name of the entry or edition as shown in the editions listing.
+
+                    Describes the purpose of an edition.
+
+                    '
+                editionPriority:
+                  type: integer
+                  description: 'The priority of the edition or entry. Higher numbers are higher priority.
+
+                    When multiple editions enable the same locale, the highest priority edition is used.
+
+                    '
+              additionalProperties: false
+      parameters:
+      - in: header
+        name: X-If-Unmodified-Since
+        description: 'Optional concurrency control header. If provided, the server will check that the entry
+
+          has not been modified since this timestamp. If the timestamp doesn''t match the current
+
+          modified timestamp, a 409 Conflict response will be returned.
+
+          '
+        required: false
+        schema:
+          type: string
+          example: '2024-01-15T10:30:45.123Z'
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          description: Conflict - Entry has been changed since being loaded
+          content:
+            text/plain:
+              schema:
+                type: string
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Entries & Entry Patterns
+      description: Deletes or unpublishes an entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - entryId
+              - projectId
+              properties:
+                entryId:
+                  type: string
+                  format: uuid
+                  description: 'The ID of the entry to delete.
+
+                    When editionId is also passed, the entry remains and an edition under it is deleted.
+
+                    When editionId is omitted, and the entry has editions, all editions will also be deleted along with the entry.
+
+                    '
+                editionId:
+                  type: string
+                  format: uuid
+                  description: 'The edition ID to delete. When set, this deletes a child edition of the entryId.
+
+                    The entry will remain when an edition is deleted.
+
+                    If the entry ID is specified as the edition ID, the entry will be deleted _but any other editions will remain_ (this is used for unpublishing).
+
+                    '
+                projectId:
+                  type: string
+                  format: uuid
+                  description: The ID of the project the entry to delete belongs to
+                releaseId:
+                  type: string
+                  format: uuid
+                  description: 'The ID of the release the entry to delete belongs to. If unspecified the entry belongs to the base.
+
+                    Note: Deleting an entry from a release will not delete the entry from the base
+
+                    '
+                state:
+                  type: number
+                  minimum: 0
+                  maximum: 64
+                  description: The state to delete (0 = draft, 64 = published [causes unpublishing], unspecified = all)
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    HistoryApiResponse:
+      type: object
+      properties:
+        cursor:
+          description: 'If there are more results, this will be populated with a token to pass in the next request to get the next page of results.
+
+            If this is undefined then no more results are available
+
+            '
+          type: string
+          maxLength: 1024
+        truncated:
+          description: If more history is available than your plan allows, and additional entries are available by upgrading, this will be true
+          type: boolean
+        results:
+          description: Version history entries
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryEntry'
+    EntryApiResponse:
+      type: object
+      required:
+      - state
+      - projectId
+      - entry
+      - created
+      - modified
+      properties:
+        state:
+          type: integer
+          description: Publishing state to fetch. 0 = draft, 64 = published
+          minimum: 0
+          maximum: 64
+        releaseId:
+          type: string
+          format: uuid
+          description: The release this entry belongs to. If not set, the entry belongs to the base
+        uiStatus:
+          type: string
+          deprecated: true
+          description: UI status value. Subject to change without notice; do not rely on this value. Only present when `withUIStatus` option is true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+          - Previous
+        projectId:
+          type: string
+          description: The project ID that this layout data is part of
+          format: uuid
+        created:
+          type: string
+          description: Created date string for this definition
+          format: date-time,
+        modified:
+          type: string
+          description: Modified date string for this definition
+          format: date-time,
+        pattern:
+          description: True if the entry is a pattern (which can be referenced on other entries)
+          type: boolean
+          default: false
+        entry:
+          $ref: '#/components/schemas/Entry'
+        workflowId:
+          type: string
+          format: uuid
+          description: The workflow ID that this entry is assigned. Normally comes from the content type
+        workflowStageId:
+          type: string
+          format: uuid
+          description: The stage ID the entry is in on its assigned workflow. When undefined, it is implicitly in the initial stage of the workflow
+        workflowDefinition:
+          description: The full definition of the assigned workflow, if any, including stages, permissions, etc. Only returned when `withWorkflowDefinition` is true
+          $ref: '#/components/schemas/WorkflowDefinition'
+        stubType:
+          type: string
+          enum:
+          - missing
+          - tooDeep
+          description: Only present if an incomplete entry is returned; indicates reason for stubbing
+        editionId:
+          type: string
+          format: uuid
+          description: 'The edition ID. When set, this is a child edition of the entry in _id.
+
+            '
+        editionName:
+          type: string
+          maxLength: 100
+          description: 'The name of the entry or edition as shown in the editions listing.
+
+            Describes the purpose of an edition.
+
+            '
+        editionPriority:
+          type: integer
+          description: 'The priority of the edition or entry. Higher numbers are higher priority.
+
+            When multiple editions enable the same locale, the highest priority edition is used.
+
+            '
+    EntryInput:
+      type: object
+      description: Defines the shape of the entry input
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Content type of the entry
+          maxLength: 100
+          minLength: 1
+        _id:
+          type: string
+          description: The public UUID of the entry
+          format: uuid
+        _name:
+          type: string
+          description: The name of the entry
+          minLength: 0
+          maxLength: 255
+        _slug:
+          type: string
+          description: The slug of the entry
+          minLength: 0
+          maxLength: 255
+        _thumbnail:
+          type: string
+          description: The thumbnail URL of the entry
+          maxLength: 2024
+        _author:
+          type: string
+          description: Name of the author of the most recent change
+          minLength: 1
+          maxLength: 255
+        _authorSubject:
+          type: string
+          description: Identity subject of the author of the most recent change
+          minLength: 1
+          maxLength: 255
+        _creator:
+          type: string
+          description: Name of the original creator
+          minLength: 1
+          maxLength: 255
+        _creatorSubject:
+          type: string
+          description: Identity subject of the original creator
+          minLength: 1
+          maxLength: 255
+        fields:
+          type: object
+          description: Entry field values
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        _pattern:
+          type: string
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          description: Indicates this content entry should be sourced from a pattern library pattern
+        _patternDataResources:
+          type: object
+          description: 'Data definitions coming from a pattern resolved for this component. Merged with _dataResources during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+        _patternError:
+          type: string
+          description: 'Describes why the pattern could not be resolved, if a pattern could not be resolved. For PUTs, this is allowed but ignored.
+
+            CYCLIC: A cyclic pattern graph was detected, which could not be resolved because it would cause an infinite loop.
+
+            NOTFOUND: The pattern ID referenced could not be found. It may have been deleted, or not been published yet.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          enum:
+          - NOTFOUND
+          - CYCLIC
+        _overrides:
+          type: object
+          description: 'Defines patch overrides for the content entry fields.
+
+            This can be used to override fields that are defined on patterns.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _overridability:
+          description: 'When used on a pattern, defines how the pattern''s fields may be overridden
+
+            by consumers of the pattern.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          $ref: '#/components/schemas/ComponentOverridability'
+        _locales:
+          description: Array of locales which have data defined on the entry. If empty, the current default locale implicitly has data
+          type: array
+          items:
+            type: string
+            maxLength: 32
+      additionalProperties: false
+    DataResourceDefinition:
+      type: object
+      description: Defines a data resource, which is a named JSON document, usually from an API response, which may be projected onto parameters
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Public ID of the data type that provides this data
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        isPatternParameter:
+          type: boolean
+          description: Whether this data is a pattern data resource that can be overridden when a pattern is referenced on another composition. If this is not a pattern composition, this has no meaning and should not be used. If unspecified, the default is false
+        ignorePatternParameterDefault:
+          type: boolean
+          description: 'When true, the default data resource of a pattern data parameter (isPatternParameter=true) will be ignored when the pattern is referenced.
+
+            Unless specifically overridden, the pattern data parameter will be provided with a null default value - leaving any data connections to it unresolvable.
+
+            If isPatternParameter is false or undefined, this has no meaning
+
+            '
+        optionalPatternParameter:
+          type: boolean
+          description: 'When true, the data resource does not create an error forcing the choosing of override value when there is no default.
+
+            If isPatternParameter is false or undefined, or if ignorePatternParameterDefault is false, this has no meaning
+
+            '
+        variables:
+          $ref: '#/components/schemas/DataResourceVariables'
+      additionalProperties: false
+    ComponentOverride:
+      type: object
+      description: 'Defines how to override a specific component.
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      properties:
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        slots:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        variant:
+          type: string
+          maxLength: 100
+        dataResources:
+          type: object
+          description: 'Overrides data resource definitions for a pattern component.
+
+            Object keys defined under this property override the corresponding keys in the pattern''s data resources.
+
+            Overrides defined here replace values in either _dataResources or _patternDataResources on the target component.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+    ComponentOverridability:
+      description: 'Defines how a component on a pattern may have its values overridden.
+
+        NOTE: Data resources'' overridability is defined in the data resource definition, not here.
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      type: object
+      properties:
+        parameters:
+          type: object
+          description: Defines component parameter value overrides. Keys are the parameter public ID
+          additionalProperties:
+            $ref: '#/components/schemas/OverrideOptions'
+        variants:
+          description: Allows overriding a display variant is allowed if it is defined on the component the pattern is derived from. Default = false
+          type: boolean
+        hideLockedParameters:
+          description: 'If true, parameters that are not overridable will be hidden by default on pattern instances'' editors.
+
+            If false, all parameters will be shown on pattern instances'' editors, but locked parameters will be read-only.
+
+            If not set, the default is false
+
+            '
+          type: boolean
+    HistoryEntry:
+      type: object
+      additionalProperties: false
+      required:
+      - versionId
+      - timestamp
+      - authorName
+      - authorIsApiKey
+      - state
+      properties:
+        versionId:
+          description: The version ID of the entity. This can be used to fetch the version's data via the entity API
+          type: string
+        timestamp:
+          description: The timestamp when the version was created in epoch milliseconds
+          type: number
+        authorName:
+          description: The name (full name) of the user who created the version
+          type: string
+        authorIsApiKey:
+          type: boolean
+        state:
+          description: The state of the entity when the history entry was made
+          type: number
+    WorkflowStagePermission:
+      type: object
+      description: Permissions for a workflow stage
+      additionalProperties: false
+      properties:
+        write:
+          type: boolean
+          description: Allows writing to entities assigned to this stage. When false or unspecified the data is read-only
+        publish:
+          type: boolean
+          description: Allows publishing entities assigned to this stage. When false or unspecified publishing is disabled
+    PatternError:
+      type: string
+      description: 'Describes why the pattern could not be resolved, if a pattern could not be resolved. For PUTs, this is allowed but ignored.
+
+        CYCLIC: A cyclic pattern graph was detected, which could not be resolved because it would cause an infinite loop.
+
+        NOTFOUND: The pattern ID referenced could not be found. It may have been deleted, en published yet.
+
+        Means nothing for PUTs; it will be ignored
+
+        '
+      enum:
+      - NOTFOUND
+      - CYCLIC
+    ComponentParameterConditionalValue:
+      type: object
+      description: 'Defines a conditional value for a component parameter
+
+        '
+      properties:
+        when:
+          $ref: '#/components/schemas/VisibilityCriteriaGroup'
+        value:
+          description: 'The value of the parameter. Any JSON-serializable value is acceptable.
+
+            A value of `null` will cause the parameter value to be removed, if it matches.
+
+            '
+        id:
+          type: number
+          description: 'Unique sequence identifier of the conditional value within the component parameter.
+
+            This value must be unique within the conditional values array, and it should not change after a condition is created.
+
+            '
+      required:
+      - when
+      - id
+      - value
+      additionalProperties: false
+    DataResourceDefinitions:
+      type: object
+      description: 'Data definitions attached to this component. The property name is the key of the data in the data document.
+
+        Note: data definitions are inherited from ancestors at runtime (and may be overridden by descendants that use the same key)
+
+        '
+      additionalProperties:
+        $ref: '#/components/schemas/DataResourceDefinition'
+    OverrideOptions:
+      description: 'Whether a parameter is overridable
+
+
+        NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+        Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+        '
+      type: string
+      enum:
+      - 'yes'
+      - 'no'
+    DataElementConnectionDefinition:
+      type: object
+      description: 'Defines a connection to a dynamic token on a data resource
+
+        '
+      properties:
+        pointer:
+          description: A JSON Pointer expression that defines the data resource dynamic token value
+          type: string
+          maxLength: 256
+        syntax:
+          type: string
+          description: The syntax used to select the dynamic token to bind to
+          enum:
+          - jptr
+        failureAction:
+          type: string
+          description: "The action to take if the dynamic token cannot be resolved\n- t: TOKEN: Removes the failed dynamic token value, leaving the rest of the property value, if any, intact [default]\n        NOTE: If the _only_ value in the property is a dynamic token, the property value is removed (as with 'p' below)\n        NOTE: If the _failureDefault_ property is also set, that default value will be used instead of removing the token.\n              this only applies when the failureAction is 't' or undefined, the default is otherwise ignored\n- p: PROPERTY: Removes the entire property value, including any other dynamic tokens or static values in the property\n- c: COMPONENT: Removes the whole parent component or block that contains the property.\n        NOTE: If a 'component' failure occurs on the root component of a composition, or an entry,\n        it is treated as an 'a' failure because removing the root means we must remove all\n- a: ALL: Fails the whole entry or composition. This will result in the item returning a 404 from APIs, and being removed from API list responses\n"
+          enum:
+          - t
+          - p
+          - c
+          - a
+        failureLogLevel:
+          type: string
+          description: 'How to report when the dynamic token cannot be resolved
+
+            - e: ERROR: Report an error message (this will prevent publishing)
+
+            - w: WARNING: Report a warning message [default]
+
+            - i: INFO: Log an informative message (failure is expected/normal, i.e. optional data)
+
+            '
+          enum:
+          - e
+          - w
+          - i
+        failureDefault:
+          type: string
+          description: 'The default value to use if the dynamic token cannot be resolved.
+
+            This is only used if the failureAction is the default (undefined, or explicitly token)
+
+            '
+      required:
+      - pointer
+      - syntax
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ComponentParameterConditions:
+      type: array
+      description: 'Array of alternate values which are based on conditions.
+
+
+        When requested with an explicit locale parameter, or via the route API:
+
+        * Conditions are evaluated sequentially and the first match is used. If a match is found, the conditions are eliminated.
+
+        * If no conditions match, the `value` property is used.
+
+        * If a condition cannot be evaluated yet (i.e. a client-side criteria), it is left alone.
+
+
+        When no locale is passed to a non-route API, conditions are not processed and all conditions are returned.
+
+        '
+      items:
+        $ref: '#/components/schemas/ComponentParameterConditionalValue'
+    WorkflowDefinition:
+      type: object
+      additionalProperties: false
+      description: Definition of a workflow that can be assigned to entities
+      required:
+      - id
+      - name
+      - initialStage
+      - stages
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the workflow definition
+        name:
+          type: string
+          description: Workflow name
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        initialStage:
+          type: string
+          format: uuid
+          description: The ID of the initial stage in the stages object.
+        stages:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStage'
+          description: All stages of the workflow
+          minProperties: 2
+        modified:
+          type: string
+          description: Last modified ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        created:
+          type: string
+          description: Created ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        createdBy:
+          type: string
+          description: 'Name of the original creator of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+        modifiedBy:
+          type: string
+          description: 'Name of the last modifier of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+    WorkflowStageTransition:
+      type: object
+      description: Definition of a transition from one stage to another in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - to
+      - permissions
+      properties:
+        to:
+          type: string
+          format: uuid
+          description: The target stage to transition to
+        name:
+          type: string
+          description: 'Name shown to the user when they execute this transition.
+
+            If not provided, a default name will be assigned automatically based on the target stage
+
+            '
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStageTransitionPermission'
+          description: 'Permissions for the stage transition.
+
+            NOTE: Users without membership in any role listed here will be unable to execute the transition unless they are team admins
+
+            '
+    Entry:
+      type: object
+      description: Defines the shape of the entry
+      required:
+      - type
+      - _id
+      properties:
+        type:
+          type: string
+          description: Content type public ID of the entry
+          maxLength: 100
+          minLength: 1
+        _id:
+          type: string
+          description: The ID of the entry
+          format: uuid
+        _name:
+          type: string
+          description: The name of the entry
+          minLength: 1
+          maxLength: 255
+        _thumbnail:
+          type: string
+          description: The thumbnail URL of the entry
+          minLength: 1
+        _slug:
+          type: string
+          description: The slug of the entry
+          minLength: 1
+          maxLength: 255
+        _author:
+          type: string
+          description: Name of the author of the most recent change
+          minLength: 1
+          maxLength: 255
+        _authorSubject:
+          type: string
+          description: Identity subject of the author of the most recent change
+          minLength: 1
+          maxLength: 255
+        _creator:
+          type: string
+          description: Name of the original creator
+          minLength: 1
+          maxLength: 255
+        _creatorSubject:
+          type: string
+          description: Identity subject of the original creator
+          minLength: 1
+          maxLength: 255
+        _pattern:
+          type: string
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          description: Indicates this content entry should be sourced from a pattern library pattern
+        _locales:
+          description: Array of locales that have data defined on the entry. If empty, the current default locale implicitly has data
+          type: array
+          items:
+            type: string
+            maxLength: 32
+        fields:
+          type: object
+          description: Entry field values
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        _patternDataResources:
+          type: object
+          description: 'Data definitions coming from a pattern resolved for this component. Merged with _dataResources during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+        _patternError:
+          type: string
+          description: 'Describes why the pattern could not be resolved, if a pattern could not be resolved. For PUTs, this is allowed but ignored.
+
+            CYCLIC: A cyclic pattern graph was detected, which could not be resolved because it would cause an infinite loop.
+
+            NOTFOUND: The pattern ID referenced could not be found. It may have been deleted, or not been published yet.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          enum:
+          - NOTFOUND
+          - CYCLIC
+        _overrides:
+          type: object
+          description: 'Defines patch overrides to component IDs that live in the composition.
+
+            This can be used to override parameters that are defined on patterns,
+
+            including nested patterns, with values that are specific to this composition.
+
+            The keys in this object are component IDs.
+
+            Overrides are applied from the top down, so for example if both the composition
+
+            and a pattern on the composition define an override on a nested pattern,
+
+            the composition''s override replaces the pattern''s.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _overridability:
+          description: 'When used on a pattern, defines how the pattern''s parameters may be overridden
+
+            by consumers of the pattern.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          $ref: '#/components/schemas/ComponentOverridability'
+      additionalProperties: false
+    WorkflowStageTransitionPermission:
+      type: object
+      description: Permissions for a workflow stage transition
+      additionalProperties: false
+      properties:
+        execute:
+          type: boolean
+          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
+    VisibilityCriteriaGroup:
+      deprecated: true
+      description: beta functionality subject to change
+      type: object
+      properties:
+        op:
+          type: string
+          description: The boolean operator to join the clauses with. Defaults to & if not specified.
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/VisibilityCriteria'
+            - $ref: '#/components/schemas/VisibilityCriteriaGroup'
+      required:
+      - clauses
+      additionalProperties: false
+    VisibilityCriteria:
+      deprecated: true
+      description: beta functionality subject to change
+      type: object
+      properties:
+        rule:
+          type: string
+          description: The rule type to execute
+          maxLength: 32
+        source:
+          type: string
+          description: 'The source value of the rule.
+
+            For rules which have multiple classes of match, for example a dynamic input matches on a named DI, the rule is dynamic input and the DI name is the source.
+
+            '
+          maxLength: 128
+        op:
+          type: string
+          description: The rule-definition-specific operator to test against
+          maxLength: 10
+        value:
+          oneOf:
+          - type: string
+            maxLength: 1024
+          - type: array
+            items:
+              type: string
+              maxLength: 1024
+          description: The value, or if an array several potential values, to test against. In most rules, multiple values are OR'd together ('any of') but this is not a hard requirement.
+      required:
+      - rule
+      - op
+      - value
+      additionalProperties: false
+    DataResourceVariables:
+      type: object
+      description: Variable values for a data resource
+      additionalProperties:
+        type: string
+    ComponentInstance:
+      type: object
+      description: Defines the shape of a component instance served by the composition API
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Type of the component instance (public_id of its definition)
+          maxLength: 100
+          minLength: 1
+        parameters:
+          type: object
+          description: Component parameter values for the component instance
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameter'
+        variant:
+          type: string
+          description: Public ID of alternate visual appearance for this component, if any selected
+        slots:
+          type: object
+          description: Slots containing any child components
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ComponentInstance'
+        _id:
+          type: string
+          description: 'Unique identifier of the component within the composition.
+
+            No assumptions should be made about the format of this value other than "it will be unique."
+
+            This is not returned in GET replies unless specifically requested via `withComponentIDs` API parameter.
+
+            When updating or creating a composition, if you do not specify an _id for each component, one will be created and stored for you
+
+            '
+          minLength: 1
+          maxLength: 2000
+        _pattern:
+          type: string
+          pattern: ^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$
+          description: Indicates this component instance should be sourced from a pattern library pattern
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        _patternDataResources:
+          type: object
+          description: 'Data definitions coming from a pattern resolved for this component. Merged with _dataResources during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/DataResourceDefinition'
+        _patternError:
+          $ref: '#/components/schemas/PatternError'
+        _overrides:
+          type: object
+          description: 'Defines patch overrides to component IDs that live in the composition.
+
+            This can be used to override parameters that are defined on patterns,
+
+            including nested patterns, with values that are specific to this composition.
+
+            The keys in this object are component IDs.
+
+            Overrides are applied from the top down, so for example if both the composition
+
+            and a pattern on the composition define an override on a nested pattern,
+
+            the composition''s override replaces the pattern''s.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _patternOverrides:
+          type: object
+          description: 'Overrides coming from a pattern resolved for this component. Merged with _overrides during resolution.
+
+            Means nothing for PUTs; it will be ignored
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentOverride'
+        _overridability:
+          description: 'When used on a pattern, defines how the pattern''s parameters may be overridden
+
+            by consumers of the pattern.
+
+
+            NOTE: This is considered an internal data structure and is not guaranteed to be stable.
+
+            Future updates that do not break the overrides-applied state of a composition may be made without notice
+
+            '
+          $ref: '#/components/schemas/ComponentOverridability'
+        _locales:
+          description: Array of locales that have data defined. Only set for pattern references or composition defaults
+          type: array
+          items:
+            type: string
+            maxLength: 32
+      additionalProperties: false
+    EntryListResponse:
+      type: object
+      required:
+      - entries
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntryApiResponse'
+        totalCount:
+          type: integer
+          description: Total number of entries that match the query. Only present when `withTotalCount` option is true
+        facets:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: number
+          description: Per-field counts for distinct values
+    ComponentParameter:
+      type: object
+      description: Defines an editable parameter on a component
+      properties:
+        value:
+          description: The value of the parameter. Any JSON-serializable value is acceptable
+        type:
+          type: string
+          description: The type of the parameter. Determines how it is displayed when editing and tells the consumer how to process it
+          minLength: 1
+        connectedData:
+          deprecated: true
+          $ref: '#/components/schemas/DataElementConnectionDefinition'
+        locales:
+          type: object
+          description: 'Locale-specific values for this parameter. Keys are locale codes, and values are the `value` in that locale.
+
+            Note that locales must be registered on the entry/composition `_locales` before being used
+
+            '
+          additionalProperties:
+            example: '{ en-US: ''hello'', de: ''hallo'' }
+
+              '
+        conditions:
+          $ref: '#/components/schemas/ComponentParameterConditions'
+        localesConditions:
+          type: object
+          description: 'Locale-specific conditional values for this parameter. Keys are locale codes, and values are the `conditions` for that locale.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameterConditions'
+            example: '{ en-US: [{ when: { rule: ''$di'', source: ''productId'', op: ''is'', value: ''123'' }, value: ''hello 123'' }] }
+
+              '
+      required:
+      - type
+      additionalProperties: false
+    WorkflowStage:
+      type: object
+      description: Definition of a stage in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - permissions
+      - transitions
+      properties:
+        name:
+          type: string
+          description: Name of the stage
+          minLength: 1
+          maxLength: 32
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStagePermission'
+          description: 'Defines roles which have permissions to this workflow stage
+
+            NOTE: Being able to write or publish to entities in a workflow stage requires both core write or publish permissions,
+
+            as well as membership in a role which grants the explicit rights to the stage. If a user is not a member of any role
+
+            listed here, the stage is read-only and publishing is disabled
+
+            '
+        autoPublish:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will automatically publish the entity.
+
+            If the user making the transition does not have publish permissions to the stage as well as publish permission on the entity, the action will not run.
+
+            Setting this to true is equivalent to setting requireValidity to true, as publishing cannot be performed with validation errors.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        requireValidity:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will require the entity to have no validation errors.
+
+            If the entity is not valid, the transition will not be allowed.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        transitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowStageTransition'
+          description: 'Defines transitions to other stages
+
+            Every stage must define at least one transition, to avoid creating a workflow that
+
+            has a stage that can never be escaped
+
+            '
+          minItems: 1
+        icon:
+          type: string
+          description: Icon name for the stage (e.g. 'chevron-double-right-o')
+          default: chevron-double-right-o
+          maxLength: 64
+        order:
+          type: number
+          description: Sets the order of the stage when displayed in a list with other stages. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+  parameters:
+    entryIDs:
+      in: query
+      name: entryIDs
+      description: 'Specify one or more entry IDs to fetch.
+
+        When `editions=raw`, this matches on edition IDs or entry IDs and edition resolution is disabled.
+
+        When `versionId` is passed, this parameter is required and must contain only one entry ID.
+
+        '
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+          format: uuid
+    withWorkflowDefinition:
+      in: query
+      name: withWorkflowDefinition
+      description: 'Returns the definition of any attached workflow along with the entry data
+
+        '
+      schema:
+        type: boolean
+        default: false
+    skipOverridesResolution:
+      in: query
+      name: skipOverridesResolution
+      description: 'If true, any pattern override data is not resolved by the API.
+
+        This is intended for internal use in the Canvas editor, and should not be used.
+
+        Passing this parameter automatically implies withComponentIDs to be true
+
+        '
+      schema:
+        type: boolean
+        default: false
+    slug:
+      in: query
+      name: slug
+      description: Specify a single entry to fetch by slug
+      schema:
+        type: string
+    type:
+      in: query
+      name: type
+      description: The content type ID to filter by
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+    editions:
+      in: query
+      name: editions
+      description: "Controls the edition resolution behavior.\n\nauto: (default) Editions are evaluated automatically and the best matching edition is returned.\n    When a locale is provided, the edition with the highest priority that enables that locale matches\n    Without a locale, the default edition is matched\n\nall: Every edition is returned as a separate row.\n\nraw: the entryIDs parameter targets exact edition/entry IDs and no edition resolution is performed.\n    entryIDs MUST be provided with this option.\n    If versionId is passed, this is always enabled.\n"
+      schema:
+        type: string
+        enum:
+        - auto
+        - all
+        - raw
+        default: auto
+    searchSemantic:
+      deprecated: true
+      description: 'BETA: Semantic search using vector similarity to find content by meaning.
+
+        Matches against source content only - pattern base content matches the pattern itself, not consumers.
+
+        Use this for "where is this content defined" queries.
+
+        Requires AI credits.
+
+        '
+      in: query
+      name: searchSemantic
+      schema:
+        type: string
+    locale:
+      in: query
+      name: locale
+      description: 'One or more locales to filter and localize by.
+
+        Only entries that enable one of the specified locales _or enable no locales_ will be returned.
+
+        The response will be localized to include only the first matching locale''s data.
+
+
+        This parameter accepts a single value, a comma-delimited list of values, or the Accept-Language header syntax. Examples:
+
+        en-US
+
+        fr-CA,fr
+
+        de-AT;q=0.9,de-DE;q=0.8,en;q=0.7
+
+
+        When this parameter is not passed, all locales'' data will be returned
+
+        '
+      schema:
+        type: string
+        maxLength: 128
+    projectId:
+      in: query
+      name: projectId
+      description: The project the entry/entries are on
+      required: true
+      schema:
+        type: string
+        format: uuid
+    versionId:
+      in: query
+      name: versionId
+      description: 'Specify a historical entry version ID to fetch (retrieved from the entries-history API).
+
+        Must be used with the `entryIDs` parameter, and there must be only one entryID passed
+
+        '
+      schema:
+        type: string
+        maxLength: 1024
+    search:
+      description: 'Search on textual fields of an entry.
+
+        Matches against fully rendered content including resolved pattern content.
+
+        Use this for "where does this content appear" queries.
+
+        Note: For long text fields, the tail of the text is not guaranteed to be searchable.
+
+        Example: ?search=hello
+
+        '
+      in: query
+      name: search
+      schema:
+        type: string
+    skipParameterResolution:
+      in: query
+      name: skipParameterResolution
+      deprecated: true
+      description: 'This parameter is unused and has no effect. Passing this parameter will become an error in the future
+
+        '
+      schema:
+        type: boolean
+        default: false
+    releaseId:
+      in: query
+      name: releaseId
+      description: 'The ID of a release to fetch the content for.
+
+
+        - When unspecified, all release content is excluded from the result(s).
+
+        - When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.
+
+
+        Content copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be null
+
+        '
+      schema:
+        type: string
+        format: uuid
+    withUIStatus:
+      in: query
+      name: withUIStatus
+      deprecated: true
+      description: 'Returns the UI status string of the entry.
+
+        This internal status is subject to change without notice, and is thus marked deprecated to discourage use of internal data
+
+        '
+      schema:
+        type: boolean
+        default: false
+    pattern:
+      in: query
+      name: pattern
+      description: 'Matches entries based on whether they are pattern entries or regular entries.
+
+        If true, only pattern entries will be returned.
+
+        If false (default), only regular entries will be returned.
+
+        If ''any'', both pattern and regular entries will be returned (useful for ID lookups).
+
+        '
+      schema:
+        oneOf:
+        - type: boolean
+        - type: string
+          enum:
+          - any
+    withTotalCount:
+      in: query
+      name: withTotalCount
+      description: 'Controls whether the total count of results will be returned along with the current results page in a list.
+
+        Has no effect when not fetching a list. This does impact performance when enabled
+
+        '
+      schema:
+        type: boolean
+    uiStatus:
+      in: query
+      name: uiStatus
+      deprecated: true
+      style: form
+      description: 'Filters entries lists by the UI status of the entry.
+
+        This internal status is subject to change without notice, and is thus marked deprecated to discourage use of internal data
+
+        '
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+    facetBy:
+      in: query
+      name: facetBy
+      deprecated: true
+      description: Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs).
+      style: form
+      schema:
+        type: string
+    updatedBy:
+      in: query
+      name: updatedBy
+      description: 'Filters entry lists by the user who last updated them. The user is specified by their identity subject
+
+        '
+      schema:
+        type: string
+    orderBy:
+      in: query
+      name: orderBy
+      description: 'Sets the sorting of the results. If unspecified, results are sorted by modification date descending.
+
+        Allowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC, name_DESC, name_ASC, slug_DESC, slug_ASC
+
+        '
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+    createdBy:
+      in: query
+      name: createdBy
+      description: 'Filters entry lists by the user who created them. The user is specified by their identity subject
+
+        '
+      schema:
+        type: string
+    keyword:
+      in: query
+      name: keyword
+      description: Performs keyword search on the entries
+      schema:
+        type: string
+        maxLength: 256
+    state:
+      in: query
+      name: state
+      description: Publishing state to fetch. 0 = draft, 64 = published
+      schema:
+        default: 64
+        type: number
+        minimum: 0
+        maximum: 64
+    skipPatternResolution:
+      in: query
+      name: skipPatternResolution
+      description: 'If true, any pattern references in the composition will be left unresolved.
+
+        This is appropriate if you intend to serialize the composition without patterns
+
+        embedded into it, and serialize the pattern data separately
+
+        '
+      schema:
+        type: boolean
+        default: false
+    withComponentIDs:
+      in: query
+      name: withComponentIDs
+      description: 'If true the `_id` unique identifier of blocks will be part of the response data.
+
+        If false, the `_id` will not be present in the API response
+
+        '
+      schema:
+        type: boolean
+        default: false
+    offset:
+      in: query
+      name: offset
+      description: Number of records to skip
+      schema:
+        type: integer
+        minimum: 0
+    limit:
+      in: query
+      name: limit
+      description: Max number of records to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+  responses:
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

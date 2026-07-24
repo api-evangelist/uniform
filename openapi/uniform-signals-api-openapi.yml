@@ -1,0 +1,523 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Signals API
+  version: '2.0'
+tags:
+- name: Signals
+paths:
+  /api/v2/signal:
+    options:
+      tags:
+      - Signals
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Signals
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch signals for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: signalId
+        description: Limit the results to a specific signal ID
+        required: false
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - signals
+                properties:
+                  signals:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SignalWithId'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Signals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - signal
+              properties:
+                signal:
+                  $ref: '#/components/schemas/SignalWithId'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Signals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - signalId
+              properties:
+                signalId:
+                  type: string
+                  minLength: 1
+                  maxLength: 36
+                  pattern: ^[A-Za-z0-9\-\$]+$
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    StringMatch:
+      description: Describes a match expression on a string
+      type: object
+      oneOf:
+      - type: object
+        required:
+        - op
+        - rhs
+        properties:
+          rhs:
+            description: The right-hand side of the match expression
+            type: string
+            minLength: 1
+          op:
+            description: 'The match operator
+
+              ''='' = exact match
+
+              ''~'' = contains match
+
+              ''//'' = regular expression match
+
+
+              Any of the above can be prefixed with ''!'' to invert the match (i.e. != for ''not an exact match'')
+
+              '
+            type: string
+            enum:
+            - '='
+            - '~'
+            - //
+            - '!='
+            - '!~'
+            - '!//'
+          cs:
+            description: The case sensitivity of the match. Defaults to false if unspecified
+            type: boolean
+      - type: object
+        required:
+        - op
+        properties:
+          op:
+            description: 'The type of match to perform
+
+              ''*'' = exists with any value
+
+              ''!*'' = does not exist
+
+              '
+            type: string
+            enum:
+            - '*'
+            - '!*'
+      discriminator:
+        propertyName: op
+    QuirkCriteria:
+      description: Matches a visitor quirk key and value
+      type: object
+      required:
+      - type
+      - key
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - QK
+        key:
+          description: The name of the quirk key to match
+          type: string
+          minLength: 1
+        match:
+          description: The quirk value to match against
+          $ref: '#/components/schemas/StringMatch'
+    PageViewCountCriteria:
+      type: object
+      required:
+      - type
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - PVC
+        match:
+          description: The expression to match the page view count against
+          $ref: '#/components/schemas/NumberMatch'
+    NumberMatch:
+      description: Describes a match expression on a number
+      type: object
+      required:
+      - op
+      - rhs
+      properties:
+        rhs:
+          description: The right-hand side of the match expression
+          type: number
+        op:
+          description: 'The type of match to perform
+
+            ''='' = exact match
+
+            ''!='' = not an exact match
+
+            ''<'' = less than match expression
+
+            ''>'' = greater than match expression
+
+            '
+          type: string
+          enum:
+          - '='
+          - <
+          - '>'
+          - '!='
+    SignalCriteria:
+      oneOf:
+      - $ref: '#/components/schemas/CookieCriteria'
+      - $ref: '#/components/schemas/QueryStringCriteria'
+      - $ref: '#/components/schemas/QuirkCriteria'
+      - $ref: '#/components/schemas/EventCriteria'
+      - $ref: '#/components/schemas/CurrentPageCriteria'
+      - $ref: '#/components/schemas/PageViewCountCriteria'
+    RootSignalCriteriaGroup:
+      type: object
+      required:
+      - clauses
+      - type
+      properties:
+        type:
+          description: Criteria type (Group of other criteria)
+          type: string
+          enum:
+          - G
+        op:
+          type: string
+          description: 'The logical operator to apply to the criteria groups
+
+            & = AND
+
+            | = OR
+
+
+            Default is `&` if unspecified
+
+            '
+          default: '&'
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          description: The criteria clauses that make up this grouping of criteria
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/SignalCriteriaGroup'
+            - $ref: '#/components/schemas/SignalCriteria'
+      additionalProperties: false
+    EventCriteria:
+      description: Matches an analytics event name being fired
+      type: object
+      required:
+      - type
+      - event
+      properties:
+        type:
+          type: string
+          enum:
+          - EVT
+        event:
+          description: How to match the event name
+          $ref: '#/components/schemas/StringMatch'
+    SignalCriteriaGroup:
+      type: object
+      required:
+      - clauses
+      - type
+      properties:
+        type:
+          description: Criteria type (Group of other criteria)
+          type: string
+          enum:
+          - G
+        op:
+          type: string
+          description: 'The logical operator to apply to the criteria groups
+
+            & = AND
+
+            | = OR
+
+
+            Default is `&` if unspecified
+
+            '
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          description: The criteria clauses that make up this grouping of criteria
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/SignalCriteriaGroup'
+            - $ref: '#/components/schemas/SignalCriteria'
+      additionalProperties: false
+    Signal:
+      type: object
+      required:
+      - crit
+      - str
+      - cap
+      - dur
+      properties:
+        str:
+          description: The signal strength per activation (each time its criteria are true, this score is added)
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        cap:
+          description: The maximum visitor score allowed for this signal
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        dur:
+          description: 'How long the signal''s score should persist
+
+            ''s'' = current session (expires after a period of inactivity)
+
+            ''p'' = permanent (expires as far in the future as possible, may be limited by browser security settings)
+
+            ''t'' = transient (score tracks the current state of the criteria every time scores are updated)
+
+            '
+          type: string
+          enum:
+          - s
+          - p
+          - t
+        crit:
+          $ref: '#/components/schemas/RootSignalCriteriaGroup'
+        conversion:
+          oneOf:
+          - $ref: '#/components/schemas/Conversion'
+          - enum:
+            - null
+    CurrentPageCriteria:
+      description: 'Matches the current page''s absolute path (i.e. /path/to/page.html)
+
+        Does not include the query string or protocol and hostname (i.e. NOT https://foo.com/path/to/page.html?query=something)
+
+        '
+      type: object
+      required:
+      - type
+      - path
+      properties:
+        type:
+          type: string
+          enum:
+          - PV
+        path:
+          description: The page/route path to match as a page that has been visited
+          $ref: '#/components/schemas/StringMatch'
+    Conversion:
+      type: object
+      required:
+      - freq
+      properties:
+        freq:
+          description: The frequency of the conversion event
+          type: string
+          enum:
+          - O
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    CookieCriteria:
+      description: Matches a web cookie value
+      type: object
+      required:
+      - type
+      - cookieName
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - CK
+        cookieName:
+          description: The name of the cookie to match
+          type: string
+          minLength: 1
+        match:
+          description: The value to match the cookie against
+          $ref: '#/components/schemas/StringMatch'
+    SignalWithId:
+      type: object
+      allOf:
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            minLength: 1
+            maxLength: 36
+            pattern: ^[A-Za-z0-9\-\$]+$
+      - $ref: '#/components/schemas/PreviewSignal'
+    QueryStringCriteria:
+      description: Matches a URL query string parameter value
+      type: object
+      required:
+      - type
+      - queryName
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - QS
+        queryName:
+          description: The name of the query string parameter to match
+          type: string
+          minLength: 1
+        match:
+          description: The value to match the query string parameter against
+          $ref: '#/components/schemas/StringMatch'
+    PreviewSignal:
+      allOf:
+      - $ref: '#/components/schemas/Signal'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            description: Friendly name of the signal
+            type: string
+            minLength: 1
+            maxLength: 100
+            pattern: ^[^<>]*$
+          description:
+            description: Description of the signal
+            type: string
+            maxLength: 512
+            pattern: ^[^<>]*$
+  responses:
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

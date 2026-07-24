@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Authentication API
+  version: '2.0'
+tags:
+- name: Authentication
+paths:
+  /api/v1/token:
+    post:
+      description: 'Exchange credentials for delegation tokens.
+
+
+        Supported grant types and authentication:
+
+        - `session_token` (bearer-protected): requires `Authorization: Bearer <Auth0 access token>`. Mints a short-lived (10s) session token bound to the requested integration and project.
+
+        - `delegation_token` (integration-secret protected): exchanges a session token plus the integration `app_secret` for a delegation access token (and, when allowed, a refresh token). No bearer token is used.
+
+        - `refresh_token` (integration-secret protected): exchanges a refresh token plus the integration `app_secret` for a new delegation/refresh pair. No bearer token is used.'
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - type: object
+                properties:
+                  grantType:
+                    type: string
+                    enum:
+                    - session_token
+                  integrationId:
+                    type: string
+                    format: uuid
+                  projectId:
+                    type: string
+                    format: uuid
+                  allowRefresh:
+                    type: boolean
+                    default: false
+                required:
+                - grantType
+                - integrationId
+                - projectId
+              - type: object
+                properties:
+                  grantType:
+                    type: string
+                    enum:
+                    - delegation_token
+                  sessionToken:
+                    type: string
+                  integrationId:
+                    type: string
+                    format: uuid
+                  integrationSecret:
+                    type: string
+                required:
+                - grantType
+                - sessionToken
+                - integrationId
+                - integrationSecret
+              - type: object
+                properties:
+                  grantType:
+                    type: string
+                    enum:
+                    - refresh_token
+                  refreshToken:
+                    type: string
+                  integrationId:
+                    type: string
+                    format: uuid
+                  integrationSecret:
+                    type: string
+                required:
+                - grantType
+                - refreshToken
+                - integrationId
+                - integrationSecret
+      responses:
+        '200':
+          description: Token exchange successful
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - type: object
+                  properties:
+                    sessionToken:
+                      type: string
+                    expiresIn:
+                      type: number
+                  required:
+                  - sessionToken
+                  - expiresIn
+                - type: object
+                  properties:
+                    accessToken:
+                      type: string
+                    refreshToken:
+                      type: string
+                    tokenType:
+                      type: string
+                      enum:
+                      - Bearer
+                    expiresIn:
+                      type: number
+                  required:
+                  - accessToken
+                  - tokenType
+                  - expiresIn
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration or project not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Authentication
+      security: []
+    options:
+      tags:
+      - Authentication
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

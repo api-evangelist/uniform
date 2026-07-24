@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Tests API
+  version: '2.0'
+tags:
+- name: Tests
+paths:
+  /api/v2/test:
+    options:
+      tags:
+      - Tests
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Tests
+      description: Gets A/B test definitions for a project
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch tests for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: testId
+        description: Limit the results to a specific test public ID
+        required: false
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 100
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - tests
+                properties:
+                  tests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Test1'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+      - Tests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - test
+              properties:
+                test:
+                  $ref: '#/components/schemas/Test1'
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+      - Tests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - projectId
+              - testId
+              properties:
+                testId:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                projectId:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '204':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Test1:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        winning_variant_id:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        default_variant_id:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        closed:
+          type: boolean
+          default: false
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

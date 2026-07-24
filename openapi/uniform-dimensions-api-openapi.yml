@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Dimensions API
+  version: '2.0'
+tags:
+- name: Dimensions
+paths:
+  /api/v2/dimension:
+    options:
+      tags:
+      - Dimensions
+      description: Handles preflight requests. This endpoint allows CORS.
+      responses:
+        '204':
+          description: OK
+    get:
+      tags:
+      - Dimensions
+      parameters:
+      - in: query
+        name: projectId
+        description: The project to fetch dimensions for
+        required: true
+        schema:
+          type: string
+          format: uuid
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - dimensions
+                properties:
+                  dimensions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DimensionDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    DimensionDefinition:
+      type: object
+      required:
+      - dim
+      - category
+      - name
+      - cap
+      - min
+      properties:
+        dim:
+          description: The dimension name (score key)
+          type: string
+          minLength: 1
+        category:
+          description: 'The dimension type
+
+            AGG: Aggregation (intent or audience)
+
+            ENR: Enrichment
+
+            SIG: Signal
+
+            '
+          type: string
+          enum:
+          - AGG
+          - ENR
+          - SIG
+        subcategory:
+          description: 'Subtype of the dimension
+
+            AGG:0: Audience
+
+            AGG:1: Intent
+
+            ENR: Enrichment Category name
+
+            SIG: null
+
+            '
+          type: string
+        name:
+          description: The dimension's name (without category)
+          type: string
+          minLength: 1
+        description:
+          description: Optional description of the dimension
+          type: string
+        min:
+          description: The minimum score possible for the dimension
+          type: integer
+        cap:
+          description: The maximum score possible for the dimension
+          type: integer
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,2945 @@
+openapi: 3.0.3
+info:
+  title: Uniform Platform Aggregates Integrations API
+  version: '2.0'
+tags:
+- name: Integrations
+paths:
+  /api/v1/integration-credentials:
+    delete:
+      description: Revokes the credential for an integration definition. Future grants and refreshes will fail until a new credential is minted. In-flight delegation tokens remain valid until natural expiry.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  format: uuid
+                  description: The team ID that owns the integration
+                integrationDefinitionId:
+                  type: string
+                  format: uuid
+                  description: The integration definition ID to mint or revoke credentials for
+                kind:
+                  type: string
+                  enum:
+                  - app_secret
+                  description: Kind of credential to rotate or revoke. Currently only `app_secret` is supported.
+              required:
+              - teamId
+              - integrationDefinitionId
+              - kind
+              additionalProperties: false
+      responses:
+        '204':
+          description: Credential revoked
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration definition not found in this team, or no credential of the given kind is configured
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    post:
+      description: 'Mints or rotates the credential for an integration definition. Atomic: a successful response invalidates any previously-issued secret of the same kind. The plaintext secret is returned in the response body and cannot be retrieved later.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  format: uuid
+                  description: The team ID that owns the integration
+                integrationDefinitionId:
+                  type: string
+                  format: uuid
+                  description: The integration definition ID to mint or revoke credentials for
+                kind:
+                  type: string
+                  enum:
+                  - app_secret
+                  description: Kind of credential to rotate or revoke. Currently only `app_secret` is supported.
+              required:
+              - teamId
+              - integrationDefinitionId
+              - kind
+              additionalProperties: false
+      responses:
+        '200':
+          description: Credential minted or rotated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - app_secret
+                    description: Kind of credential to rotate or revoke. Currently only `app_secret` is supported.
+                  integrationDefinitionId:
+                    type: string
+                    format: uuid
+                  appSecret:
+                    type: string
+                    description: Plaintext app secret. Only returned on this response; cannot be retrieved later.
+                  createdAt:
+                    type: string
+                    description: ISO timestamp when the secret became effective.
+                required:
+                - kind
+                - integrationDefinitionId
+                - appSecret
+                - createdAt
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration definition not found in this team
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Integrations
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+  /api/v1/integration-definitions:
+    get:
+      description: Gets a list of Mesh apps that are available for a Uniform team
+      parameters:
+      - schema:
+          type: string
+          description: The team ID
+        required: true
+        description: The team ID
+        name: teamId
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          default: false
+          description: Whether to include Mesh apps that are shared publicly to all teams, or only custom apps registered on this team.
+        required: false
+        description: Whether to include Mesh apps that are shared publicly to all teams, or only custom apps registered on this team.
+        name: includePublic
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Whether to use team-specific integration types or team-agnostic types (for serialization across projects)
+        required: false
+        description: Whether to use team-specific integration types or team-agnostic types (for serialization across projects)
+        name: teamSpecificType
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          minLength: 2
+                          pattern: ^[a-z0-9-_]+$
+                        displayName:
+                          type: string
+                          minLength: 1
+                        logoIconUrl:
+                          type: string
+                        badgeIconUrl:
+                          type: string
+                        category:
+                          type: string
+                          enum:
+                          - analytics
+                          - cdn
+                          - classic
+                          - commerce
+                          - content
+                          - comingSoon
+                          - data
+                          - deprecated
+                          - email
+                          - framework
+                          - search
+                          - starters
+                          - translation
+                          - uniform
+                          - ai
+                          - unknown
+                        public:
+                          type: boolean
+                        scopes:
+                          type: array
+                          items:
+                            type: string
+                        identityDelegation:
+                          type: boolean
+                        integrationId:
+                          type: string
+                          format: uuid
+                        hasAppSecret:
+                          type: boolean
+                        baseLocationUrl:
+                          type: string
+                        locations:
+                          type: object
+                          properties:
+                            install:
+                              type: object
+                              properties:
+                                description:
+                                  type: array
+                                  items:
+                                    type: string
+                                informationUrl:
+                                  type: string
+                                canvasPackageUrl:
+                                  type: string
+                            settings:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                locations:
+                                  type: object
+                                  additionalProperties:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                      layout:
+                                        type: object
+                                        properties:
+                                          height:
+                                            type: string
+                                            enum:
+                                            - full-height
+                                          width:
+                                            type: string
+                                            enum:
+                                            - wide
+                                        additionalProperties: false
+                                    required:
+                                    - url
+                                    additionalProperties: false
+                              required:
+                              - url
+                            canvas:
+                              type: object
+                              properties:
+                                parameterTypes:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      type:
+                                        type: string
+                                      displayName:
+                                        type: string
+                                      configureUrl:
+                                        type: string
+                                      editorUrl:
+                                        type: string
+                                      configurationLocations:
+                                        type: object
+                                        additionalProperties:
+                                          type: object
+                                          properties:
+                                            url:
+                                              type: string
+                                            layout:
+                                              type: object
+                                              properties:
+                                                height:
+                                                  type: string
+                                                  enum:
+                                                  - full-height
+                                                width:
+                                                  type: string
+                                                  enum:
+                                                  - wide
+                                              additionalProperties: false
+                                          required:
+                                          - url
+                                          additionalProperties: false
+                                      editorLocations:
+                                        type: object
+                                        additionalProperties:
+                                          type: object
+                                          properties:
+                                            url:
+                                              type: string
+                                            layout:
+                                              type: object
+                                              properties:
+                                                height:
+                                                  type: string
+                                                  enum:
+                                                  - full-height
+                                                width:
+                                                  type: string
+                                                  enum:
+                                                  - wide
+                                              additionalProperties: false
+                                          required:
+                                          - url
+                                          additionalProperties: false
+                                      renderableInPropertyPanel:
+                                        type: boolean
+                                      localizable:
+                                        type: string
+                                        enum:
+                                        - default-yes
+                                        - default-no
+                                        - 'yes'
+                                        - 'no'
+                                      allowedPlacement:
+                                        type: array
+                                        items:
+                                          type: string
+                                          enum:
+                                          - parameter
+                                          - field
+                                    required:
+                                    - type
+                                    - displayName
+                                    - editorUrl
+                                editorTools:
+                                  anyOf:
+                                  - type: object
+                                    properties:
+                                      composition:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                        required:
+                                        - url
+                                      componentPattern:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                        required:
+                                        - url
+                                      compositionDefaults:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                        required:
+                                        - url
+                                      entry:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                        required:
+                                        - url
+                                      entryPattern:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                        required:
+                                        - url
+                                  - type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: string
+                                          minLength: 1
+                                        name:
+                                          type: string
+                                          minLength: 1
+                                        url:
+                                          type: string
+                                          minLength: 1
+                                        iconUrl:
+                                          type: string
+                                        access:
+                                          type: object
+                                          properties:
+                                            teamAdminRequired:
+                                              type: boolean
+                                              enum:
+                                              - true
+                                          additionalProperties: false
+                                        editorTypes:
+                                          type: array
+                                          items:
+                                            type: string
+                                            enum:
+                                            - composition
+                                            - componentPattern
+                                            - compositionDefaults
+                                            - entry
+                                            - entryPattern
+                                      required:
+                                      - id
+                                      - name
+                                      - url
+                                personalization:
+                                  type: object
+                                  properties:
+                                    selectionAlgorithms:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                          displayName:
+                                            type: string
+                                          description:
+                                            type: string
+                                          criteriaEditorUrl:
+                                            type: string
+                                        required:
+                                        - displayName
+                            dataConnectors:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                  displayName:
+                                    type: string
+                                  dataSourceEditorUrl:
+                                    type: string
+                                  supportsUnpublishedData:
+                                    type: boolean
+                                  dataSourceEditorLocations:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                        layout:
+                                          type: object
+                                          properties:
+                                            height:
+                                              type: string
+                                              enum:
+                                              - full-height
+                                            width:
+                                              type: string
+                                              enum:
+                                              - wide
+                                          additionalProperties: false
+                                      required:
+                                      - url
+                                      additionalProperties: false
+                                  dataArchetypes:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        displayName:
+                                          type: string
+                                        typeEditorUrl:
+                                          type: string
+                                        typeEditorLocations:
+                                          type: object
+                                          additionalProperties:
+                                            type: object
+                                            properties:
+                                              url:
+                                                type: string
+                                              layout:
+                                                type: object
+                                                properties:
+                                                  height:
+                                                    type: string
+                                                    enum:
+                                                    - full-height
+                                                  width:
+                                                    type: string
+                                                    enum:
+                                                    - wide
+                                                additionalProperties: false
+                                            required:
+                                            - url
+                                            additionalProperties: false
+                                        dataEditorUrl:
+                                          type: string
+                                        dataEditorUrlLocations:
+                                          type: object
+                                          additionalProperties:
+                                            type: object
+                                            properties:
+                                              url:
+                                                type: string
+                                              layout:
+                                                type: object
+                                                properties:
+                                                  height:
+                                                    type: string
+                                                    enum:
+                                                    - full-height
+                                                  width:
+                                                    type: string
+                                                    enum:
+                                                    - wide
+                                                additionalProperties: false
+                                            required:
+                                            - url
+                                            additionalProperties: false
+                                        embeddedEditor:
+                                          type: string
+                                        dataResourceSelectorUrl:
+                                          type: string
+                                        dataResourceSelectorLocations:
+                                          type: object
+                                          additionalProperties:
+                                            type: object
+                                            properties:
+                                              url:
+                                                type: string
+                                              layout:
+                                                type: object
+                                                properties:
+                                                  height:
+                                                    type: string
+                                                    enum:
+                                                    - full-height
+                                                  width:
+                                                    type: string
+                                                    enum:
+                                                    - wide
+                                                additionalProperties: false
+                                            required:
+                                            - url
+                                            additionalProperties: false
+                                      required:
+                                      - displayName
+                                  badgeIconUrl:
+                                    type: string
+                                required:
+                                - type
+                                - displayName
+                            assetLibrary:
+                              type: object
+                              properties:
+                                assetLibraryUrl:
+                                  type: string
+                                assetParameterUrl:
+                                  type: string
+                                assetLibraryLocations:
+                                  type: object
+                                  additionalProperties:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                      layout:
+                                        type: object
+                                        properties:
+                                          height:
+                                            type: string
+                                            enum:
+                                            - full-height
+                                          width:
+                                            type: string
+                                            enum:
+                                            - wide
+                                        additionalProperties: false
+                                    required:
+                                    - url
+                                    additionalProperties: false
+                                unstable_dynamicAssets:
+                                  type: object
+                                  properties:
+                                    dataConnectorId:
+                                      type: string
+                                    assetsListArchetypeId:
+                                      type: string
+                                    singleAssetArchetypeId:
+                                      type: string
+                                  required:
+                                  - dataConnectorId
+                                  - assetsListArchetypeId
+                                  - singleAssetArchetypeId
+                              required:
+                              - assetLibraryUrl
+                              - assetParameterUrl
+                            unstable_assetLibrary:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                dynamicAssets:
+                                  type: object
+                                  properties:
+                                    dataConnectorId:
+                                      type: string
+                                    assetsListArchetypeId:
+                                      type: string
+                                    singleAssetArchetypeId:
+                                      type: string
+                                  required:
+                                  - dataConnectorId
+                                  - assetsListArchetypeId
+                                  - singleAssetArchetypeId
+                              required:
+                              - url
+                            ai:
+                              type: object
+                              properties:
+                                generateUrl:
+                                  type: string
+                                metadataUrl:
+                                  type: string
+                                prompts:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: string
+                                      name:
+                                        type: string
+                                      text:
+                                        type: string
+                                      data:
+                                        type: object
+                                        nullable: true
+                                        properties:
+                                          arguments:
+                                            type: object
+                                            nullable: true
+                                            additionalProperties:
+                                              type: object
+                                              properties:
+                                                type:
+                                                  type: string
+                                                displayName:
+                                                  type: string
+                                                  nullable: true
+                                                helpText:
+                                                  type: string
+                                                  nullable: true
+                                                default:
+                                                  type: string
+                                                  nullable: true
+                                              required:
+                                              - type
+                                          metadata:
+                                            nullable: true
+                                      parameterTypes:
+                                        type: array
+                                        items:
+                                          type: string
+                                    required:
+                                    - id
+                                    - name
+                                    - text
+                                    - parameterTypes
+                              required:
+                              - generateUrl
+                            unstable_ai:
+                              type: object
+                              properties:
+                                generateUrl:
+                                  type: string
+                                metadataUrl:
+                                  type: string
+                              required:
+                              - generateUrl
+                            aiAgents:
+                              type: object
+                              properties:
+                                functionCalling:
+                                  type: object
+                                  properties:
+                                    handlerUrl:
+                                      type: string
+                                    functions:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          definition:
+                                            type: object
+                                            properties:
+                                              name:
+                                                type: string
+                                              description:
+                                                type: string
+                                              parameters:
+                                                type: object
+                                                additionalProperties:
+                                                  nullable: true
+                                              strict:
+                                                type: boolean
+                                            required:
+                                            - name
+                                            - description
+                                            - parameters
+                                            - strict
+                                          systemParameters:
+                                            type: array
+                                            items:
+                                              type: string
+                                              enum:
+                                              - pageHtml
+                                          includedAgents:
+                                            type: array
+                                            items:
+                                              type: string
+                                              enum:
+                                              - scout
+                                              - sage
+                                        required:
+                                        - definition
+                                  required:
+                                  - handlerUrl
+                                  - functions
+                            tools:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    minLength: 1
+                                  name:
+                                    type: string
+                                    minLength: 1
+                                  url:
+                                    type: string
+                                    minLength: 1
+                                  iconUrl:
+                                    type: string
+                                  access:
+                                    type: object
+                                    properties:
+                                      teamAdminRequired:
+                                        type: boolean
+                                        enum:
+                                        - true
+                                    additionalProperties: false
+                                required:
+                                - id
+                                - name
+                                - url
+                            projectTools:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    minLength: 1
+                                  name:
+                                    type: string
+                                    minLength: 1
+                                  url:
+                                    type: string
+                                    minLength: 1
+                                  iconUrl:
+                                    type: string
+                                  access:
+                                    type: object
+                                    properties:
+                                      teamAdminRequired:
+                                        type: boolean
+                                        enum:
+                                        - true
+                                    additionalProperties: false
+                                required:
+                                - id
+                                - name
+                                - url
+                            dashboardTools:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    minLength: 1
+                                  name:
+                                    type: string
+                                    minLength: 1
+                                  url:
+                                    type: string
+                                    minLength: 1
+                                  iconUrl:
+                                    type: string
+                                  access:
+                                    type: object
+                                    properties:
+                                      teamAdminRequired:
+                                        type: boolean
+                                        enum:
+                                        - true
+                                    additionalProperties: false
+                                required:
+                                - id
+                                - name
+                                - url
+                          additionalProperties: false
+                        unstable_prompts:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              text:
+                                type: string
+                              data:
+                                type: object
+                                nullable: true
+                                properties:
+                                  arguments:
+                                    type: object
+                                    nullable: true
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        displayName:
+                                          type: string
+                                          nullable: true
+                                        helpText:
+                                          type: string
+                                          nullable: true
+                                        default:
+                                          type: string
+                                          nullable: true
+                                      required:
+                                      - type
+                                  metadata:
+                                    nullable: true
+                              parameterTypes:
+                                type: array
+                                items:
+                                  type: string
+                            required:
+                            - id
+                            - name
+                            - text
+                            - parameterTypes
+                      required:
+                      - type
+                      - displayName
+                      - locations
+                required:
+                - results
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Removes a Mesh app definition from a team. Note that public integrations may not be deleted without contacting Uniform.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  description: The team ID
+                type:
+                  type: string
+                  description: The integration type to remove
+              required:
+              - teamId
+              - type
+              additionalProperties: false
+      responses:
+        '204':
+          description: Delete successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration to delete was not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Creates or updates a Mesh app definition on a team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  description: The team ID
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      minLength: 2
+                      pattern: ^[a-z0-9-_]+$
+                    displayName:
+                      type: string
+                      minLength: 1
+                    logoIconUrl:
+                      type: string
+                    badgeIconUrl:
+                      type: string
+                    category:
+                      type: string
+                      enum:
+                      - analytics
+                      - cdn
+                      - classic
+                      - commerce
+                      - content
+                      - comingSoon
+                      - data
+                      - deprecated
+                      - email
+                      - framework
+                      - search
+                      - starters
+                      - translation
+                      - uniform
+                      - ai
+                      - unknown
+                    scopes:
+                      type: array
+                      items:
+                        type: string
+                    identityDelegation:
+                      type: boolean
+                    baseLocationUrl:
+                      type: string
+                    locations:
+                      type: object
+                      properties:
+                        install:
+                          type: object
+                          properties:
+                            description:
+                              type: array
+                              items:
+                                type: string
+                            informationUrl:
+                              type: string
+                            canvasPackageUrl:
+                              type: string
+                        settings:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                            locations:
+                              type: object
+                              additionalProperties:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                  layout:
+                                    type: object
+                                    properties:
+                                      height:
+                                        type: string
+                                        enum:
+                                        - full-height
+                                      width:
+                                        type: string
+                                        enum:
+                                        - wide
+                                    additionalProperties: false
+                                required:
+                                - url
+                                additionalProperties: false
+                          required:
+                          - url
+                        canvas:
+                          type: object
+                          properties:
+                            parameterTypes:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                  displayName:
+                                    type: string
+                                  configureUrl:
+                                    type: string
+                                  editorUrl:
+                                    type: string
+                                  configurationLocations:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                        layout:
+                                          type: object
+                                          properties:
+                                            height:
+                                              type: string
+                                              enum:
+                                              - full-height
+                                            width:
+                                              type: string
+                                              enum:
+                                              - wide
+                                          additionalProperties: false
+                                      required:
+                                      - url
+                                      additionalProperties: false
+                                  editorLocations:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                        layout:
+                                          type: object
+                                          properties:
+                                            height:
+                                              type: string
+                                              enum:
+                                              - full-height
+                                            width:
+                                              type: string
+                                              enum:
+                                              - wide
+                                          additionalProperties: false
+                                      required:
+                                      - url
+                                      additionalProperties: false
+                                  renderableInPropertyPanel:
+                                    type: boolean
+                                  localizable:
+                                    type: string
+                                    enum:
+                                    - default-yes
+                                    - default-no
+                                    - 'yes'
+                                    - 'no'
+                                  allowedPlacement:
+                                    type: array
+                                    items:
+                                      type: string
+                                      enum:
+                                      - parameter
+                                      - field
+                                required:
+                                - type
+                                - displayName
+                                - editorUrl
+                            editorTools:
+                              anyOf:
+                              - type: object
+                                properties:
+                                  composition:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                    required:
+                                    - url
+                                  componentPattern:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                    required:
+                                    - url
+                                  compositionDefaults:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                    required:
+                                    - url
+                                  entry:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                    required:
+                                    - url
+                                  entryPattern:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                    required:
+                                    - url
+                              - type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                      minLength: 1
+                                    name:
+                                      type: string
+                                      minLength: 1
+                                    url:
+                                      type: string
+                                      minLength: 1
+                                    iconUrl:
+                                      type: string
+                                    access:
+                                      type: object
+                                      properties:
+                                        teamAdminRequired:
+                                          type: boolean
+                                          enum:
+                                          - true
+                                      additionalProperties: false
+                                    editorTypes:
+                                      type: array
+                                      items:
+                                        type: string
+                                        enum:
+                                        - composition
+                                        - componentPattern
+                                        - compositionDefaults
+                                        - entry
+                                        - entryPattern
+                                  required:
+                                  - id
+                                  - name
+                                  - url
+                            personalization:
+                              type: object
+                              properties:
+                                selectionAlgorithms:
+                                  type: object
+                                  additionalProperties:
+                                    type: object
+                                    properties:
+                                      displayName:
+                                        type: string
+                                      description:
+                                        type: string
+                                      criteriaEditorUrl:
+                                        type: string
+                                    required:
+                                    - displayName
+                        dataConnectors:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                              displayName:
+                                type: string
+                              dataSourceEditorUrl:
+                                type: string
+                              supportsUnpublishedData:
+                                type: boolean
+                              dataSourceEditorLocations:
+                                type: object
+                                additionalProperties:
+                                  type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                    layout:
+                                      type: object
+                                      properties:
+                                        height:
+                                          type: string
+                                          enum:
+                                          - full-height
+                                        width:
+                                          type: string
+                                          enum:
+                                          - wide
+                                      additionalProperties: false
+                                  required:
+                                  - url
+                                  additionalProperties: false
+                              dataArchetypes:
+                                type: object
+                                additionalProperties:
+                                  type: object
+                                  properties:
+                                    displayName:
+                                      type: string
+                                    typeEditorUrl:
+                                      type: string
+                                    typeEditorLocations:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                          layout:
+                                            type: object
+                                            properties:
+                                              height:
+                                                type: string
+                                                enum:
+                                                - full-height
+                                              width:
+                                                type: string
+                                                enum:
+                                                - wide
+                                            additionalProperties: false
+                                        required:
+                                        - url
+                                        additionalProperties: false
+                                    dataEditorUrl:
+                                      type: string
+                                    dataEditorUrlLocations:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                          layout:
+                                            type: object
+                                            properties:
+                                              height:
+                                                type: string
+                                                enum:
+                                                - full-height
+                                              width:
+                                                type: string
+                                                enum:
+                                                - wide
+                                            additionalProperties: false
+                                        required:
+                                        - url
+                                        additionalProperties: false
+                                    embeddedEditor:
+                                      type: string
+                                    dataResourceSelectorUrl:
+                                      type: string
+                                    dataResourceSelectorLocations:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                          url:
+                                            type: string
+                                          layout:
+                                            type: object
+                                            properties:
+                                              height:
+                                                type: string
+                                                enum:
+                                                - full-height
+                                              width:
+                                                type: string
+                                                enum:
+                                                - wide
+                                            additionalProperties: false
+                                        required:
+                                        - url
+                                        additionalProperties: false
+                                  required:
+                                  - displayName
+                              badgeIconUrl:
+                                type: string
+                            required:
+                            - type
+                            - displayName
+                        assetLibrary:
+                          type: object
+                          properties:
+                            assetLibraryUrl:
+                              type: string
+                            assetParameterUrl:
+                              type: string
+                            assetLibraryLocations:
+                              type: object
+                              additionalProperties:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                  layout:
+                                    type: object
+                                    properties:
+                                      height:
+                                        type: string
+                                        enum:
+                                        - full-height
+                                      width:
+                                        type: string
+                                        enum:
+                                        - wide
+                                    additionalProperties: false
+                                required:
+                                - url
+                                additionalProperties: false
+                            unstable_dynamicAssets:
+                              type: object
+                              properties:
+                                dataConnectorId:
+                                  type: string
+                                assetsListArchetypeId:
+                                  type: string
+                                singleAssetArchetypeId:
+                                  type: string
+                              required:
+                              - dataConnectorId
+                              - assetsListArchetypeId
+                              - singleAssetArchetypeId
+                          required:
+                          - assetLibraryUrl
+                          - assetParameterUrl
+                        unstable_assetLibrary:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                            dynamicAssets:
+                              type: object
+                              properties:
+                                dataConnectorId:
+                                  type: string
+                                assetsListArchetypeId:
+                                  type: string
+                                singleAssetArchetypeId:
+                                  type: string
+                              required:
+                              - dataConnectorId
+                              - assetsListArchetypeId
+                              - singleAssetArchetypeId
+                          required:
+                          - url
+                        ai:
+                          type: object
+                          properties:
+                            generateUrl:
+                              type: string
+                            metadataUrl:
+                              type: string
+                            prompts:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  name:
+                                    type: string
+                                  text:
+                                    type: string
+                                  data:
+                                    type: object
+                                    nullable: true
+                                    properties:
+                                      arguments:
+                                        type: object
+                                        nullable: true
+                                        additionalProperties:
+                                          type: object
+                                          properties:
+                                            type:
+                                              type: string
+                                            displayName:
+                                              type: string
+                                              nullable: true
+                                            helpText:
+                                              type: string
+                                              nullable: true
+                                            default:
+                                              type: string
+                                              nullable: true
+                                          required:
+                                          - type
+                                      metadata:
+                                        nullable: true
+                                  parameterTypes:
+                                    type: array
+                                    items:
+                                      type: string
+                                required:
+                                - id
+                                - name
+                                - text
+                                - parameterTypes
+                          required:
+                          - generateUrl
+                        unstable_ai:
+                          type: object
+                          properties:
+                            generateUrl:
+                              type: string
+                            metadataUrl:
+                              type: string
+                          required:
+                          - generateUrl
+                        aiAgents:
+                          type: object
+                          properties:
+                            functionCalling:
+                              type: object
+                              properties:
+                                handlerUrl:
+                                  type: string
+                                functions:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      definition:
+                                        type: object
+                                        properties:
+                                          name:
+                                            type: string
+                                          description:
+                                            type: string
+                                          parameters:
+                                            type: object
+                                            additionalProperties:
+                                              nullable: true
+                                          strict:
+                                            type: boolean
+                                        required:
+                                        - name
+                                        - description
+                                        - parameters
+                                        - strict
+                                      systemParameters:
+                                        type: array
+                                        items:
+                                          type: string
+                                          enum:
+                                          - pageHtml
+                                      includedAgents:
+                                        type: array
+                                        items:
+                                          type: string
+                                          enum:
+                                          - scout
+                                          - sage
+                                    required:
+                                    - definition
+                              required:
+                              - handlerUrl
+                              - functions
+                        tools:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                minLength: 1
+                              name:
+                                type: string
+                                minLength: 1
+                              url:
+                                type: string
+                                minLength: 1
+                              iconUrl:
+                                type: string
+                              access:
+                                type: object
+                                properties:
+                                  teamAdminRequired:
+                                    type: boolean
+                                    enum:
+                                    - true
+                                additionalProperties: false
+                            required:
+                            - id
+                            - name
+                            - url
+                        projectTools:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                minLength: 1
+                              name:
+                                type: string
+                                minLength: 1
+                              url:
+                                type: string
+                                minLength: 1
+                              iconUrl:
+                                type: string
+                              access:
+                                type: object
+                                properties:
+                                  teamAdminRequired:
+                                    type: boolean
+                                    enum:
+                                    - true
+                                additionalProperties: false
+                            required:
+                            - id
+                            - name
+                            - url
+                        dashboardTools:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                minLength: 1
+                              name:
+                                type: string
+                                minLength: 1
+                              url:
+                                type: string
+                                minLength: 1
+                              iconUrl:
+                                type: string
+                              access:
+                                type: object
+                                properties:
+                                  teamAdminRequired:
+                                    type: boolean
+                                    enum:
+                                    - true
+                                additionalProperties: false
+                            required:
+                            - id
+                            - name
+                            - url
+                      additionalProperties: false
+                    unstable_prompts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                          text:
+                            type: string
+                          data:
+                            type: object
+                            nullable: true
+                            properties:
+                              arguments:
+                                type: object
+                                nullable: true
+                                additionalProperties:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                    displayName:
+                                      type: string
+                                      nullable: true
+                                    helpText:
+                                      type: string
+                                      nullable: true
+                                    default:
+                                      type: string
+                                      nullable: true
+                                  required:
+                                  - type
+                              metadata:
+                                nullable: true
+                          parameterTypes:
+                            type: array
+                            items:
+                              type: string
+                        required:
+                        - id
+                        - name
+                        - text
+                        - parameterTypes
+                  required:
+                  - type
+                  - displayName
+                  - locations
+              required:
+              - teamId
+              - data
+      responses:
+        '200':
+          description: Update success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    minLength: 2
+                    pattern: ^[a-z0-9-_]+$
+                  displayName:
+                    type: string
+                    minLength: 1
+                  logoIconUrl:
+                    type: string
+                  badgeIconUrl:
+                    type: string
+                  category:
+                    type: string
+                    enum:
+                    - analytics
+                    - cdn
+                    - classic
+                    - commerce
+                    - content
+                    - comingSoon
+                    - data
+                    - deprecated
+                    - email
+                    - framework
+                    - search
+                    - starters
+                    - translation
+                    - uniform
+                    - ai
+                    - unknown
+                  public:
+                    type: boolean
+                  scopes:
+                    type: array
+                    items:
+                      type: string
+                  identityDelegation:
+                    type: boolean
+                  integrationId:
+                    type: string
+                    format: uuid
+                    description: Stable id for this integration definition. Required for identity delegation token exchange.
+                  hasAppSecret:
+                    type: boolean
+                  baseLocationUrl:
+                    type: string
+                  locations:
+                    type: object
+                    properties:
+                      install:
+                        type: object
+                        properties:
+                          description:
+                            type: array
+                            items:
+                              type: string
+                          informationUrl:
+                            type: string
+                          canvasPackageUrl:
+                            type: string
+                      settings:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                          locations:
+                            type: object
+                            additionalProperties:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                layout:
+                                  type: object
+                                  properties:
+                                    height:
+                                      type: string
+                                      enum:
+                                      - full-height
+                                    width:
+                                      type: string
+                                      enum:
+                                      - wide
+                                  additionalProperties: false
+                              required:
+                              - url
+                              additionalProperties: false
+                        required:
+                        - url
+                      canvas:
+                        type: object
+                        properties:
+                          parameterTypes:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                displayName:
+                                  type: string
+                                configureUrl:
+                                  type: string
+                                editorUrl:
+                                  type: string
+                                configurationLocations:
+                                  type: object
+                                  additionalProperties:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                      layout:
+                                        type: object
+                                        properties:
+                                          height:
+                                            type: string
+                                            enum:
+                                            - full-height
+                                          width:
+                                            type: string
+                                            enum:
+                                            - wide
+                                        additionalProperties: false
+                                    required:
+                                    - url
+                                    additionalProperties: false
+                                editorLocations:
+                                  type: object
+                                  additionalProperties:
+                                    type: object
+                                    properties:
+                                      url:
+                                        type: string
+                                      layout:
+                                        type: object
+                                        properties:
+                                          height:
+                                            type: string
+                                            enum:
+                                            - full-height
+                                          width:
+                                            type: string
+                                            enum:
+                                            - wide
+                                        additionalProperties: false
+                                    required:
+                                    - url
+                                    additionalProperties: false
+                                renderableInPropertyPanel:
+                                  type: boolean
+                                localizable:
+                                  type: string
+                                  enum:
+                                  - default-yes
+                                  - default-no
+                                  - 'yes'
+                                  - 'no'
+                                allowedPlacement:
+                                  type: array
+                                  items:
+                                    type: string
+                                    enum:
+                                    - parameter
+                                    - field
+                              required:
+                              - type
+                              - displayName
+                              - editorUrl
+                          editorTools:
+                            anyOf:
+                            - type: object
+                              properties:
+                                composition:
+                                  type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                  required:
+                                  - url
+                                componentPattern:
+                                  type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                  required:
+                                  - url
+                                compositionDefaults:
+                                  type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                  required:
+                                  - url
+                                entry:
+                                  type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                  required:
+                                  - url
+                                entryPattern:
+                                  type: object
+                                  properties:
+                                    url:
+                                      type: string
+                                  required:
+                                  - url
+                            - type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    minLength: 1
+                                  name:
+                                    type: string
+                                    minLength: 1
+                                  url:
+                                    type: string
+                                    minLength: 1
+                                  iconUrl:
+                                    type: string
+                                  access:
+                                    type: object
+                                    properties:
+                                      teamAdminRequired:
+                                        type: boolean
+                                        enum:
+                                        - true
+                                    additionalProperties: false
+                                  editorTypes:
+                                    type: array
+                                    items:
+                                      type: string
+                                      enum:
+                                      - composition
+                                      - componentPattern
+                                      - compositionDefaults
+                                      - entry
+                                      - entryPattern
+                                required:
+                                - id
+                                - name
+                                - url
+                          personalization:
+                            type: object
+                            properties:
+                              selectionAlgorithms:
+                                type: object
+                                additionalProperties:
+                                  type: object
+                                  properties:
+                                    displayName:
+                                      type: string
+                                    description:
+                                      type: string
+                                    criteriaEditorUrl:
+                                      type: string
+                                  required:
+                                  - displayName
+                      dataConnectors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                            displayName:
+                              type: string
+                            dataSourceEditorUrl:
+                              type: string
+                            supportsUnpublishedData:
+                              type: boolean
+                            dataSourceEditorLocations:
+                              type: object
+                              additionalProperties:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                  layout:
+                                    type: object
+                                    properties:
+                                      height:
+                                        type: string
+                                        enum:
+                                        - full-height
+                                      width:
+                                        type: string
+                                        enum:
+                                        - wide
+                                    additionalProperties: false
+                                required:
+                                - url
+                                additionalProperties: false
+                            dataArchetypes:
+                              type: object
+                              additionalProperties:
+                                type: object
+                                properties:
+                                  displayName:
+                                    type: string
+                                  typeEditorUrl:
+                                    type: string
+                                  typeEditorLocations:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                        layout:
+                                          type: object
+                                          properties:
+                                            height:
+                                              type: string
+                                              enum:
+                                              - full-height
+                                            width:
+                                              type: string
+                                              enum:
+                                              - wide
+                                          additionalProperties: false
+                                      required:
+                                      - url
+                                      additionalProperties: false
+                                  dataEditorUrl:
+                                    type: string
+                                  dataEditorUrlLocations:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                        layout:
+                                          type: object
+                                          properties:
+                                            height:
+                                              type: string
+                                              enum:
+                                              - full-height
+                                            width:
+                                              type: string
+                                              enum:
+                                              - wide
+                                          additionalProperties: false
+                                      required:
+                                      - url
+                                      additionalProperties: false
+                                  embeddedEditor:
+                                    type: string
+                                  dataResourceSelectorUrl:
+                                    type: string
+                                  dataResourceSelectorLocations:
+                                    type: object
+                                    additionalProperties:
+                                      type: object
+                                      properties:
+                                        url:
+                                          type: string
+                                        layout:
+                                          type: object
+                                          properties:
+                                            height:
+                                              type: string
+                                              enum:
+                                              - full-height
+                                            width:
+                                              type: string
+                                              enum:
+                                              - wide
+                                          additionalProperties: false
+                                      required:
+                                      - url
+                                      additionalProperties: false
+                                required:
+                                - displayName
+                            badgeIconUrl:
+                              type: string
+                          required:
+                          - type
+                          - displayName
+                      assetLibrary:
+                        type: object
+                        properties:
+                          assetLibraryUrl:
+                            type: string
+                          assetParameterUrl:
+                            type: string
+                          assetLibraryLocations:
+                            type: object
+                            additionalProperties:
+                              type: object
+                              properties:
+                                url:
+                                  type: string
+                                layout:
+                                  type: object
+                                  properties:
+                                    height:
+                                      type: string
+                                      enum:
+                                      - full-height
+                                    width:
+                                      type: string
+                                      enum:
+                                      - wide
+                                  additionalProperties: false
+                              required:
+                              - url
+                              additionalProperties: false
+                          unstable_dynamicAssets:
+                            type: object
+                            properties:
+                              dataConnectorId:
+                                type: string
+                              assetsListArchetypeId:
+                                type: string
+                              singleAssetArchetypeId:
+                                type: string
+                            required:
+                            - dataConnectorId
+                            - assetsListArchetypeId
+                            - singleAssetArchetypeId
+                        required:
+                        - assetLibraryUrl
+                        - assetParameterUrl
+                      unstable_assetLibrary:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                          dynamicAssets:
+                            type: object
+                            properties:
+                              dataConnectorId:
+                                type: string
+                              assetsListArchetypeId:
+                                type: string
+                              singleAssetArchetypeId:
+                                type: string
+                            required:
+                            - dataConnectorId
+                            - assetsListArchetypeId
+                            - singleAssetArchetypeId
+                        required:
+                        - url
+                      ai:
+                        type: object
+                        properties:
+                          generateUrl:
+                            type: string
+                          metadataUrl:
+                            type: string
+                          prompts:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                name:
+                                  type: string
+                                text:
+                                  type: string
+                                data:
+                                  type: object
+                                  nullable: true
+                                  properties:
+                                    arguments:
+                                      type: object
+                                      nullable: true
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                          type:
+                                            type: string
+                                          displayName:
+                                            type: string
+                                            nullable: true
+                                          helpText:
+                                            type: string
+                                            nullable: true
+                                          default:
+                                            type: string
+                                            nullable: true
+                                        required:
+                                        - type
+                                    metadata:
+                                      nullable: true
+                                parameterTypes:
+                                  type: array
+                                  items:
+                                    type: string
+                              required:
+                              - id
+                              - name
+                              - text
+                              - parameterTypes
+                        required:
+                        - generateUrl
+                      unstable_ai:
+                        type: object
+                        properties:
+                          generateUrl:
+                            type: string
+                          metadataUrl:
+                            type: string
+                        required:
+                        - generateUrl
+                      aiAgents:
+                        type: object
+                        properties:
+                          functionCalling:
+                            type: object
+                            properties:
+                              handlerUrl:
+                                type: string
+                              functions:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    definition:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                        description:
+                                          type: string
+                                        parameters:
+                                          type: object
+                                          additionalProperties:
+                                            nullable: true
+                                        strict:
+                                          type: boolean
+                                      required:
+                                      - name
+                                      - description
+                                      - parameters
+                                      - strict
+                                    systemParameters:
+                                      type: array
+                                      items:
+                                        type: string
+                                        enum:
+                                        - pageHtml
+                                    includedAgents:
+                                      type: array
+                                      items:
+                                        type: string
+                                        enum:
+                                        - scout
+                                        - sage
+                                  required:
+                                  - definition
+                            required:
+                            - handlerUrl
+                            - functions
+                      tools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              minLength: 1
+                            name:
+                              type: string
+                              minLength: 1
+                            url:
+                              type: string
+                              minLength: 1
+                            iconUrl:
+                              type: string
+                            access:
+                              type: object
+                              properties:
+                                teamAdminRequired:
+                                  type: boolean
+                                  enum:
+                                  - true
+                              additionalProperties: false
+                          required:
+                          - id
+                          - name
+                          - url
+                      projectTools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              minLength: 1
+                            name:
+                              type: string
+                              minLength: 1
+                            url:
+                              type: string
+                              minLength: 1
+                            iconUrl:
+                              type: string
+                            access:
+                              type: object
+                              properties:
+                                teamAdminRequired:
+                                  type: boolean
+                                  enum:
+                                  - true
+                              additionalProperties: false
+                          required:
+                          - id
+                          - name
+                          - url
+                      dashboardTools:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              minLength: 1
+                            name:
+                              type: string
+                              minLength: 1
+                            url:
+                              type: string
+                              minLength: 1
+                            iconUrl:
+                              type: string
+                            access:
+                              type: object
+                              properties:
+                                teamAdminRequired:
+                                  type: boolean
+                                  enum:
+                                  - true
+                              additionalProperties: false
+                          required:
+                          - id
+                          - name
+                          - url
+                    additionalProperties: false
+                  unstable_prompts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        text:
+                          type: string
+                        data:
+                          type: object
+                          nullable: true
+                          properties:
+                            arguments:
+                              type: object
+                              nullable: true
+                              additionalProperties:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                  displayName:
+                                    type: string
+                                    nullable: true
+                                  helpText:
+                                    type: string
+                                    nullable: true
+                                  default:
+                                    type: string
+                                    nullable: true
+                                required:
+                                - type
+                            metadata:
+                              nullable: true
+                        parameterTypes:
+                          type: array
+                          items:
+                            type: string
+                      required:
+                      - id
+                      - name
+                      - text
+                      - parameterTypes
+                required:
+                - type
+                - displayName
+                - integrationId
+                - locations
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Integrations
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+  /api/v1/integration-edgehancers:
+    get:
+      description: Gets a list of custom edgehancers for a project.
+      parameters:
+      - schema:
+          type: string
+          description: The project ID
+        required: true
+        description: The project ID
+        name: projectId
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  edgehancers:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: object
+                        additionalProperties:
+                          type: boolean
+                    description: Custom edgehancers availability by connectorType -> archetype -> hook -> isAvailable (always true if defined)
+                required:
+                - edgehancers
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Removes a custom edgehancer from a Mesh app. The integration will not be removed, only the custom code.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  description: The team ID
+                connectorType:
+                  type: string
+                  description: The integration dataConnector to remove the edgehancer from
+                archetype:
+                  type: string
+                  description: The data connector archetype name to remove the edgehancer from
+                hook:
+                  type: string
+                  enum:
+                  - preRequest
+                  - request
+                  - createAIDataResourceEdit
+                  - afterAIDataResourceEdit
+                  description: The hook to remove the edgehancer from
+              required:
+              - teamId
+              - connectorType
+              - archetype
+              - hook
+              additionalProperties: false
+      responses:
+        '204':
+          description: Delete successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration/connector/archetype/hook did not exist, nothing deleted.
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          description: Internal error
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Creates or updates a custom edgehancer on a Mesh app.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  description: The team ID
+                connectorType:
+                  type: string
+                  description: The integration dataConnector to attach the edgehancer to
+                archetype:
+                  type: string
+                  description: The data connector archetype name to attach the edgehancer to
+                hook:
+                  type: string
+                  enum:
+                  - preRequest
+                  - request
+                  - createAIDataResourceEdit
+                  - afterAIDataResourceEdit
+                  description: The hook to attach the edgehancer to
+                code:
+                  type: string
+                  maxLength: 1048576
+                  description: ESM JS code to run for the custom edgehancer. It runs in a v8 runtime, and is expected to default-export a function which conforms to the hook type specs.
+                compatibilityDate:
+                  type: string
+                  description: Date indicating targeted support in the custom edgehancer runtime. Backwards incompatible fixes to the runtime following this date will not affect this custom edgehancer.
+              required:
+              - teamId
+              - connectorType
+              - archetype
+              - hook
+              - code
+              additionalProperties: false
+      responses:
+        '204':
+          description: Put successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration exposing selected connector type and archetype does not exist
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          description: Internal error
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Integrations
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+  /api/v1/integration-installations:
+    get:
+      description: Gets a list of installed integrations for a Uniform Project
+      parameters:
+      - schema:
+          type: string
+          description: The project ID
+        required: true
+        description: The project ID
+        name: projectId
+        in: query
+      - schema:
+          type: string
+          description: Limit results to a single integration type
+        required: false
+        description: Limit results to a single integration type
+        name: type
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Whether to match the passed type exactly or to treat the type as a prefix
+        required: false
+        description: Whether to match the passed type exactly or to treat the type as a prefix
+        name: exactType
+        in: query
+      - schema:
+          type: boolean
+          nullable: true
+          description: Whether to use team-specific integration types or team-agnostic types (for serialization across projects)
+        required: false
+        description: Whether to use team-specific integration types or team-agnostic types (for serialization across projects)
+        name: teamSpecificType
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        data:
+                          type: object
+                          additionalProperties:
+                            type:
+                            - array
+                            - boolean
+                            - integer
+                            - number
+                            - object
+                            - string
+                      required:
+                      - type
+                required:
+                - results
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Removes an integration from a project.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                type:
+                  type: string
+                  description: The integration type to remove
+                exactType:
+                  type: boolean
+                  nullable: true
+                  description: Whether to match the passed type exactly or to treat the type as a prefix
+              required:
+              - projectId
+              - type
+              additionalProperties: false
+      responses:
+        '204':
+          description: Delete successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Integration to delete was not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Installs or updates an integration on a Uniform Project. If data is not provided, it will remain unmodified from any existing value.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  description: The project ID
+                exactType:
+                  type: boolean
+                  nullable: true
+                  description: Whether to match the passed type exactly or to treat the type as a prefix
+                type:
+                  type: string
+                data:
+                  type: object
+                  additionalProperties:
+                    type:
+                    - array
+                    - boolean
+                    - integer
+                    - number
+                    - object
+                    - string
+              required:
+              - projectId
+              - type
+              additionalProperties: false
+      responses:
+        '204':
+          description: Install or update success
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Integrations
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+  /api/v1/integration-property-editors:
+    get:
+      description: Gets a list of propertyType and hook names for the current team, including public integrations' hooks.
+      parameters:
+      - schema:
+          type: string
+          description: The team ID
+        required: true
+        description: The team ID
+        name: teamId
+        in: query
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  propertyEditors:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        createAIEdit:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Internal unique identifier for the editor
+                            integrationType:
+                              type: string
+                              description: The integration type
+                            isPublic:
+                              type: boolean
+                              description: Whether this is a public integration
+                            teamId:
+                              type: string
+                              description: The team ID for public integrations. Omitted for private integrations.
+                          required:
+                          - id
+                          - integrationType
+                          - isPublic
+                          additionalProperties: false
+                        afterAIEdit:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Internal unique identifier for the editor
+                            integrationType:
+                              type: string
+                              description: The integration type
+                            isPublic:
+                              type: boolean
+                              description: Whether this is a public integration
+                            teamId:
+                              type: string
+                              description: The team ID for public integrations. Omitted for private integrations.
+                          required:
+                          - id
+                          - integrationType
+                          - isPublic
+                          additionalProperties: false
+                      additionalProperties: false
+                    description: A map of property types to a map of hook names to integration details
+                required:
+                - propertyEditors
+                additionalProperties: false
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Team not found
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    delete:
+      description: Removes a custom AI property editor from a Mesh app. The property type will not be removed, only the custom code.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  description: The team ID
+                propertyType:
+                  type: string
+                  description: The property type to remove the editor from
+                hook:
+                  type: string
+                  enum:
+                  - createAIEdit
+                  - afterAIEdit
+                  description: The hook to remove the editor from
+              required:
+              - teamId
+              - propertyType
+              - hook
+              additionalProperties: false
+      responses:
+        '204':
+          description: Delete successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Property type/hook did not exist, nothing deleted.
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          description: Internal error
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    put:
+      description: Creates or updates a custom AI property editor on a Mesh app.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId:
+                  type: string
+                  description: The team ID
+                propertyType:
+                  type: string
+                  description: The property type to attach the editor to
+                hook:
+                  type: string
+                  enum:
+                  - createAIEdit
+                  - afterAIEdit
+                  description: The hook to attach the editor to
+                code:
+                  type: string
+                  maxLength: 1048576
+                  description: ESM JS code to run for the custom property editor. It runs in a v8 runtime, and is expected to default-export a function which conforms to the hook type specs.
+                compatibilityDate:
+                  type: string
+                  description: Date indicating targeted support in the custom property editor runtime. Backwards incompatible fixes to the runtime following this date will not affect this custom property editor.
+              required:
+              - teamId
+              - propertyType
+              - hook
+              - code
+              additionalProperties: false
+      responses:
+        '204':
+          description: Put successful
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          description: Property type does not exist
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          description: Internal error
+      tags:
+      - Integrations
+      security:
+      - ApiKeyAuth: []
+      - BearerAuth: []
+    options:
+      tags:
+      - Integrations
+      responses:
+        '204':
+          description: ok
+      description: Handles preflight requests. This endpoint allows CORS.
+components:
+  responses:
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+    BearerAuth:
+      type: http
+      scheme: bearer
