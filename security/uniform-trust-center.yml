@@ -1,0 +1,30 @@
+generated: '2026-07-21'
+method: searched
+probe: true
+url: https://www.uniform.dev/trust
+hosted_at: https://app.drata.com/trust/9cb89480-0c38-11ee-865f-029d78a187d9
+certifications:
+  - SOC 2 Type II
+  - GDPR
+evidence:
+  - source: https://www.uniform.dev/trust
+    kind: redirect
+    note: >-
+      Observed 301 redirect from uniform.dev/trust to a Drata-hosted trust
+      center (app.drata.com); the Drata page itself blocks unauthenticated
+      scraping (403), so certifications were confirmed from Uniform's own FAQ.
+  - source: https://www.uniform.dev/faq
+    kind: page
+    keywords: [SOC2 Type II, GDPR, Trust Center]
+    note: >-
+      "Uniform receives a perfect (no exceptions) SOC2 Type II report every
+      year ... based on the trust services criteria relevant to Security,
+      Availability, and Confidentiality. The SOC2 Type II report is available
+      to our customers upon request. Is Uniform GDPR compliant? Yes."
+  - source: https://www.uniform.dev/dpa
+    kind: page
+    keywords: [GDPR, SOC 2]
+related:
+  dpa: https://www.uniform.dev/dpa
+  msa: https://www.uniform.dev/msa
+  privacy: https://www.uniform.dev/privacy-policy

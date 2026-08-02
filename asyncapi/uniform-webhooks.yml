@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.uniform.app/docs/guides/webhooks
+spec_type: Webhooks
+description: >-
+  Uniform publishes no AsyncAPI document, but documents a first-class webhook
+  surface built on Svix. Webhooks are configured per project by registering an
+  endpoint URL and a list of event types; endpoints with no event-type filter
+  receive all events. Uniform signs every webhook (and its metadata) with a
+  unique per-endpoint key so consumers can verify authenticity via the Svix
+  signature scheme. The dashboard supports sending example events to test
+  endpoints, filtering delivery logs by event type and date, replaying single
+  messages, and bulk-recovering failed messages since a chosen time. Webhooks
+  are invoked during Uniform's publishing process, with invocation details in
+  the Logs tab of the webhook configuration.
+delivery:
+  transport: HTTPS POST to the registered endpoint URL
+  signing: Svix per-endpoint signing key; verify per Svix documentation
+  testing: send example events from endpoint settings (Testing > Send event)
+  replay: single-message replay and bulk "Recover Failed Messages" since a timestamp
+event_surface:
+  note: >-
+    Uniform documents events for "critical elements such as compositions and
+    manifests"; the full event catalog (event types + payload schemas) is
+    published in-app when configuring an endpoint, not on the public docs
+    site. The Platform API also exposes a webhook management operation
+    (tag "Webhooks" in openapi/uniform-platform-api-openapi.json).
+  documented_examples:
+    - composition events
+    - manifest events
+sdk: "@uniformdev/webhooks (https://www.npmjs.com/package/@uniformdev/webhooks)"
+docs: https://docs.uniform.app/docs/guides/webhooks

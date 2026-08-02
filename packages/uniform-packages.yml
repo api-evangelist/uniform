@@ -1,0 +1,166 @@
+generated: '2026-07-21'
+method: searched
+source: https://registry.npmjs.org/-/v1/search?text=%40uniformdev
+notes: >-
+  Uniform publishes its entire client surface on npm under the @uniformdev
+  scope (109 packages as of 2026-07-21, core packages at version 20.72.3).
+  The list below is the curated first-party core: the CLI, the Canvas
+  (composition) SDKs per framework, the Context (personalization) SDKs per
+  framework, the Mesh integration SDK, and the official MCP server package.
+  No first-party packages were found on PyPI, NuGet, Maven Central, RubyGems,
+  Packagist, or crates.io — the client surface is JavaScript/TypeScript only.
+packages:
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/cli"
+    url: https://www.npmjs.com/package/@uniformdev/cli
+    install: npm install @uniformdev/cli
+    official: true
+    description: Uniform command line interface tool (sync, backup/restore, MCP install)
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/canvas"
+    url: https://www.npmjs.com/package/@uniformdev/canvas
+    install: npm install @uniformdev/canvas
+    official: true
+    description: Common functionality and types for Uniform Canvas (composition API client)
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/canvas-react"
+    url: https://www.npmjs.com/package/@uniformdev/canvas-react
+    install: npm install @uniformdev/canvas-react
+    official: true
+    description: React SDK for Uniform Canvas
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/canvas-next"
+    url: https://www.npmjs.com/package/@uniformdev/canvas-next
+    install: npm install @uniformdev/canvas-next
+    official: true
+    description: Next.js SDK for Uniform Canvas
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/canvas-next-rsc"
+    url: https://www.npmjs.com/package/@uniformdev/canvas-next-rsc
+    install: npm install @uniformdev/canvas-next-rsc
+    official: true
+    description: Next.js React Server Components SDK for Uniform
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/canvas-vue"
+    url: https://www.npmjs.com/package/@uniformdev/canvas-vue
+    install: npm install @uniformdev/canvas-vue
+    official: true
+    description: Vue SDK for Uniform Canvas
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/uniform-nuxt"
+    url: https://www.npmjs.com/package/@uniformdev/uniform-nuxt
+    install: npm install @uniformdev/uniform-nuxt
+    official: true
+    description: Uniform Nuxt module
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/context"
+    url: https://www.npmjs.com/package/@uniformdev/context
+    install: npm install @uniformdev/context
+    official: true
+    description: Uniform Context core package (personalization / classification runtime)
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/context-react"
+    url: https://www.npmjs.com/package/@uniformdev/context-react
+    install: npm install @uniformdev/context-react
+    official: true
+    description: Uniform Context React integration package
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/context-next"
+    url: https://www.npmjs.com/package/@uniformdev/context-next
+    install: npm install @uniformdev/context-next
+    official: true
+    description: Uniform Context Next.js integration package
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/context-vue"
+    url: https://www.npmjs.com/package/@uniformdev/context-vue
+    install: npm install @uniformdev/context-vue
+    official: true
+    description: Vue SDK for Uniform Context
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/assets"
+    url: https://www.npmjs.com/package/@uniformdev/assets
+    install: npm install @uniformdev/assets
+    official: true
+    description: Uniform Assets client
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/project-map"
+    url: https://www.npmjs.com/package/@uniformdev/project-map
+    install: npm install @uniformdev/project-map
+    official: true
+    description: Uniform Project Map client
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/redirect"
+    url: https://www.npmjs.com/package/@uniformdev/redirect
+    install: npm install @uniformdev/redirect
+    official: true
+    description: Uniform redirect client
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/webhooks"
+    url: https://www.npmjs.com/package/@uniformdev/webhooks
+    install: npm install @uniformdev/webhooks
+    official: true
+    description: Uniform Webhooks helpers
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/mesh-sdk"
+    url: https://www.npmjs.com/package/@uniformdev/mesh-sdk
+    install: npm install @uniformdev/mesh-sdk
+    official: true
+    description: Uniform Mesh Framework SDK (build integrations that run inside Uniform)
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/mesh-sdk-react"
+    url: https://www.npmjs.com/package/@uniformdev/mesh-sdk-react
+    install: npm install @uniformdev/mesh-sdk-react
+    official: true
+    description: Uniform Mesh Framework SDK for React
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/uniform-mcp"
+    url: https://www.npmjs.com/package/@uniformdev/uniform-mcp
+    install: npm install @uniformdev/uniform-mcp
+    official: true
+    description: Uniform MCP Server npm package
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/richtext"
+    url: https://www.npmjs.com/package/@uniformdev/richtext
+    install: npm install @uniformdev/richtext
+    official: true
+    description: Common functionality and types for Uniform Rich Text parameters
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/design-system"
+    url: https://www.npmjs.com/package/@uniformdev/design-system
+    install: npm install @uniformdev/design-system
+    official: true
+    description: Uniform design system components
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/csk-components"
+    url: https://www.npmjs.com/package/@uniformdev/csk-components
+    install: npm install @uniformdev/csk-components
+    official: true
+    description: Component Starter Kit components for Uniform projects
+  - language: javascript
+    registry: npm
+    name: "@uniformdev/tms-sdk"
+    url: https://www.npmjs.com/package/@uniformdev/tms-sdk
+    install: npm install @uniformdev/tms-sdk
+    official: true
+    description: Uniform Translation Management System SDK

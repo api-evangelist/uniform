@@ -1,0 +1,273 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/uniform-platform-api-openapi.json
+notes: >-
+  Entity-relationship graph derived from components.schemas $ref links in the
+  Uniform Platform API OpenAPI (123 schemas). has_one = direct $ref field;
+  has_many = $ref inside an array. Field name recorded as via.
+entity_count: 123
+entities:
+  - AggregateData
+  - AggregateDimension
+  - AggregateDimensionInput
+  - AlternativeDataSourceData
+  - Asset
+  - AssetApiResponse
+  - AssetInput
+  - AssetListResponse
+  - Category
+  - ComponentDefinition
+  - ComponentDefinitionParameter
+  - ComponentDefinitionPermission
+  - ComponentDefinitionSlot
+  - ComponentDefinitionSlugSettings
+  - ComponentDefinitionVariant
+  - ComponentInstance
+  - ComponentOverridability
+  - ComponentOverride
+  - ComponentParameter
+  - ComponentParameterConditionalValue
+  - ComponentParameterConditions
+  - CompositionApiResponse
+  - CompositionListResponse
+  - CompositionProjectMapNodeInfo
+  - ContentType
+  - ContentTypePreviewConfiguration
+  - Conversion
+  - CookieCriteria
+  - CurrentPageCriteria
+  - DataElementConnectionDefinition
+  - DataResourceDefinition
+  - DataResourceDefinitions
+  - DataResourceVariables
+  - DataSource
+  - DataType
+  - DataVariableDefinition
+  - DimensionDefinition
+  - EnrichmentCategory
+  - EnrichmentCategory1
+  - EnrichmentCategoryWithValues
+  - EnrichmentValue
+  - EntityInRelease
+  - Entry
+  - EntryApiResponse
+  - EntryInput
+  - EntryListResponse
+  - Error
+  - EventCriteria
+  - GetProject
+  - HistoryApiResponse
+  - HistoryEntry
+  - InsightDefinition
+  - LinkConfiguration
+  - LinkConfigurationPart
+  - Locale
+  - LocaleDeleteBody
+  - LocalePutBody
+  - ManifestV2
+  - NamingConvention
+  - NumberMatch
+  - OverrideOptions
+  - PageViewCountCriteria
+  - PatchProject
+  - PatternError
+  - PersonalizationManifest
+  - PostProject
+  - PreviewSignal
+  - ProjectMapDefinition
+  - ProjectMapNodeAllowedQueryString
+  - ProjectMapNodeCompositionData
+  - ProjectMapNodeCompositionEditionData
+  - ProjectMapNodeData
+  - ProjectMapNodeDefinition
+  - ProjectMapNodeLocale
+  - ProjectMapNodeLocaleUpdate
+  - ProjectMapNodeUpdate
+  - ProjectMapSourceRedirectData
+  - ProjectMapTargetRedirectData
+  - ProjectMapTreeNodeDefinition
+  - Prompt
+  - PublicIdProperty
+  - PutProjectBody
+  - QueryStringCriteria
+  - Quirk
+  - QuirkCriteria
+  - QuirkOptions
+  - QuirkSource
+  - Redirect
+  - RedirectGetResponse
+  - RedirectMetadata
+  - Release
+  - ReleaseContent
+  - ReleaseContentsDeleteBody
+  - ReleaseDeleteBody
+  - ReleasePatchBody
+  - ReleasePutBody
+  - ReleaseScheduleState
+  - ReleaseState
+  - RootComponentInstance
+  - RootSignalCriteriaGroup
+  - RouteDynamicInputs
+  - RouteResponse
+  - RouteResponseComposition
+  - RouteResponseNotFound
+  - RouteResponseRedirect
+  - Signal
+  - SignalCriteria
+  - SignalCriteriaGroup
+  - SignalWithId
+  - StringMatch
+  - Taxonomy
+  - TaxonomyValue
+  - Test
+  - Test1
+  - VisibilityCriteria
+  - VisibilityCriteriaGroup
+  - WorkflowDefinition
+  - WorkflowStage
+  - WorkflowStagePermission
+  - WorkflowStageTransition
+  - WorkflowStageTransitionPermission
+  - autoLaunchSchedule
+  - autoLaunchScheduleTimeZone
+relationships:
+  - {from: AggregateData, type: has_many, to: AggregateDimensionInput, via: "inputs"}
+  - {from: AggregateDimension, type: has_many, to: AggregateDimensionInput, via: "inputs"}
+  - {from: AlternativeDataSourceData, type: has_one, to: DataVariableDefinition, via: "variables"}
+  - {from: Asset, type: has_one, to: ComponentParameter, via: "custom"}
+  - {from: Asset, type: has_one, to: DataResourceDefinitions, via: "_dataResources"}
+  - {from: AssetApiResponse, type: has_one, to: Asset, via: "asset"}
+  - {from: AssetInput, type: has_one, to: DataResourceDefinitions, via: "_dataResources"}
+  - {from: AssetListResponse, type: has_many, to: AssetApiResponse, via: "assets"}
+  - {from: ComponentDefinition, type: has_many, to: ComponentDefinitionParameter, via: "parameters"}
+  - {from: ComponentDefinition, type: has_many, to: ComponentDefinitionPermission, via: "permissions"}
+  - {from: ComponentDefinition, type: has_many, to: ComponentDefinitionSlot, via: "slots"}
+  - {from: ComponentDefinition, type: has_many, to: ComponentDefinitionVariant, via: "variants"}
+  - {from: ComponentDefinition, type: has_one, to: ComponentDefinitionSlugSettings, via: "slugSettings"}
+  - {from: ComponentDefinition, type: has_one, to: ComponentInstance, via: "defaults"}
+  - {from: ComponentDefinition, type: has_one, to: PublicIdProperty, via: "id"}
+  - {from: ComponentDefinitionParameter, type: has_one, to: PublicIdProperty, via: "id"}
+  - {from: ComponentDefinitionPermission, type: has_one, to: PublicIdProperty, via: "roleId"}
+  - {from: ComponentDefinitionSlot, type: has_one, to: PublicIdProperty, via: "id"}
+  - {from: ComponentDefinitionVariant, type: has_one, to: PublicIdProperty, via: "id"}
+  - {from: ComponentInstance, type: has_one, to: ComponentOverridability, via: "_overridability"}
+  - {from: ComponentInstance, type: has_one, to: ComponentOverride, via: "_overrides"}
+  - {from: ComponentInstance, type: has_one, to: ComponentOverride, via: "_patternOverrides"}
+  - {from: ComponentInstance, type: has_one, to: ComponentParameter, via: "parameters"}
+  - {from: ComponentInstance, type: has_one, to: DataResourceDefinition, via: "_patternDataResources"}
+  - {from: ComponentInstance, type: has_one, to: DataResourceDefinitions, via: "_dataResources"}
+  - {from: ComponentInstance, type: has_one, to: PatternError, via: "_patternError"}
+  - {from: ComponentOverridability, type: has_one, to: OverrideOptions, via: "parameters"}
+  - {from: ComponentOverride, type: has_many, to: ComponentInstance, via: "slots"}
+  - {from: ComponentOverride, type: has_one, to: ComponentParameter, via: "parameters"}
+  - {from: ComponentOverride, type: has_one, to: DataResourceDefinition, via: "dataResources"}
+  - {from: ComponentParameter, type: has_one, to: ComponentParameterConditions, via: "conditions"}
+  - {from: ComponentParameter, type: has_one, to: ComponentParameterConditions, via: "localesConditions"}
+  - {from: ComponentParameter, type: has_one, to: DataElementConnectionDefinition, via: "connectedData"}
+  - {from: ComponentParameterConditionalValue, type: has_one, to: VisibilityCriteriaGroup, via: "when"}
+  - {from: ComponentParameterConditions, type: has_many, to: ComponentParameterConditionalValue}
+  - {from: CompositionApiResponse, type: has_one, to: RootComponentInstance, via: "composition"}
+  - {from: CompositionApiResponse, type: has_one, to: WorkflowDefinition, via: "workflowDefinition"}
+  - {from: CompositionListResponse, type: has_many, to: CompositionApiResponse, via: "compositions"}
+  - {from: CompositionProjectMapNodeInfo, type: has_one, to: ProjectMapNodeData, via: "data"}
+  - {from: ContentType, type: has_many, to: ComponentDefinitionParameter, via: "fields"}
+  - {from: ContentType, type: has_many, to: ComponentDefinitionPermission, via: "permissions"}
+  - {from: ContentType, type: has_many, to: ContentTypePreviewConfiguration, via: "previewConfigurations"}
+  - {from: ContentType, type: has_one, to: ComponentDefinitionSlugSettings, via: "slugSettings"}
+  - {from: ContentType, type: has_one, to: PublicIdProperty, via: "id"}
+  - {from: CookieCriteria, type: has_one, to: StringMatch, via: "match"}
+  - {from: CurrentPageCriteria, type: has_one, to: StringMatch, via: "path"}
+  - {from: DataResourceDefinition, type: has_one, to: DataResourceVariables, via: "variables"}
+  - {from: DataResourceDefinitions, type: has_one, to: DataResourceDefinition}
+  - {from: DataSource, type: has_one, to: AlternativeDataSourceData, via: "unpublished"}
+  - {from: DataSource, type: has_one, to: DataVariableDefinition, via: "variables"}
+  - {from: DataType, type: has_one, to: DataVariableDefinition, via: "variables"}
+  - {from: EnrichmentCategoryWithValues, type: has_many, to: EnrichmentValue, via: "values"}
+  - {from: EnrichmentCategoryWithValues, type: has_one, to: EnrichmentCategory1}
+  - {from: Entry, type: has_one, to: ComponentOverridability, via: "_overridability"}
+  - {from: Entry, type: has_one, to: ComponentOverride, via: "_overrides"}
+  - {from: Entry, type: has_one, to: ComponentParameter, via: "fields"}
+  - {from: Entry, type: has_one, to: DataResourceDefinition, via: "_patternDataResources"}
+  - {from: Entry, type: has_one, to: DataResourceDefinitions, via: "_dataResources"}
+  - {from: EntryApiResponse, type: has_one, to: Entry, via: "entry"}
+  - {from: EntryApiResponse, type: has_one, to: WorkflowDefinition, via: "workflowDefinition"}
+  - {from: EntryInput, type: has_one, to: ComponentOverridability, via: "_overridability"}
+  - {from: EntryInput, type: has_one, to: ComponentOverride, via: "_overrides"}
+  - {from: EntryInput, type: has_one, to: ComponentParameter, via: "fields"}
+  - {from: EntryInput, type: has_one, to: DataResourceDefinition, via: "_patternDataResources"}
+  - {from: EntryInput, type: has_one, to: DataResourceDefinitions, via: "_dataResources"}
+  - {from: EntryListResponse, type: has_many, to: EntryApiResponse, via: "entries"}
+  - {from: EventCriteria, type: has_one, to: StringMatch, via: "event"}
+  - {from: HistoryApiResponse, type: has_many, to: HistoryEntry, via: "results"}
+  - {from: LinkConfiguration, type: has_many, to: LinkConfigurationPart, via: "parts"}
+  - {from: LinkConfigurationPart, type: has_one, to: NamingConvention, via: "naming_convention"}
+  - {from: LinkConfigurationPart, type: has_one, to: Taxonomy, via: "taxonomy"}
+  - {from: LocalePutBody, type: has_one, to: Locale, via: "locale"}
+  - {from: ManifestV2, type: has_one, to: PersonalizationManifest, via: "pz"}
+  - {from: ManifestV2, type: has_one, to: Test, via: "test"}
+  - {from: NamingConvention, type: has_many, to: Taxonomy, via: "taxonomies"}
+  - {from: PageViewCountCriteria, type: has_one, to: NumberMatch, via: "match"}
+  - {from: PersonalizationManifest, type: has_one, to: AggregateDimension, via: "agg"}
+  - {from: PersonalizationManifest, type: has_one, to: EnrichmentCategory, via: "enr"}
+  - {from: PersonalizationManifest, type: has_one, to: Signal, via: "sig"}
+  - {from: PreviewSignal, type: has_one, to: Signal}
+  - {from: ProjectMapDefinition, type: has_many, to: ProjectMapNodeAllowedQueryString, via: "globalQueryStrings"}
+  - {from: ProjectMapNodeCompositionData, type: has_many, to: ProjectMapNodeCompositionEditionData, via: "editions"}
+  - {from: ProjectMapNodeData, type: has_many, to: ProjectMapNodeAllowedQueryString, via: "queryStrings"}
+  - {from: ProjectMapNodeDefinition, type: has_one, to: ProjectMapNodeCompositionData, via: "compositionData"}
+  - {from: ProjectMapNodeDefinition, type: has_one, to: ProjectMapNodeData, via: "data"}
+  - {from: ProjectMapNodeDefinition, type: has_one, to: ProjectMapNodeLocale, via: "locales"}
+  - {from: ProjectMapNodeDefinition, type: has_one, to: ProjectMapSourceRedirectData, via: "sourceRedirects"}
+  - {from: ProjectMapNodeDefinition, type: has_one, to: ProjectMapTargetRedirectData, via: "targetRedirects"}
+  - {from: ProjectMapNodeUpdate, type: has_one, to: ProjectMapNodeData, via: "data"}
+  - {from: ProjectMapNodeUpdate, type: has_one, to: ProjectMapNodeLocaleUpdate, via: "locales"}
+  - {from: ProjectMapTreeNodeDefinition, type: has_one, to: ProjectMapNodeDefinition}
+  - {from: QueryStringCriteria, type: has_one, to: StringMatch, via: "match"}
+  - {from: Quirk, type: has_many, to: QuirkOptions, via: "options"}
+  - {from: Quirk, type: has_one, to: QuirkSource, via: "source"}
+  - {from: QuirkCriteria, type: has_one, to: StringMatch, via: "match"}
+  - {from: RedirectGetResponse, type: has_one, to: Redirect, via: "redirect"}
+  - {from: RedirectGetResponse, type: has_one, to: RedirectMetadata, via: "metadata"}
+  - {from: Release, type: has_one, to: ReleaseState, via: "state"}
+  - {from: Release, type: has_one, to: autoLaunchSchedule, via: "autoLaunchSchedule"}
+  - {from: Release, type: has_one, to: autoLaunchScheduleTimeZone, via: "autoLaunchScheduleTimeZone"}
+  - {from: ReleaseContent, type: has_one, to: PublicIdProperty, via: "publicId"}
+  - {from: ReleaseContentsDeleteBody, type: has_one, to: PublicIdProperty, via: "publicId"}
+  - {from: ReleasePatchBody, type: has_one, to: autoLaunchSchedule, via: "autoLaunchSchedule"}
+  - {from: ReleasePatchBody, type: has_one, to: autoLaunchScheduleTimeZone, via: "autoLaunchScheduleTimeZone"}
+  - {from: ReleasePutBody, type: has_one, to: autoLaunchSchedule, via: "autoLaunchSchedule"}
+  - {from: ReleasePutBody, type: has_one, to: autoLaunchScheduleTimeZone, via: "autoLaunchScheduleTimeZone"}
+  - {from: RootComponentInstance, type: has_many, to: ComponentInstance, via: "slots"}
+  - {from: RootComponentInstance, type: has_many, to: CompositionProjectMapNodeInfo, via: "projectMapNodes"}
+  - {from: RootComponentInstance, type: has_one, to: ComponentOverridability, via: "_overridability"}
+  - {from: RootComponentInstance, type: has_one, to: ComponentOverride, via: "_overrides"}
+  - {from: RootComponentInstance, type: has_one, to: ComponentOverride, via: "_patternOverrides"}
+  - {from: RootComponentInstance, type: has_one, to: ComponentParameter, via: "parameters"}
+  - {from: RootComponentInstance, type: has_one, to: DataResourceDefinition, via: "_patternDataResources"}
+  - {from: RootComponentInstance, type: has_one, to: DataResourceDefinitions, via: "_dataResources"}
+  - {from: RootComponentInstance, type: has_one, to: PatternError, via: "_patternError"}
+  - {from: RootSignalCriteriaGroup, type: has_many, to: SignalCriteria, via: "clauses"}
+  - {from: RootSignalCriteriaGroup, type: has_many, to: SignalCriteriaGroup, via: "clauses"}
+  - {from: RouteResponse, type: has_one, to: RouteResponseComposition}
+  - {from: RouteResponse, type: has_one, to: RouteResponseNotFound}
+  - {from: RouteResponse, type: has_one, to: RouteResponseRedirect}
+  - {from: RouteResponseComposition, type: has_one, to: CompositionApiResponse, via: "compositionApiResponse"}
+  - {from: RouteResponseComposition, type: has_one, to: RouteDynamicInputs, via: "dynamicInputs"}
+  - {from: RouteResponseRedirect, type: has_one, to: Redirect, via: "redirect"}
+  - {from: RouteResponseRedirect, type: has_one, to: RouteDynamicInputs, via: "dynamicInputs"}
+  - {from: Signal, type: has_one, to: Conversion, via: "conversion"}
+  - {from: Signal, type: has_one, to: RootSignalCriteriaGroup, via: "crit"}
+  - {from: SignalCriteria, type: has_one, to: CookieCriteria}
+  - {from: SignalCriteria, type: has_one, to: CurrentPageCriteria}
+  - {from: SignalCriteria, type: has_one, to: EventCriteria}
+  - {from: SignalCriteria, type: has_one, to: PageViewCountCriteria}
+  - {from: SignalCriteria, type: has_one, to: QueryStringCriteria}
+  - {from: SignalCriteria, type: has_one, to: QuirkCriteria}
+  - {from: SignalCriteriaGroup, type: has_many, to: SignalCriteria, via: "clauses"}
+  - {from: SignalWithId, type: has_one, to: PreviewSignal}
+  - {from: Taxonomy, type: has_many, to: TaxonomyValue, via: "values"}
+  - {from: VisibilityCriteriaGroup, type: has_many, to: VisibilityCriteria, via: "clauses"}
+  - {from: WorkflowDefinition, type: has_one, to: WorkflowStage, via: "stages"}
+  - {from: WorkflowStage, type: has_many, to: WorkflowStageTransition, via: "transitions"}
+  - {from: WorkflowStage, type: has_one, to: WorkflowStagePermission, via: "permissions"}
+  - {from: WorkflowStageTransition, type: has_one, to: WorkflowStageTransitionPermission, via: "permissions"}

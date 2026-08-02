@@ -1,0 +1,40 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/uniform-platform-api-openapi.json + https://www.uniform.dev/faq + https://www.uniform.dev/trust
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: securitySchemes declare apiKey (x-api-key header) and http bearer only; no oauth2 flows
+  - id: oidc
+    conforms: false
+    evidence: no openIdConnect securityScheme; /.well-known/openid-configuration returns 404
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: 4xx/5xx responses declare no application/problem+json media type or shared error schema
+  - id: pagination
+    conforms: true
+    evidence: offset/limit query parameters with optional withTotalCount and orderBy on list operations
+  - id: idempotency
+    conforms: false
+    evidence: no Idempotency-Key header documented or declared in the OpenAPI
+  - id: rate-limit-signaling
+    conforms: true
+    evidence: 429 response declared on every operation in the OpenAPI
+  - id: webhooks-signed
+    conforms: true
+    evidence: webhooks are Svix-signed per endpoint (https://docs.uniform.app/docs/guides/webhooks)
+  - id: soc2-type-ii
+    conforms: true
+    evidence: >-
+      "Uniform receives a perfect (no exceptions) SOC2 Type II report every
+      year" (https://www.uniform.dev/faq); trust center at
+      https://www.uniform.dev/trust (Drata-hosted)
+  - id: gdpr
+    conforms: true
+    evidence: FAQ states GDPR compliant; DPA published at https://www.uniform.dev/dpa
+  - id: scim
+    conforms: false
+    evidence: no SCIM 2.0 paths in the OpenAPI
+  - id: json-api
+    conforms: false
+    evidence: plain JSON resources; no JSON:API media type

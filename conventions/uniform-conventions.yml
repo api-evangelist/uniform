@@ -1,0 +1,93 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.uniform.app/docs/guides/api-access (credentials) +
+  https://docs.uniform.app/docs/guides/webhooks (event signing) + derived from
+  openapi/uniform-platform-api-openapi.json (pagination parameters, error
+  response codes, security schemes, /api/v1 path versioning).
+description: >-
+  Cross-cutting request/response semantics of the Uniform Platform API
+  (uniform.app). REST over HTTPS with JSON responses, header API-key or bearer
+  authentication, offset/limit list pagination, /api/v1 path versioning, and
+  429 rate-limit signaling declared on every operation.
+
+api_style: REST over HTTPS, JSON requests and responses
+base_url: https://uniform.app
+
+authentication:
+  scheme: >-
+    Two interchangeable schemes declared across all 145 operations: an API key
+    in the x-api-key header (ApiKeyAuth) or an HTTP bearer token (BearerAuth).
+  credential_types:
+    - name: Service account
+      note: >-
+        Machine identity with assigned roles (formerly "API keys");
+        recommended for integrations, CI/CD, and server-side use. Optional
+        expiration; survives personnel changes.
+    - name: Personal access token
+      note: >-
+        Tied to a user account and capped to the owner's current roles; max 10
+        per user per team. Recommended for the MCP server, Chrome extension,
+        and local development.
+  env_vars: [UNIFORM_API_KEY, UNIFORM_CLI_API_KEY]
+  docs: https://docs.uniform.app/docs/guides/api-access
+  artifact: authentication/uniform-authentication.yml
+
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key (or equivalent) header is documented or declared in the
+    OpenAPI. PUT upserts on resources such as /api/v1/canvas and
+    /api/v1/entries are naturally idempotent by resource id, but there is no
+    idempotency contract for retried POSTs.
+
+pagination:
+  style: offset
+  request_params: [offset, limit]
+  extras:
+    - name: withTotalCount
+      note: opt-in total count of results
+    - name: orderBy
+      note: sort order of results
+    - name: facetBy
+      note: returns counts for distinct values of the specified field
+  note: Derived from list operations (GET /api/v1/assets, /api/v1/entries, /api/v1/canvas).
+
+scoping:
+  note: >-
+    Nearly every operation requires a projectId query parameter — all data
+    access is scoped to a Uniform project. Teams group projects; roles are
+    assigned per project or team.
+
+versioning:
+  scheme: uri-path
+  current: v1 (core) + v2 (classification/personalization surfaces)
+  base_path: /api/v1/ (51 paths) and /api/v2/ (8 paths — aggregate, dimension, insights, manifest, members, quirk, signal, test)
+  regions:
+    - {region: US, host: 'https://uniform.app'}
+    - {region: EU, host: 'https://eu.uniform.app'}
+  docs: https://docs.uniform.app/docs/guides/regions
+
+error_envelope:
+  note: >-
+    The OpenAPI declares 400/401/403/404/409/429/500 (and 502 on edgehancer
+    operations) without a shared error schema; a few 404/409 responses return
+    text/plain or a bare JSON object. No RFC 9457 problem+json media type is
+    used. See errors/uniform-problem-types.yml.
+  artifact: errors/uniform-problem-types.yml
+
+rate_limits:
+  signal: 429 Too Many Requests declared on every operation in the OpenAPI
+  documented_headers: none found in the OpenAPI or public docs
+
+webhooks:
+  provider: Svix
+  signing: every webhook is signed per-endpoint; verify via the Svix signature
+  docs: https://docs.uniform.app/docs/guides/webhooks
+  artifact: asyncapi/uniform-webhooks.yml
+
+related_artifacts:
+  - authentication/uniform-authentication.yml
+  - errors/uniform-problem-types.yml
+  - lifecycle/uniform-lifecycle.yml
+  - asyncapi/uniform-webhooks.yml

@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/uniform-platform-api-openapi.json
+docs: https://docs.uniform.app/docs/guides/api-access
+notes: >-
+  Two credential types back the two schemes: service accounts (machine
+  identities with assigned roles, formerly "API keys"; recommended for
+  integrations, CI/CD, and server-side use, optional expiration, survive
+  personnel changes) and personal access tokens (tied to a user, capped to
+  the owner's current roles, max 10 per user per team; recommended for the
+  MCP server, Chrome extension, and local development). Keys are sent in the
+  x-api-key header (ApiKeyAuth) or as a bearer token (BearerAuth). Credential
+  operations are recorded in a 30-day security audit log. Environment
+  variables UNIFORM_API_KEY / UNIFORM_CLI_API_KEY are used by the SDKs/CLI.
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/uniform-platform-api-openapi.json
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/uniform-platform-api-openapi.json

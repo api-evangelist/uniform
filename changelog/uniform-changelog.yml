@@ -1,0 +1,90 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.uniform.app/rss/changelog.xml
+url: https://docs.uniform.app/docs/changelog/shipped
+scheme: >-
+  Continuously dated changelog (no version numbers) published on the docs site
+  with an RSS feed; 301 entries total at capture time. SDK/npm packages ship a
+  continuous 20.x version train across the @uniformdev scope (20.72.3 current).
+entry_count_total: 299
+recent_entries:
+  - date: '2026-07-21'
+    title: "Regular release update July 21st, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-july-21st-2026"
+    summary: "Features: Identity &amp; Access Management: A major update to API keys and access control: Personal Access Tokens (PATs) : API keys bound to a user, whose permissions can never exceed the owner&#39;s. Service Accounts: w"
+  - date: '2026-07-16'
+    title: "Regular release update July 16th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-july-16th-2026"
+    summary: "Features: Links within link and richText parameters and fields can now carry configurable attributes, such as opening in a new tab, applying a CSS class, or jumping to a page section ( UNI-9531 , UNI-9758 , UNI-9757 ). Y"
+  - date: '2026-07-15'
+    title: "Favorites are now generally available"
+    url: "https://docs.uniform.app/docs/changelog/shipped/favorites"
+    summary: "Favorites make it faster to return to the Uniform items you work with every day. Star an item once, then open it in one click from a dedicated Favorites view instead of scrolling or searching through long listings. What "
+  - date: '2026-07-15'
+    title: "Regular release update July 15th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-july-15th-2026"
+    summary: "The July 9th release, which was reverted on July 10th, has been re-released today together with a fix for the bug that caused the revert. All changes from the July 9th release update are included in this release, along w"
+  - date: '2026-07-10'
+    title: "Release revert July 10th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/release-revert-july-10th-2026"
+    summary: "July 9th release was reverted today due to discovery of a bug affecting some customers. The bug would cause incomplete responses served via our API. Action required: No action required, as the fix is on the Uniform API s"
+  - date: '2026-07-09'
+    title: "Regular release update July 9th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-july-9th-2026"
+    summary: "Features Automatic field and parameter projection Content API, Canvas and Route API can now return just the fields / parameters and slots you ask for, so list views, sitemaps, and other lightweight reads no longer have t"
+  - date: '2026-07-07'
+    title: "Regular release update July 7th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-july-7th-2026"
+    summary: "Features Project map tree view has been improved to make it clearer to see hierarchy, and status indicator placement was updated (UNI-9547, UNI-9067) A screenshot of a newly updated Uniform Project map Bug fixes: Dashboa"
+  - date: '2026-07-02'
+    title: "Regular release update July 2nd, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-july-2nd-2026"
+    summary: "Features: Mesh SDK : Metadata is now aligned across the dataResource , canvasEditorTools , and paramType mesh locations \u2014 all of them expose componentDefinitions , dynamicInputs , currentLocale , releaseId , and activeRe"
+  - date: '2026-06-30'
+    title: "Regular release update June 30th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-june-30th-2026"
+    summary: "Features: Data sources &amp; types : Data sources and data types now display a &quot;Last modified&quot; timestamp with the avatar of the user who made the change, falling back to the creation timestamp for entities that"
+  - date: '2026-06-25'
+    title: "Regular release update June 25th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-june-25th-2026"
+    summary: "Features: Data sources &amp; types : Data sources and data types now display a &quot;Last modified&quot; timestamp with the avatar of the user who made the change, falling back to the creation timestamp for entities that"
+  - date: '2026-06-19'
+    title: "New Next.js App Router SDK is GA"
+    url: "https://docs.uniform.app/docs/changelog/shipped/new-nextjs-app-router-sdk-is-ga"
+    summary: "@uniformdev/next-app-router is Uniform&#39;s latest SDK now in General Availability (version 20.67.0 and up). We built it to unlock the full power of Next.js 16 App Router with full cacheComponents support . It enables f"
+  - date: '2026-06-18'
+    title: "Regular release update June 18th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-june-18th-2026"
+    summary: "Features: CLI : The Uniform CLI sync commands now support a --batch-size flag and per-entity batchSize in uniform.config , so you can tune how many items are fetched per API request during pull, push, publish, etc. (UNI-"
+  - date: '2026-06-16'
+    title: "Regular release update June 16th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-june-16th-2026"
+    summary: "Bug fixes: Non-Vercel customers no longer see spurious &quot;UNIFORM_VERCEL_EDGE_CONFIG_TOKEN is not set&quot; warnings on every composition webhook. The edge-config upsert is now skipped when experimental.edgeCompositio"
+  - date: '2026-06-09'
+    title: "Regular release update June 9th, 2026 (copy)"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-june-9th-2026-copy"
+    summary: "Bug fixes: CLI : Fixed a bug where assets push would throw an error &quot;invalid content-length header&quot; ( UNI-9569) Dashboard : Preview URL and viewport editors no longer show stale validation errors after cancelin"
+  - date: '2026-06-04'
+    title: "Regular release update June 4th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-june-4th-2026"
+    summary: "Improvements: Uniform MCP : is better at creating A/B tests and personalizations on your compositions. ( UNI-9453 ) Bug fixes: Scout : now correctly displays compositions and entries from the searched release instead of "
+  - date: '2026-06-02'
+    title: "Developer preview: Data Resource Selector location and Editor state API"
+    url: "https://docs.uniform.app/docs/changelog/shipped/developer-preview-mesh-june-2026"
+    summary: "Two new Mesh capabilities are now available in developer preview: the Data Resource Selector location and the Editor state API . Together, they help custom integrations deliver richer authoring experiences inside the vis"
+  - date: '2026-05-28'
+    title: "A major upgrade for the Uniform asset library"
+    url: "https://docs.uniform.app/docs/changelog/shipped/major-asset-library-upgrade"
+    summary: "The Uniform asset library now makes it easier to manage assets at scale, organize and find content faster, use AI for common metadata tasks, and work more efficiently without leaving your current flow. New capabilities A"
+  - date: '2026-05-28'
+    title: "Regular release update May 28th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-may-28th-2026"
+    summary: "Bug fixes: Visual editing highlighter now correctly handles authors with no permissions to read tests (UNI-9354) Test parameter editor now shows permission guidance when Tests access is missing and hides create controls "
+  - date: '2026-05-28'
+    title: "Release timeline"
+    url: "https://docs.uniform.app/docs/changelog/shipped/release-timeline"
+    summary: "The new release timeline gives you a chronological view of scheduled releases, grouped by month, so you can quickly understand what is launching and when. You can find it on the Scheduled tab of the Releases page. Times "
+  - date: '2026-05-26'
+    title: "Regular release update May 26th, 2026"
+    url: "https://docs.uniform.app/docs/changelog/shipped/regular-release-update-may-26th-2026"
+    summary: "Improvements: Design System: paginated lists in drawers and narrow layouts now fit their page controls to the available space, so navigation stays visible and usable even with large result sets (UNI-9328) Dashboard: this"

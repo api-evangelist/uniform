@@ -1,0 +1,26 @@
+generated: '2026-07-21'
+method: generated
+notes: >-
+  Skills are grounded in the harvested OpenAPI (which declares no
+  operationIds, so operations are method + path) plus the captured
+  conventions and error artifacts. Uniform also publishes its own
+  provider-authored agent context - the "AI rules" library at
+  https://github.com/uniformdev/ai-rules and a hosted MCP server
+  (mcp/uniform-mcp.yml) - which agents should pair with these skills.
+provider_published:
+  - name: Uniform AI rules
+    url: https://github.com/uniformdev/ai-rules
+    note: Library of Uniform-specific rules to give LLM assistants conceptual context
+skills:
+  - file: uniform-manage-compositions.md
+    name: Manage Uniform compositions
+    api: openapi/uniform-platform-api-openapi.json
+    operations: ["GET /api/v1/canvas", "PUT /api/v1/canvas", "GET /api/v1/canvas-definitions", "GET /api/v1/canvas-history"]
+  - file: uniform-manage-entries.md
+    name: Manage Uniform entries and content types
+    api: openapi/uniform-platform-api-openapi.json
+    operations: ["GET /api/v1/content-types", "PUT /api/v1/content-types", "GET /api/v1/entries", "PUT /api/v1/entries", "GET /api/v1/locales"]
+  - file: uniform-manage-releases.md
+    name: Stage and ship changes with Uniform releases
+    api: openapi/uniform-platform-api-openapi.json
+    operations: ["GET /api/v1/releases", "PUT /api/v1/releases", "PATCH /api/v1/releases", "GET /api/v1/release-contents", "GET /api/v1/entity-releases"]

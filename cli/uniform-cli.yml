@@ -1,0 +1,47 @@
+generated: '2026-07-21'
+method: searched
+source: >-
+  https://docs.uniform.app/docs/guides/cli +
+  https://docs.uniform.app/docs/guides/cli/commands +
+  https://www.npmjs.com/package/@uniformdev/cli
+description: >-
+  Official first-party CLI (@uniformdev/cli, version 20.72.3 at capture) for
+  backing up, restoring, and syncing Uniform project data so it can live in
+  version control and CI/CD, plus AI tooling setup (AI rules and MCP server
+  install). Authenticates with the same credentials as the Platform API via
+  the UNIFORM_API_KEY / UNIFORM_CLI_API_KEY environment variables.
+package: "@uniformdev/cli"
+registry: https://www.npmjs.com/package/@uniformdev/cli
+install:
+  - npm install @uniformdev/cli
+  - npx @uniformdev/cli@latest <command>
+auth:
+  env_vars: [UNIFORM_API_KEY, UNIFORM_CLI_API_KEY]
+  note: Service-account key or personal access token; see docs/guides/api-access.
+command_groups:
+  - name: sync
+    description: Manage all project assets from the CLI (backup/restore/sync to files)
+  - name: canvas
+    description: Manage project assets that involve Uniform's composition features
+  - name: context
+    description: Manage classification, personalization, and testing assets
+  - name: project maps
+    description: Manage project assets related to project maps
+  - name: project policies
+    description: Manage project policy documents defining project-level role permissions
+  - name: redirects
+    description: Manage project assets related to redirects
+  - name: webhooks
+    description: Manage project assets related to webhooks
+  - name: integrations
+    description: Manage custom integrations and integration installations
+  - name: ai
+    description: Manage AI rules and MCP server setup (e.g. `uniform ai mcp install`)
+key_flows:
+  - name: Install the Uniform MCP server into an AI client
+    command: npx @uniformdev/cli@latest ai mcp install
+    note: Supports cursor, claude, copilot, and a generic mcp.json target.
+  - name: Keep project files in git after MCP/dashboard changes
+    command: uniform sync
+    note: Recommended after structural changes so exported files stay current.
+docs: https://docs.uniform.app/docs/guides/cli

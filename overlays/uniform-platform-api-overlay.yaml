@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Uniform Platform API
+  version: 1.0.0
+extends: openapi/uniform-platform-api-openapi.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        provider: uniform
+        profiled: '2026-07-21'
+        notes: >-
+          Harvested from https://uniform.app/schemas/swagger.json (linked from
+          https://docs.uniform.app/docs/api). 145 operations across
+          41 tags; no servers[], no operationIds, and no shared error
+          schema are declared in the original - gaps a provider-side revision
+          could close.
+  - target: $.info.description
+    update: >-
+      The Uniform Platform API manages every entity of the Uniform visual
+      workspace / composable DXP: compositions (canvas), entries, content
+      types, component definitions, assets, categories, data sources and
+      types, enrichments, releases, integrations, members, roles, teams,
+      projects, project maps, prompts, redirects, locales, preview settings,
+      workflows, webhooks, AI agents, and personalization/optimization
+      surfaces (signals, quirks, tests, aggregates, dimensions).
+  - target: $
+    update:
+      servers:
+        - url: https://uniform.app
+          description: US data center (add /api/v1 per-path prefix already present in paths)
+        - url: https://eu.uniform.app
+          description: EU data center

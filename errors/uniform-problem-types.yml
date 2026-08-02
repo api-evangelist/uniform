@@ -1,0 +1,55 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/uniform-platform-api-openapi.json
+format: http-status
+notes: >-
+  Derived from the 4xx/5xx responses declared across all 145 operations of the
+  Uniform Platform API OpenAPI. The spec declares status codes without a shared
+  error schema and does not use RFC 9457 application/problem+json; a few 404/409
+  responses return text/plain or a bare JSON object.
+problems:
+  - status: 400
+    title: Bad request
+    operations_declaring: 145
+    example_operation: "GET /api/v1/assets"
+  - status: 401
+    title: Unauthorized - missing or invalid API key / bearer token
+    operations_declaring: 145
+    example_operation: "GET /api/v1/assets"
+  - status: 403
+    title: Forbidden - credential role lacks access to the project or entity
+    operations_declaring: 145
+    example_operation: "GET /api/v1/assets"
+  - status: 404
+    title: Not found
+    operations_declaring: 40
+    content_types: [application/json, text/plain]
+    spec_descriptions:
+      - "404 response"
+      - "Asset not found"
+      - "Composition not found"
+      - "Entry not found"
+    example_operation: "GET /api/v1/assets"
+  - status: 409
+    title: Conflict
+    operations_declaring: 3
+    content_types: [text/plain]
+    spec_descriptions:
+      - "Conflict - Composition has been changed since being loaded"
+      - "Conflict - Entry has been changed since being loaded"
+      - "Quota exceeded: at most 100 favorite entries allowed for this project. Remove an existing entry before creating a new one."
+    example_operation: "PUT /api/v1/canvas"
+  - status: 429
+    title: Too many requests (rate limited)
+    operations_declaring: 145
+    example_operation: "GET /api/v1/assets"
+  - status: 500
+    title: Internal server error
+    operations_declaring: 145
+    example_operation: "GET /api/v1/assets"
+  - status: 502
+    title: Bad gateway (integration edgehancer upstream)
+    operations_declaring: 4
+    spec_descriptions:
+      - "Internal error"
+    example_operation: "DELETE /api/v1/integration-edgehancers"
