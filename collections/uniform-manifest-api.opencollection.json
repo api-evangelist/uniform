@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Manifest API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Manifest",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v2/manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/manifest",
+            "params": [
+              {
+                "name": "preview",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetches the optimization Manifest for a given project.\nIf no manifest has ever been published, and an API key is used that has preview manifest permissions then the current preview manifest will be returned (in delivery format).\n"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v2/manifest",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v2/manifest"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

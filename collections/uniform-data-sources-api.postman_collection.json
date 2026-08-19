@@ -1,0 +1,1498 @@
+{
+  "item": [
+    {
+      "id": "a89dab26-9926-4054-8c43-49265ed01bf7",
+      "name": "Data Sources",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "951bde19-8346-44d1-a443-37599cbd6037",
+          "name": "/api/v1/data-source",
+          "request": {
+            "name": "/api/v1/data-source",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "data-source"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "dataSourceId",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "42a0bea3-1122-4611-b145-8f6d47322c85",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dataSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": {\n    \"id\": \"kjju\",\n    \"displayName\": \"string\",\n    \"connectorType\": \"xTvPl0u7LMO\",\n    \"baseUrl\": \"https://Hx\",\n    \"headers\": [\n      {\n        \"key\": \"string\",\n        \"value\": \"string\"\n      },\n      {\n        \"key\": \"string\",\n        \"value\": \"string\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"string\",\n        \"value\": \"string\"\n      },\n      {\n        \"key\": \"string\",\n        \"value\": \"string\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"string\",\n        \"displayName\": \"string\",\n        \"helpText\": \"string\",\n        \"type\": \"text\",\n        \"order\": 4694.3962838324705,\n        \"source\": \"string\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"enableUnpublishedMode\": true,\n    \"customPublic\": {\n      \"key_0\": 1155.251952749\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 9852,\n      \"key_2\": \"string\"\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"https://X6Y?dW0]&nbS\",\n        \"headers\": [\n          {\n            \"key\": \"string\",\n            \"value\": \"string\",\n            \"omitIfEmpty\": false\n          },\n          {\n            \"key\": \"string\",\n            \"value\": \"string\",\n            \"omitIfEmpty\": true\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"string\",\n            \"value\": \"string\",\n            \"omitIfEmpty\": false\n          },\n          {\n            \"key\": \"string\",\n            \"value\": \"string\",\n            \"omitIfEmpty\": false\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"string\",\n            \"displayName\": \"strin\",\n            \"helpText\": \"string\",\n            \"type\": \"text\",\n            \"order\": 5605.768880627783,\n            \"source\": \"string\"\n          }\n        }\n      }\n    },\n    \"created\": \"string\",\n    \"modified\": \"string\",\n    \"createdBy\": \"string\",\n    \"modifiedBy\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1f25765-a372-44b2-b1f6-25af41fdd3bb",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dataSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7bf46e64-d5df-4d6b-95f2-23318d527b59",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dataSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04399e7d-b3ea-4090-a9f7-562ce25add07",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dataSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "81240b3c-8105-4874-aed8-50165cc24e0a",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dataSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4c1e49b8-e1ec-4527-956a-18e68558ffa2",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "dataSourceId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "105803e8-ce02-4c10-bf5d-fcdfe837416b",
+          "name": "/api/v1/data-source",
+          "request": {
+            "name": "/api/v1/data-source",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "data-source"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": \"string\",\n      \"key_1\": 4595.821821995082,\n      \"key_2\": true\n    },\n    \"custom\": {\n      \"key_0\": 4584,\n      \"key_1\": false\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          },\n          \"key_1\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e8e9a4f9-ecd1-45de-8215-9a5871b24535",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_1\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_2\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": 3406,\n      \"key_1\": 5162.523167910627\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1290.7032656491945\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e7528460-646e-49df-90ed-9b16c335aa94",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_1\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_2\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": 3406,\n      \"key_1\": 5162.523167910627\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1290.7032656491945\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a53de078-3421-4de9-9492-bd18a42d25ad",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_1\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_2\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": 3406,\n      \"key_1\": 5162.523167910627\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1290.7032656491945\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48a81972-6407-4866-ac7f-c0962335dd66",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_1\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_2\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": 3406,\n      \"key_1\": 5162.523167910627\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1290.7032656491945\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7613838-e82e-45f9-9dae-26d27e03443d",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_1\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_2\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": 3406,\n      \"key_1\": 5162.523167910627\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1290.7032656491945\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f5e49de7-6861-4448-bfa1-b75f8b178f18",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"displayName\": \"<string>\",\n    \"connectorType\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"headers\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"parameters\": [\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ],\n    \"variables\": {\n      \"key_0\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_1\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      },\n      \"key_2\": {\n        \"default\": \"<string>\",\n        \"displayName\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"type\": \"text\",\n        \"order\": \"<number>\",\n        \"source\": \"<string>\"\n      }\n    },\n    \"localeMapping\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    },\n    \"enableUnpublishedMode\": \"<boolean>\",\n    \"customPublic\": {\n      \"key_0\": 3406,\n      \"key_1\": 5162.523167910627\n    },\n    \"custom\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1290.7032656491945\n    },\n    \"variants\": {\n      \"unpublished\": {\n        \"baseUrl\": \"<string>\",\n        \"headers\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"parameters\": [\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          },\n          {\n            \"key\": \"<string>\",\n            \"value\": \"<string>\",\n            \"omitIfEmpty\": \"<boolean>\"\n          }\n        ],\n        \"variables\": {\n          \"key_0\": {\n            \"default\": \"<string>\",\n            \"displayName\": \"<string>\",\n            \"helpText\": \"<string>\",\n            \"type\": \"text\",\n            \"order\": \"<number>\",\n            \"source\": \"<string>\"\n          }\n        }\n      }\n    },\n    \"created\": \"<string>\",\n    \"modified\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  },\n  \"integrationId\": \"<uuid>\",\n  \"integrationType\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "06826c7e-19d0-4535-9de6-e4c456975427",
+          "name": "/api/v1/data-source",
+          "request": {
+            "name": "/api/v1/data-source",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "data-source"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2117aaaf-6417-435a-84ab-98435ae71dfa",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c66859b8-da0f-4437-951b-5420d3eaa0d5",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de85eb2e-bdf0-411b-8e9d-81f635bef0bb",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad15d884-1d2f-4265-a1be-8e04e554c931",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7a896e2-2b79-4933-8ac4-12a138e3d2cc",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "275982d6-0e82-444b-aed0-fdd3bc6af899",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-source"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"dataSourceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "97737efb-a67d-4686-94d5-f655ae183755",
+          "name": "/api/v1/data-sources",
+          "request": {
+            "name": "/api/v1/data-sources",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "data-sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bc0ec0bf-95c6-47a2-8604-cb10f0cae880",
+              "name": "Gets a list of data sources.\nNote that all parameters, headers, and variables will have the value 'SECRET', as this endpoint\nrequires minimal permissions. To decrypt secrets, you must be an admin or manage-data-sources privileged\nuser, and fetch using the `data-source` endpoint for each data source\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"connectorType\": \"<string>\",\n      \"baseUrl\": \"<string>\",\n      \"headers\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"parameters\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"variables\": {\n        \"key_0\": {\n          \"default\": \"<string>\",\n          \"displayName\": \"<string>\",\n          \"helpText\": \"<string>\",\n          \"type\": \"text\",\n          \"order\": \"<number>\",\n          \"source\": \"<string>\"\n        },\n        \"key_1\": {\n          \"default\": \"<string>\",\n          \"displayName\": \"<string>\",\n          \"helpText\": \"<string>\",\n          \"type\": \"text\",\n          \"order\": \"<number>\",\n          \"source\": \"<string>\"\n        }\n      },\n      \"localeMapping\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\",\n        \"key_3\": \"<string>\"\n      },\n      \"enableUnpublishedMode\": \"<boolean>\",\n      \"customPublic\": {\n        \"key_0\": false,\n        \"key_1\": false,\n        \"key_2\": \"string\"\n      },\n      \"custom\": {\n        \"key_0\": \"string\"\n      },\n      \"variants\": {\n        \"unpublished\": {\n          \"baseUrl\": \"<string>\",\n          \"headers\": [\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            },\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            }\n          ],\n          \"parameters\": [\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            },\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            }\n          ],\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"created\": \"<string>\",\n      \"modified\": \"<string>\",\n      \"createdBy\": \"<string>\",\n      \"modifiedBy\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"connectorType\": \"<string>\",\n      \"baseUrl\": \"<string>\",\n      \"headers\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"parameters\": [\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        },\n        {\n          \"key\": \"<string>\",\n          \"value\": \"<string>\"\n        }\n      ],\n      \"variables\": {\n        \"key_0\": {\n          \"default\": \"<string>\",\n          \"displayName\": \"<string>\",\n          \"helpText\": \"<string>\",\n          \"type\": \"text\",\n          \"order\": \"<number>\",\n          \"source\": \"<string>\"\n        },\n        \"key_1\": {\n          \"default\": \"<string>\",\n          \"displayName\": \"<string>\",\n          \"helpText\": \"<string>\",\n          \"type\": \"text\",\n          \"order\": \"<number>\",\n          \"source\": \"<string>\"\n        }\n      },\n      \"localeMapping\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"enableUnpublishedMode\": \"<boolean>\",\n      \"customPublic\": {\n        \"key_0\": 1869,\n        \"key_1\": 4561.129369585779\n      },\n      \"custom\": {\n        \"key_0\": 5520.330064321351,\n        \"key_1\": true\n      },\n      \"variants\": {\n        \"unpublished\": {\n          \"baseUrl\": \"<string>\",\n          \"headers\": [\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            },\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            }\n          ],\n          \"parameters\": [\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            },\n            {\n              \"key\": \"<string>\",\n              \"value\": \"<string>\",\n              \"omitIfEmpty\": \"<boolean>\"\n            }\n          ],\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"created\": \"<string>\",\n      \"modified\": \"<string>\",\n      \"createdBy\": \"<string>\",\n      \"modifiedBy\": \"<string>\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8123913c-1d38-46fe-a164-28b23edf96d3",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87f6b2bf-5709-4e70-9855-f833b7dc307f",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dffb3228-7925-497b-8fbc-eaa47c6885f2",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "afd88b60-a769-4f55-99ce-93673b5e6526",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cbdcfe76-a36d-4a21-9073-73bc270998a2",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "data-sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "07fc123c-66cc-4f66-8716-74c2f8e35b1a",
+    "name": "Uniform Platform Aggregates Data Sources API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

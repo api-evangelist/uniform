@@ -1,0 +1,716 @@
+{
+  "item": [
+    {
+      "id": "d2d8f82b-86be-4506-ba50-129a0032ac9a",
+      "name": "Routes",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d5151745-c551-4f78-8556-13eb01029f7f",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "route"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "41cca913-df10-400b-bf8a-b6a67822a309",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "deb0fb33-1e12-4a5a-ac39-5c71be9b699b",
+          "name": "Fetches the correct response action for a given route (redirection, composition, not found).\n\nIn addition to the named parameters below, this endpoint accepts data projection syntax:\n`select.<bucket>[<op>]` — documented below.\n\n#### Data projection (`select.*`)\n\nProjection returns a subset of the matched composition by pruning fields\n(parameters), field types, and slots before values are resolved. It only\napplies when the route resolves to a composition; redirect and notFound\nresponses are returned unchanged. The allowed names are project-specific —\nthey come from the project's component definitions and content types —\nwhich is why `select.*` parameters are pattern-validated rather than\ndeclared as named parameters.\n\nSyntax: `select.<bucket>[<operator>]=<value>`. Values are comma-separated\nlists of names. `*` is the only wildcard and matches zero or more\ncharacters (e.g. `seo_*`).\n\n| Parameter | Effect |\n|---|---|\n| `select.fields[only]=a,b` | Keep only the named fields/parameters; drop everything else. |\n| `select.fields[except]=a,b` | Drop the named fields/parameters; keep everything else. |\n| `select.fields[locales]=a,b` | For the named fields that survive filtering, return the full per-locale value map instead of only the requested locale's value. |\n| `select.fields[blockDepth]=N` | Limit how many levels of block field children are kept. `0` removes all block fields; `preserveAll` prevents projection from trimming fields inside block children. |\n| `select.fieldTypes[only]=a,b` | Keep only fields of the named types (type IDs such as `text`, `richText`, `asset`). |\n| `select.fieldTypes[except]=a,b` | Drop fields of the named types. |\n| `select.slots[only]=a,b` | Keep only the named slots. |\n| `select.slots[except]=a,b` | Drop the named slots. |\n| `select.slots[depth]=N` | Limit how many levels of nested components are kept in slots. |\n| `select.slots.<name>[depth]=N` | Depth limit for one specific slot; overrides `slots[depth]`. |\n\nBehavior:\n\n* Projection applies recursively at every component and block in the\n  returned tree, and is forwarded into entries resolved through reference\n  fields.\n* When operators combine, all `[only]` sets are intersected first, then\n  `[except]` sets are subtracted — exclusion always wins.\n* Unknown field, slot, or type names are silent no-ops (the tree shape is\n  preserved; non-matching content is simply absent). Unknown operators\n  return HTTP 400.\n* An empty list (`select.fields[only]=` or `select.slots[only]=`) strips\n  every member of that bucket; `[except]=*` is equivalent.\n* `[depth]` counts nesting within a single fetched tree and resets inside\n  referenced entries.\n\nExamples:\n\n* `select.fields[only]=title,slug&select.slots[only]=` — title and slug of the resolved page with all slots flattened (e.g. for breadcrumbs).\n* `select.fieldTypes[except]=richText` — everything except rich-text fields.\n* `select.slots[depth]=2&select.fields[only]=label,url` — two levels of nested components, trimmed to `label` and `url`.\n",
+          "request": {
+            "name": "Fetches the correct response action for a given route (redirection, composition, not found).\n\nIn addition to the named parameters below, this endpoint accepts data projection syntax:\n`select.<bucket>[<op>]` — documented below.\n\n#### Data projection (`select.*`)\n\nProjection returns a subset of the matched composition by pruning fields\n(parameters), field types, and slots before values are resolved. It only\napplies when the route resolves to a composition; redirect and notFound\nresponses are returned unchanged. The allowed names are project-specific —\nthey come from the project's component definitions and content types —\nwhich is why `select.*` parameters are pattern-validated rather than\ndeclared as named parameters.\n\nSyntax: `select.<bucket>[<operator>]=<value>`. Values are comma-separated\nlists of names. `*` is the only wildcard and matches zero or more\ncharacters (e.g. `seo_*`).\n\n| Parameter | Effect |\n|---|---|\n| `select.fields[only]=a,b` | Keep only the named fields/parameters; drop everything else. |\n| `select.fields[except]=a,b` | Drop the named fields/parameters; keep everything else. |\n| `select.fields[locales]=a,b` | For the named fields that survive filtering, return the full per-locale value map instead of only the requested locale's value. |\n| `select.fields[blockDepth]=N` | Limit how many levels of block field children are kept. `0` removes all block fields; `preserveAll` prevents projection from trimming fields inside block children. |\n| `select.fieldTypes[only]=a,b` | Keep only fields of the named types (type IDs such as `text`, `richText`, `asset`). |\n| `select.fieldTypes[except]=a,b` | Drop fields of the named types. |\n| `select.slots[only]=a,b` | Keep only the named slots. |\n| `select.slots[except]=a,b` | Drop the named slots. |\n| `select.slots[depth]=N` | Limit how many levels of nested components are kept in slots. |\n| `select.slots.<name>[depth]=N` | Depth limit for one specific slot; overrides `slots[depth]`. |\n\nBehavior:\n\n* Projection applies recursively at every component and block in the\n  returned tree, and is forwarded into entries resolved through reference\n  fields.\n* When operators combine, all `[only]` sets are intersected first, then\n  `[except]` sets are subtracted — exclusion always wins.\n* Unknown field, slot, or type names are silent no-ops (the tree shape is\n  preserved; non-matching content is simply absent). Unknown operators\n  return HTTP 400.\n* An empty list (`select.fields[only]=` or `select.slots[only]=`) strips\n  every member of that bucket; `[except]=*` is equivalent.\n* `[depth]` counts nesting within a single fetched tree and resets inside\n  referenced entries.\n\nExamples:\n\n* `select.fields[only]=title,slug&select.slots[only]=` — title and slug of the resolved page with all slots flattened (e.g. for breadcrumbs).\n* `select.fieldTypes[except]=richText` — everything except rich-text fields.\n* `select.slots[depth]=2&select.fields[only]=label,url` — two levels of nested components, trimmed to `label` and `url`.\n",
+            "description": {
+              "content": "Fetches the correct response action for a given route (redirection, composition, not found).\n\nIn addition to the named parameters below, this endpoint accepts data projection syntax:\n`select.<bucket>[<op>]` — documented below.\n\n#### Data projection (`select.*`)\n\nProjection returns a subset of the matched composition by pruning fields\n(parameters), field types, and slots before values are resolved. It only\napplies when the route resolves to a composition; redirect and notFound\nresponses are returned unchanged. The allowed names are project-specific —\nthey come from the project's component definitions and content types —\nwhich is why `select.*` parameters are pattern-validated rather than\ndeclared as named parameters.\n\nSyntax: `select.<bucket>[<operator>]=<value>`. Values are comma-separated\nlists of names. `*` is the only wildcard and matches zero or more\ncharacters (e.g. `seo_*`).\n\n| Parameter | Effect |\n|---|---|\n| `select.fields[only]=a,b` | Keep only the named fields/parameters; drop everything else. |\n| `select.fields[except]=a,b` | Drop the named fields/parameters; keep everything else. |\n| `select.fields[locales]=a,b` | For the named fields that survive filtering, return the full per-locale value map instead of only the requested locale's value. |\n| `select.fields[blockDepth]=N` | Limit how many levels of block field children are kept. `0` removes all block fields; `preserveAll` prevents projection from trimming fields inside block children. |\n| `select.fieldTypes[only]=a,b` | Keep only fields of the named types (type IDs such as `text`, `richText`, `asset`). |\n| `select.fieldTypes[except]=a,b` | Drop fields of the named types. |\n| `select.slots[only]=a,b` | Keep only the named slots. |\n| `select.slots[except]=a,b` | Drop the named slots. |\n| `select.slots[depth]=N` | Limit how many levels of nested components are kept in slots. |\n| `select.slots.<name>[depth]=N` | Depth limit for one specific slot; overrides `slots[depth]`. |\n\nBehavior:\n\n* Projection applies recursively at every component and block in the\n  returned tree, and is forwarded into entries resolved through reference\n  fields.\n* When operators combine, all `[only]` sets are intersected first, then\n  `[except]` sets are subtracted — exclusion always wins.\n* Unknown field, slot, or type names are silent no-ops (the tree shape is\n  preserved; non-matching content is simply absent). Unknown operators\n  return HTTP 400.\n* An empty list (`select.fields[only]=` or `select.slots[only]=`) strips\n  every member of that bucket; `[except]=*` is equivalent.\n* `[depth]` counts nesting within a single fetched tree and resets inside\n  referenced entries.\n\nExamples:\n\n* `select.fields[only]=title,slug&select.slots[only]=` — title and slug of the resolved page with all slots flattened (e.g. for breadcrumbs).\n* `select.fieldTypes[except]=richText` — everything except rich-text fields.\n* `select.slots[depth]=2&select.fields[only]=label,url` — two levels of nested components, trimmed to `label` and `url`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "route"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project the entry/entries are on"
+                },
+                {
+                  "disabled": false,
+                  "key": "path",
+                  "value": "<string>",
+                  "description": "(Required) The path to resolve. Dynamic project map nodes and redirects can be resolved when a matching path is passed.\nQuery string parameters may be passed with the path. They are ignored for route matching.\nIf the route matches a composition and the project map node allows passed query string parameters, query parameters will\nbe returned as as dynamic inputs to the composition.\n\nExamples:\n* route \"/company/about-us\" would match \"/company/about-us\" in project map or redirects\n* route \"/products/123\" would match \"/products/:productId\" in project map or \"/products/*\" in redirects\n* route \"/products/123?color=red\" would match \"/products/:productId\" in project map, and provde productId=123 and color=red as dynamic inputs to the composition\n\nConflict resolution:\nIf a route matches multiple possible project map or redirect nodes, the resulting action will use the following logic:\n* If a redirect matches, it wins over project map nodes in all cases\n* If multiple redirects or project map nodes match the route, the one with the most specific path wins:\n    * The route with the most path segments wins\n    * If several matches have the same number of segments, the one with the fewest dynamic segments wins\n    * If still ambiguous, the first matching route arbitrarily wins\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectMapId",
+                  "value": "<uuid>",
+                  "description": "Specify a project map ID to fetch route from. If not specified, the default project map for the projectId is used"
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "64",
+                  "description": "Publishing state to fetch. 0 = draft, 64 = published"
+                },
+                {
+                  "disabled": false,
+                  "key": "withComponentIDs",
+                  "value": "false",
+                  "description": "If true the `_id` unique identifier of blocks will be part of the response data.\nIf false, the `_id` will not be present in the API response\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "withContentSourceMap",
+                  "value": "false",
+                  "description": "Includes content source map metadata on supported parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "locale",
+                  "value": "<string>",
+                  "description": "One or more locales to filter and localize by.\nOnly entries that enable one of the specified locales _or enable no locales_ will be returned.\nThe response will be localized to include only the first matching locale's data.\n\nThis parameter accepts a single value, a comma-delimited list of values, or the Accept-Language header syntax. Examples:\nen-US\nfr-CA,fr\nde-AT;q=0.9,de-DE;q=0.8,en;q=0.7\n\nWhen this parameter is not passed, all locales' data will be returned\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "releaseId",
+                  "value": "<uuid>",
+                  "description": "The ID of a release to fetch the content for.\n\n- When unspecified, all release content is excluded from the result(s).\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be null\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "dataSourceVariant",
+                  "value": "<string>",
+                  "description": "Indicates the data variant that was fetched for data resources.\nundefined: Data resources were resolved using published data from their data source\nunpublished: Data resources which support unpublished data retrieved unpublished data from their data source. Data resources that did not support unpublished data retrieved published data instead.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "ignoreRedirects",
+                  "value": "false",
+                  "description": "When true, redirects are not evaluated for the route matching; the result will be either a composition or not found.\nNote: this is always true when state=63 (internal RSC editor state) to allow contextual editing of compositions\nthat have redirects configured on their paths.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "926066c3-73bd-4d78-af75-e9eda61c0dfe",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "64"
+                    },
+                    {
+                      "key": "withComponentIDs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withContentSourceMap",
+                      "value": "false"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "dataSourceVariant",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ignoreRedirects",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"redirect\",\n  \"matchedRoute\": \"string\",\n  \"redirect\": {\n    \"sourceUrl\": \"string\",\n    \"targetStatusCode\": 3179,\n    \"targetUrl\": \"string\",\n    \"id\": \"fc36cbda-566e-5f2c-1d60-79810e03e0d9\",\n    \"sourceProjectMapNodeId\": \"fb50250f-0a74-bf11-48c3-73443563274a\",\n    \"targetProjectMapNodeId\": \"5d84d796-8d5e-ec36-8553-b80fab773048\",\n    \"projectMapId\": \"7ae1c3be-3078-4516-a917-ac71f416ea21\",\n    \"sourceRetainQuerystring\": true,\n    \"sourceMustMatchDomain\": false,\n    \"targetPreserveIncomingProtocol\": true,\n    \"targetPreserveIncomingDomain\": false,\n    \"targetMergeQuerystring\": false,\n    \"labelAsSystem\": false\n  },\n  \"dynamicInputs\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9580c7fd-df04-4050-9f80-6c372b44fa0f",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "64"
+                    },
+                    {
+                      "key": "withComponentIDs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withContentSourceMap",
+                      "value": "false"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "dataSourceVariant",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ignoreRedirects",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abf0c485-209e-4c66-9329-b90e240aed75",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "64"
+                    },
+                    {
+                      "key": "withComponentIDs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withContentSourceMap",
+                      "value": "false"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "dataSourceVariant",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ignoreRedirects",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24b90e48-a458-4736-aef7-fc0ea5fd0cbb",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "64"
+                    },
+                    {
+                      "key": "withComponentIDs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withContentSourceMap",
+                      "value": "false"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "dataSourceVariant",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ignoreRedirects",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d95b2be6-cf2d-43a6-89bc-a3963a6c303c",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "64"
+                    },
+                    {
+                      "key": "withComponentIDs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withContentSourceMap",
+                      "value": "false"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "dataSourceVariant",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ignoreRedirects",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "735c7bbb-49c6-4701-9b29-a1f6fe309ca3",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "route"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "64"
+                    },
+                    {
+                      "key": "withComponentIDs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withContentSourceMap",
+                      "value": "false"
+                    },
+                    {
+                      "key": "locale",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "dataSourceVariant",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ignoreRedirects",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3434a833-e4f3-44d1-bdd5-2ec7b24cf133",
+    "name": "Uniform Platform Aggregates Routes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

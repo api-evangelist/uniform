@@ -1,0 +1,301 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Members API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/invitations",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists pending invitations for a team. Requires team admin."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/invitations",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/invitations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Revokes a pending invitation. Requires team admin."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/members",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by member type: member (oauth login), apiKey (all API keys, both service accounts and PATs), pat (PATs only), serviceAccount (service accounts only)"
+              },
+              {
+                "name": "ownerSubject",
+                "value": "",
+                "type": "query",
+                "description": "Filter PATs by owner subject. Returns only PATs owned by this user."
+              },
+              {
+                "name": "includeMetadata",
+                "value": "",
+                "type": "query",
+                "description": "Includes additional metaddata with member info, specifically created timestamp and project names."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists members of a team and their permissions. Callers that are not a team admin will see all members, but project roles and team admin status will only be provided for the caller identity."
+        },
+        {
+          "info": {
+            "name": "POST /api/v1/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/members",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Invites a new member to the team via email, with specific permissions. Team admin permissions are required."
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/members",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates an API key. Team admin permissions are required."
+        },
+        {
+          "info": {
+            "name": "PATCH /api/v1/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/members",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Updates permissions for an existing member or API key"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/members",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Removes a team member or API key from the team. Team admin permissions are required."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/members"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        },
+        {
+          "info": {
+            "name": "GET /api/v2/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/members",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by member type: member (oauth login), apiKey (all API keys), pat (PATs only), serviceAccount (service accounts only)"
+              },
+              {
+                "name": "ownerSubject",
+                "value": "",
+                "type": "query",
+                "description": "Filter PATs by owner subject. Returns only PATs owned by this user."
+              },
+              {
+                "name": "subject",
+                "value": "",
+                "type": "query",
+                "description": "Filter to a specific member by subject. Useful for fetching a single member."
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Search keyword to filter members by name or email (case-insensitive)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination. Defaults to 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return. Maximum 1000 when specified, but no limit is used when unspecified."
+              },
+              {
+                "name": "includeMetadata",
+                "value": "",
+                "type": "query",
+                "description": "Includes additional metadata with member info, specifically created timestamp and project names."
+              },
+              {
+                "name": "includeProjects",
+                "value": "",
+                "type": "query",
+                "description": "Includes project and role assignments for each member. Required to see role information."
+              },
+              {
+                "name": "includeCustomPermissions",
+                "value": "",
+                "type": "query",
+                "description": "Includes custom permissions for each member (deprecated feature). Requires includeProjects to be true."
+              },
+              {
+                "name": "withTotalCount",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes totalCount in the response for pagination. May add slight overhead."
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for results. Defaults to name_ASC."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Lists members of a team and their permissions. Callers that are not a team admin will see all members, but project roles and team admin status will only be provided for the caller identity."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v2/members",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v2/members"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

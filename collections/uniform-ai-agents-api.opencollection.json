@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates AI Agents API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AI Agents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/mcp-servers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/mcp-servers",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of MCP server configurations for a project.\n\nThis is experimental functionality that is subject to change without notice."
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/mcp-servers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/mcp-servers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upserts an MCP server configuration (create or update by publicId within the project).\n\nThis is experimental functionality that is subject to change without notice."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/mcp-servers",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/mcp-servers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes an MCP server configuration.\n\nThis is experimental functionality that is subject to change without notice."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/mcp-servers",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/mcp-servers"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/skills",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of agent skills for a project (max 10 per project).\n\nThis is experimental functionality that is subject to change without notice."
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/skills",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upserts a skill (create or update by id).\n\nThis is experimental functionality that is subject to change without notice."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/skills",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes a skill.\n\nThis is experimental functionality that is subject to change without notice."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/skills"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

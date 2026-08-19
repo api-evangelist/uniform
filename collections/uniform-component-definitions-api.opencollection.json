@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Component Definitions API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Component Definitions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/canvas-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/canvas-definitions",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project ID to get component definitions for"
+              },
+              {
+                "name": "componentId",
+                "value": "",
+                "type": "query",
+                "description": "Limit the list to one result by ID (response remains an array)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return"
+              },
+              {
+                "name": "includeSystem",
+                "value": "",
+                "type": "query",
+                "description": "Whether to fetch system meta-component definitions (personalize, test, etc.)"
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "Filter by category ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/canvas-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/canvas-definitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upserts a component definition"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/canvas-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/canvas-definitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes a component definition"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/canvas-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/canvas-definitions"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

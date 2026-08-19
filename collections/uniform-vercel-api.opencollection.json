@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Vercel API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vercel",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/vercel-patch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/vercel-patch",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "compositionId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "componentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parameter",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets the value of the parameter"
+        },
+        {
+          "info": {
+            "name": "POST /api/v1/vercel-patch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/vercel-patch",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "compositionId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "componentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "parameter",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Sets the value of the parameter"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

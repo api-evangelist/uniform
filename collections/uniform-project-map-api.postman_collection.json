@@ -1,0 +1,2908 @@
+{
+  "item": [
+    {
+      "id": "fbf0db3f-2a30-4317-a24a-f27d64f5f169",
+      "name": "Project Map",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1fb5f8a4-e4e6-467b-8e33-d6800744b241",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map-nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40c6dd25-463d-4f9a-9d16-b34a05f47778",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8085d612-6815-4348-980b-992de81a01c8",
+          "name": "Called to get a list of nodes belonging to a specific path or Id",
+          "request": {
+            "name": "Called to get a list of nodes belonging to a specific path or Id",
+            "description": {
+              "content": "Called to get a list of nodes belonging to a specific path or Id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map-nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectMapId",
+                  "value": "<uuid>",
+                  "description": "The project map id that the desired nodes belong"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project id that contains the project map tree that this node belongs to"
+                },
+                {
+                  "disabled": false,
+                  "key": "releaseId",
+                  "value": "<uuid>",
+                  "description": "The ID of a release to fetch the composition data for.\n\n- When unspecified, composition data is fetched from base.\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will not be defined\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<uuid>",
+                  "description": "The id of the node to retrieve, cannot have both this parameter and `path`"
+                },
+                {
+                  "disabled": false,
+                  "key": "path",
+                  "value": "<string>",
+                  "description": "The path of the root node to retrieve, cannot have both this parameter and `id`"
+                },
+                {
+                  "disabled": false,
+                  "key": "compositionId",
+                  "value": "<uuid>",
+                  "description": "Composition id to find associated project map node for"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100000",
+                  "description": "Limit the number or records returned by a number"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of records to skip before returning nodes"
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "<integer>",
+                  "description": "Depth of the tree to fetch. This only applies when fetching by path"
+                },
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<number>",
+                  "description": "State of compositions to fetch. 0 = draft, 64 = published"
+                },
+                {
+                  "disabled": false,
+                  "key": "tree",
+                  "value": "<boolean>",
+                  "description": "should the data be returned as a json tree object (or a flat array)"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "text search filter"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeAncestors",
+                  "value": "<boolean>",
+                  "description": "Modifies the results to include all ancestors of matched nodes, in addition to the nodes themselves.\nResults are sorted by path. If multiple nodes are selected, ancestors are not duplicated\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "expanded",
+                  "value": "<boolean>",
+                  "description": "include expanded helper computed properties, including `isLeaf`, `parentPath`, `pathSegment` etc"
+                },
+                {
+                  "disabled": false,
+                  "key": "withCompositionData",
+                  "value": "<boolean>",
+                  "description": "include basic composition information.  ID, type, state, name, and definition id"
+                },
+                {
+                  "disabled": false,
+                  "key": "withCompositionUIStatus",
+                  "value": "false",
+                  "description": "Returns the UI status string of the composition.\nThis internal status is subject to change without notice and is thus marked deprecated to discourage the use of internal data\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "withRedirectData",
+                  "value": "false",
+                  "description": "Include basic redirect information"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ff56d1d7-cce4-498d-a8f5-b899ad8d84ff",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "compositionId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "tree",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAncestors",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expanded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionData",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionUIStatus",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withRedirectData",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"nodes\": [\n    {\n      \"id\": \"ecafe90d-ed76-d30b-2b8d-dac25090ea09\",\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"type\": \"composition\",\n      \"order\": 5634,\n      \"data\": {\n        \"isSearchHit\": true,\n        \"queryStrings\": [\n          {\n            \"name\": \"string\",\n            \"value\": \"string\",\n            \"helpText\": \"string\",\n            \"optionsSource\": {\n              \"source\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"options\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"name\": \"string\",\n            \"value\": \"string\",\n            \"helpText\": \"string\",\n            \"optionsSource\": {\n              \"source\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"options\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"previewValue\": \"string\"\n      },\n      \"compositionId\": \"d95d9e33-9b73-975d-beb6-458c5d586ba6\",\n      \"description\": \"string\",\n      \"parentPath\": \"string\",\n      \"pathSegment\": \"string\",\n      \"isLeaf\": true,\n      \"compositionData\": {\n        \"id\": \"35c1f6b9-a026-1c23-0ff9-84224f0abb53\",\n        \"type\": \"string\",\n        \"name\": \"string\",\n        \"locales\": [\n          \"string\",\n          \"string\"\n        ],\n        \"editionId\": \"312942dc-d919-4297-79e2-e34ba57e9634\",\n        \"slug\": \"string\",\n        \"uiStatus\": \"Modified\",\n        \"icon\": \"screen\",\n        \"typeName\": \"string\",\n        \"editionPriority\": 9545,\n        \"editionName\": \"string\",\n        \"editions\": [\n          {\n            \"id\": \"a20088bc-3c56-3c8d-cd2c-cc1c814de899\",\n            \"type\": \"string\",\n            \"name\": \"string\",\n            \"locales\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"editionId\": \"705958b1-91b5-f6c7-f63e-4bbc8fe5f980\",\n            \"slug\": \"string\",\n            \"editionName\": \"string\",\n            \"editionPriority\": 3907,\n            \"uiStatus\": \"Draft\",\n            \"icon\": \"screen\",\n            \"typeName\": \"string\",\n            \"modified\": \"2002-08-24T01:55:48.573Z\"\n          },\n          {\n            \"id\": \"c3ac0db8-2540-dc88-8ea0-6529e685629b\",\n            \"type\": \"string\",\n            \"name\": \"string\",\n            \"locales\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"editionId\": \"c8dcadac-2333-86b4-1484-fe0b9950467e\",\n            \"slug\": \"string\",\n            \"editionName\": \"string\",\n            \"editionPriority\": 7714,\n            \"uiStatus\": \"Modified\",\n            \"icon\": \"screen\",\n            \"typeName\": \"stri\",\n            \"modified\": \"2004-03-25T13:48:08.054Z\"\n          }\n        ],\n        \"modified\": \"2008-01-11T21:54:37.639Z\"\n      },\n      \"sourceRedirects\": [\n        {\n          \"id\": \"c0147ccb-1c10-bff4-d6b4-e3f1bf6768be\"\n        },\n        {\n          \"id\": \"173849fa-7ed7-5381-42ed-f1a6d23648d4\"\n        }\n      ],\n      \"targetRedirects\": [\n        {\n          \"id\": \"8547f3af-fb2f-bdcf-750f-3347dff71b2c\"\n        },\n        {\n          \"id\": \"afb0cb58-bfb5-fbc1-a8c7-ae8edb932a47\"\n        }\n      ],\n      \"locales\": {\n        \"key_0\": {\n          \"pathSegment\": \"string\",\n          \"name\": \"string\",\n          \"path\": \"string\",\n          \"inherited\": false\n        },\n        \"key_1\": {\n          \"pathSegment\": \"string\",\n          \"name\": \"string\",\n          \"path\": \"string\",\n          \"inherited\": false\n        }\n      }\n    },\n    {\n      \"id\": \"83b47ee2-b955-32d4-97af-60d5845a2139\",\n      \"name\": \"string\",\n      \"path\": \"string\",\n      \"type\": \"composition\",\n      \"order\": 2730,\n      \"data\": {\n        \"isSearchHit\": false,\n        \"queryStrings\": [\n          {\n            \"name\": \"strin\",\n            \"value\": \"string\",\n            \"helpText\": \"string\",\n            \"optionsSource\": {\n              \"source\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"options\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"name\": \"string\",\n            \"value\": \"string\",\n            \"helpText\": \"string\",\n            \"optionsSource\": {\n              \"source\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"options\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"previewValue\": \"string\"\n      },\n      \"compositionId\": \"311c5752-0a43-42ab-befc-68aedde34f50\",\n      \"description\": \"string\",\n      \"parentPath\": \"string\",\n      \"pathSegment\": \"string\",\n      \"isLeaf\": false,\n      \"compositionData\": {\n        \"id\": \"d254dfc0-0d03-3f37-20a2-4bbe549f10de\",\n        \"type\": \"string\",\n        \"name\": \"string\",\n        \"locales\": [\n          \"string\",\n          \"string\"\n        ],\n        \"editionId\": \"86c7544d-4393-28c7-a16f-83ca17450ae8\",\n        \"slug\": \"string\",\n        \"uiStatus\": \"Modified\",\n        \"icon\": \"screen\",\n        \"typeName\": \"stri\",\n        \"editionPriority\": 4901,\n        \"editionName\": \"string\",\n        \"editions\": [\n          {\n            \"id\": \"02a89dec-7164-9971-6a4b-dcca147de31a\",\n            \"type\": \"string\",\n            \"name\": \"string\",\n            \"locales\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"editionId\": \"70843629-9be8-6f88-ab5b-a5c4895d24c6\",\n            \"slug\": \"string\",\n            \"editionName\": \"string\",\n            \"editionPriority\": 7506,\n            \"uiStatus\": \"Modified\",\n            \"icon\": \"screen\",\n            \"typeName\": \"string\",\n            \"modified\": \"1989-10-07T17:53:58.575Z\"\n          },\n          {\n            \"id\": \"44ea4be8-cd5d-d945-0acd-d342770a58a3\",\n            \"type\": \"string\",\n            \"name\": \"string\",\n            \"locales\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"editionId\": \"ca8316ea-6a64-18d5-eb95-3346c37f8eb5\",\n            \"slug\": \"string\",\n            \"editionName\": \"string\",\n            \"editionPriority\": 3835,\n            \"uiStatus\": \"Draft\",\n            \"icon\": \"screen\",\n            \"typeName\": \"string\",\n            \"modified\": \"2020-11-15T12:31:10.687Z\"\n          }\n        ],\n        \"modified\": \"1978-12-26T13:11:11.726Z\"\n      },\n      \"sourceRedirects\": [\n        {\n          \"id\": \"4d74b1d2-0351-fbb4-d1d1-73b68c0673ad\"\n        },\n        {\n          \"id\": \"3cb5d938-fa2b-d352-a736-e637acc26bb1\"\n        }\n      ],\n      \"targetRedirects\": [\n        {\n          \"id\": \"1ba29d26-04d3-fdc4-e914-3d6997612345\"\n        },\n        {\n          \"id\": \"e719f038-f0d7-c340-0c71-167223d8ef8e\"\n        }\n      ],\n      \"locales\": {\n        \"key_0\": {\n          \"pathSegment\": \"string\",\n          \"name\": \"string\",\n          \"path\": \"string\",\n          \"inherited\": true\n        },\n        \"key_1\": {\n          \"pathSegment\": \"string\",\n          \"name\": \"string\",\n          \"path\": \"string\",\n          \"inherited\": false\n        }\n      }\n    }\n  ],\n  \"tree\": {\n    \"id\": \"db0cc464-8247-16d8-564b-827cd54db0b7\",\n    \"name\": \"string\",\n    \"path\": \"string\",\n    \"type\": \"placeholder\",\n    \"children\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProjectMapTreeNodeDefinition detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProjectMapTreeNodeDefinition detected>\"\n      }\n    ],\n    \"order\": 4454,\n    \"data\": {\n      \"isSearchHit\": true,\n      \"queryStrings\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"helpText\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionsSource\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"helpText\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionsSource\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"previewValue\": \"string\"\n    },\n    \"compositionId\": \"a3b81190-4e0e-fdd5-c726-73af6159cac5\",\n    \"description\": \"string\",\n    \"parentPath\": \"string\",\n    \"pathSegment\": \"string\",\n    \"isLeaf\": true,\n    \"compositionData\": {\n      \"id\": \"1c6e89b8-e80a-1bab-0d6d-e578a6e00916\",\n      \"type\": \"string\",\n      \"name\": \"string\",\n      \"locales\": [\n        \"string\",\n        \"string\"\n      ],\n      \"editionId\": \"a0cf7f69-bec1-1ebf-d57f-b4c941351307\",\n      \"slug\": \"string\",\n      \"uiStatus\": \"Modified\",\n      \"icon\": \"screen\",\n      \"typeName\": \"string\",\n      \"editionPriority\": 3900,\n      \"editionName\": \"string\",\n      \"editions\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"editionId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"slug\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"editionName\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"editionPriority\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"uiStatus\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"icon\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"typeName\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"modified\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"editionId\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"slug\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"editionName\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"editionPriority\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"uiStatus\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"icon\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"typeName\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"modified\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"modified\": \"2007-04-11T09:34:32.556Z\"\n    },\n    \"sourceRedirects\": [\n      {\n        \"id\": \"a12b5f11-4826-2cf8-cf60-0324bc110ad2\"\n      },\n      {\n        \"id\": \"4542cfd9-8ca8-bc21-98ac-5140eb2c76c1\"\n      }\n    ],\n    \"targetRedirects\": [\n      {\n        \"id\": \"74f57b71-8ad5-a670-1ede-8f1f613d38f5\"\n      },\n      {\n        \"id\": \"f0eccfab-b309-504e-416e-ef605799bf85\"\n      }\n    ],\n    \"locales\": {\n      \"key_0\": {\n        \"pathSegment\": \"string\",\n        \"name\": \"string\",\n        \"path\": \"string\",\n        \"inherited\": true\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f241b865-6943-4308-bbea-c97f8732ec52",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "compositionId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "tree",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAncestors",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expanded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionData",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionUIStatus",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withRedirectData",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c2b5844-3d4b-44d9-b1ab-d25c002ac52c",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "compositionId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "tree",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAncestors",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expanded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionData",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionUIStatus",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withRedirectData",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "657207bd-1496-4356-a51d-dc731a3248e4",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "compositionId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "tree",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAncestors",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expanded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionData",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionUIStatus",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withRedirectData",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bf3776f-63b4-4f15-abf3-d085e16f60ac",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "compositionId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "tree",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAncestors",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expanded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionData",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionUIStatus",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withRedirectData",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dc13f4d0-0ae5-46be-816a-ee37aaf995d2",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "path",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "compositionId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100000"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "state",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "tree",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeAncestors",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "expanded",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionData",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withCompositionUIStatus",
+                      "value": "false"
+                    },
+                    {
+                      "key": "withRedirectData",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a86eb11a-23e4-4af9-b34d-4e40962bd309",
+          "name": "Called to insert or update a node or nodes",
+          "request": {
+            "name": "Called to insert or update a node or nodes",
+            "description": {
+              "content": "Called to insert or update a node or nodes",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map-nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9a600938-691c-470b-8982-ddde7768439e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_3\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "10b6a9a5-9140-4282-b6a8-241dcee26b6a",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_3\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9475ada5-5336-4ee4-82f6-d972fb5dbe0a",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_3\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "904bbdad-fc45-49b5-ae51-eb527973cb46",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_3\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d48b641b-cd09-4e6e-a6b5-699f08546e97",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_3\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "886a2ba3-87c9-4214-8b07-486061373d0b",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nodes\": [\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_2\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_3\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    },\n    {\n      \"node\": {\n        \"name\": \"<string>\",\n        \"path\": \"<string>\",\n        \"type\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"order\": \"<integer>\",\n        \"data\": {\n          \"isSearchHit\": \"<boolean>\",\n          \"queryStrings\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"helpText\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"optionsSource\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"previewValue\": \"<string>\"\n        },\n        \"compositionId\": \"<uuid>\",\n        \"description\": \"<string>\",\n        \"locales\": {\n          \"key_0\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          },\n          \"key_1\": {\n            \"pathSegment\": \"<string>\",\n            \"name\": \"<string>\"\n          }\n        }\n      },\n      \"previousSibling\": \"<string>\",\n      \"nextSibling\": \"<string>\"\n    }\n  ],\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e0f9fee-fe69-4777-97c7-41723a264233",
+          "name": "Called to delete a particular projectMap node by id or path",
+          "request": {
+            "name": "Called to delete a particular projectMap node by id or path",
+            "description": {
+              "content": "Called to delete a particular projectMap node by id or path",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map-nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "12b9be12-91ca-4cbe-b9e8-c0d8894059cb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "04a360af-f398-4c7c-826b-d7fbfdea99c5",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1ee31f4-f45c-4a5f-924b-fbbb440e8275",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "419c109e-9c13-4663-9cb6-2bcca9a742d1",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79828d21-31a7-4721-afb9-fae0a6f18cc4",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dfb51e83-ca71-4883-9def-31c01b052ab1",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map-nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"nodeId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "571c6898-437b-4b53-b555-a505b449f91f",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c1e60982-8308-4c5b-99e6-8b4882362ba9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "733533bb-3b75-48c2-837e-7948914b31b6",
+          "name": "Called to retrieve a list of project maps related to a project or a specific project map by id",
+          "request": {
+            "name": "Called to retrieve a list of project maps related to a project or a specific project map by id",
+            "description": {
+              "content": "Called to retrieve a list of project maps related to a project or a specific project map by id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project to fetch project map for"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectMapId",
+                  "value": "<uuid>",
+                  "description": "The id of the project map to fetch"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1191e18a-539e-4f3a-9314-d3aeac11f5bd",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"projectMaps\": [\n    {\n      \"name\": \"string\",\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"baseUrl\": \"http://)Ef&U:w{\",\n      \"default\": false,\n      \"globalQueryStrings\": [\n        {\n          \"name\": \"string\",\n          \"value\": \"string\",\n          \"helpText\": \"string\",\n          \"optionsSource\": {\n            \"source\": \"static\",\n            \"options\": [\n              {\n                \"name\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            ]\n          }\n        },\n        {\n          \"name\": \"string\",\n          \"value\": \"string\",\n          \"helpText\": \"string\",\n          \"optionsSource\": {\n            \"source\": \"static\",\n            \"options\": [\n              {\n                \"name\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            ]\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"baseUrl\": \"httpc://humW\",\n      \"default\": false,\n      \"globalQueryStrings\": [\n        {\n          \"name\": \"string\",\n          \"value\": \"string\",\n          \"helpText\": \"string\",\n          \"optionsSource\": {\n            \"source\": \"static\",\n            \"options\": [\n              {\n                \"name\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            ]\n          }\n        },\n        {\n          \"name\": \"string\",\n          \"value\": \"string\",\n          \"helpText\": \"string\",\n          \"optionsSource\": {\n            \"source\": \"static\",\n            \"options\": [\n              {\n                \"name\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e952f4b0-a2ba-4af1-b89b-af3466da3e69",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7cbabb69-9cdf-4e29-813d-92d9588406e0",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc04f4f5-676e-4ce6-8b04-5ef946d58f7e",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f72999f2-ff68-43f8-923d-f4fc8e6f2c4f",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "de9e9831-cb99-4e9f-825c-054cb411311f",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5bc4ed39-0308-422f-b4a4-888333dcc4a8",
+          "name": "/api/v1/project-map",
+          "request": {
+            "name": "/api/v1/project-map",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d246d0ab-ad6d-4793-b3da-7906c85cf49c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"projectMapId\": \"959491eb-7a25-d218-a07a-b4fd9416cd59\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "404fdb8c-4063-4723-bf63-205e45dcad0e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3b22a2d9-d9e1-4b97-9342-751f0ac5c425",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "213d2f55-4431-4bd2-aaec-b7417d3a0f65",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4d45925-19ae-4609-b20d-98e3406ae745",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab76ab65-7240-42ce-a6ff-c562b4463759",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7582ce2a-fb53-49b7-bfed-7e38b26023ae",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMap\": {\n    \"name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"description\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"default\": \"<boolean>\",\n    \"globalQueryStrings\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"optionsSource\": {\n          \"source\": \"<string>\",\n          \"options\": [\n            {\n              \"name\": \"<string>\",\n              \"value\": \"<string>\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "49d71650-157c-414f-ba31-683001762596",
+          "name": "Called to delete a projectMap",
+          "request": {
+            "name": "Called to delete a projectMap",
+            "description": {
+              "content": "Called to delete a projectMap",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "project-map"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "598a6160-c4da-4ebe-8e2e-d0e21a8df2a1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e9e2466a-5d7a-4b8a-9b07-29b1e68af9bb",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6289ac14-0923-4955-9b5f-ff1f9aa637d5",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5d3d1a3-8906-4e97-bc3c-243c8783a6cc",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9b03582-1b5f-479e-98de-11d7a9ea611c",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5a0c8496-b3dd-4902-ad5f-267c91bd1acb",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "project-map"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"projectMapId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9f2ac0c8-0c5b-43c5-bd70-be11a111db7a",
+    "name": "Uniform Platform Aggregates Project Map API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

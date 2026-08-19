@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Security API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Security",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/security-audit-log",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/security-audit-log",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination. Defaults to 0."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return. Defaults to 50, max 100."
+              },
+              {
+                "name": "withTotalCount",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes totalCount in the response for pagination."
+              },
+              {
+                "name": "actions",
+                "value": "",
+                "type": "query",
+                "description": "Filter by one or more action types (comma-separated, e.g. `actions=CREATE_PAT` or `actions=CREATE_PAT,DELETE_PAT`)."
+              },
+              {
+                "name": "identitySubject",
+                "value": "",
+                "type": "query",
+                "description": "Filter by the identity subject who performed the action."
+              },
+              {
+                "name": "targetType",
+                "value": "",
+                "type": "query",
+                "description": "Filter by target type."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter events created after this date (ISO 8601)."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter events created before this date (ISO 8601)."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get paginated security audit log for a team. Requires team admin permissions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

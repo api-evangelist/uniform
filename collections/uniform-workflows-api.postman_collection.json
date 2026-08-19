@@ -1,0 +1,1269 @@
+{
+  "item": [
+    {
+      "id": "6e850421-e59b-4694-96a4-5e111888e0c8",
+      "name": "Workflows",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "50a34811-0991-4666-92fe-2298a1a241e2",
+          "name": "/api/v1/workflows",
+          "request": {
+            "name": "/api/v1/workflows",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workflows"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project to fetch workflows for"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Number of records to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Max number of records to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "keyword",
+                  "value": "<string>",
+                  "description": "Matches workflows where their name contains the specified keyword.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "workflowIDs",
+                  "value": "<uuid>",
+                  "description": "Matches workflows where their ID is one of a list.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "workflowIDs",
+                  "value": "<uuid>",
+                  "description": "Matches workflows where their ID is one of a list.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "24bf23f3-c838-438e-978f-adca199e9c89",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"9fb0aca5-5f56-9abb-25fd-19ef35bbab6b\",\n      \"name\": \"AMq~yAU\",\n      \"initialStage\": \"e2f4a909-ec76-5130-631f-28ae6bc97a72\",\n      \"stages\": {\n        \"key_0\": {\n          \"name\": \"!|-[iSM2D(\",\n          \"permissions\": {\n            \"key_0\": {\n              \"write\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"publish\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"transitions\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"permissions\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"autoPublish\": false,\n          \"requireValidity\": false,\n          \"icon\": \"chevron-double-right-o\",\n          \"order\": 870.8823394401455\n        },\n        \"key_1\": {\n          \"name\": \" \",\n          \"permissions\": {\n            \"key_0\": {\n              \"write\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"publish\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"key_1\": {\n              \"write\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"publish\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"transitions\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"permissions\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"autoPublish\": true,\n          \"requireValidity\": true,\n          \"icon\": \"chevron-double-right-o\",\n          \"order\": 8891.150123618745\n        }\n      },\n      \"modified\": \"string\",\n      \"created\": \"string\",\n      \"createdBy\": \"string\",\n      \"modifiedBy\": \"string\"\n    },\n    {\n      \"id\": \"eac1b705-7c78-ba7a-e42b-15daf833956f\",\n      \"name\": \"|jN\",\n      \"initialStage\": \"1c75ce99-725f-3d55-7553-9e4dd646de86\",\n      \"stages\": {\n        \"key_0\": {\n          \"name\": \";_v\",\n          \"permissions\": {\n            \"key_0\": {\n              \"write\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"publish\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"key_1\": {\n              \"write\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"publish\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"transitions\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"permissions\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"autoPublish\": false,\n          \"requireValidity\": true,\n          \"icon\": \"chevron-double-right-o\",\n          \"order\": 3191.95485321371\n        },\n        \"key_1\": {\n          \"name\": \"rGXl;\",\n          \"permissions\": {\n            \"key_0\": {\n              \"write\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"publish\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          \"transitions\": [\n            {\n              \"name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"to\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"permissions\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"autoPublish\": false,\n          \"requireValidity\": true,\n          \"icon\": \"chevron-double-right-o\",\n          \"order\": 3230.8324319269645\n        }\n      },\n      \"modified\": \"string\",\n      \"created\": \"string\",\n      \"createdBy\": \"string\",\n      \"modifiedBy\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5121b737-9cbd-4c23-bd9f-714df42be00e",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55735d73-300e-454f-8712-1bd1106564dd",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6aeaf91-fcec-4b36-b029-9fbaa9385b66",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a1d6272-17c3-4004-b35a-41f79ee26ea6",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9a2aa703-99a0-40e4-866c-9017c67fe6e6",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1000"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "workflowIDs",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b3fd3a51-6932-4660-9f95-00f87bbb1030",
+          "name": "/api/v1/workflows",
+          "request": {
+            "name": "/api/v1/workflows",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workflows"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "746200b1-cb9a-4359-b140-c230dc3d551c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f0c0f7e6-f10f-4269-ac23-8fb529c8aba2",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3ff21bf-5745-4d4a-85cf-4ede6f53e786",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "635ba17d-8e95-47b6-ade4-7da153fa881b",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0725e972-8c23-4a16-ac5e-763954843029",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "28abe0ca-b01b-48e7-ac91-c7c2d1739fe9",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflow\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"initialStage\": \"<uuid>\",\n    \"stages\": {\n      \"key_0\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      },\n      \"key_1\": {\n        \"name\": \"<string>\",\n        \"permissions\": {\n          \"key_0\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          },\n          \"key_1\": {\n            \"write\": \"<boolean>\",\n            \"publish\": \"<boolean>\"\n          }\n        },\n        \"transitions\": [\n          {\n            \"name\": \"<string>\",\n            \"to\": \"<uuid>\",\n            \"permissions\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"autoPublish\": \"<boolean>\",\n        \"requireValidity\": \"<boolean>\",\n        \"icon\": \"chevron-double-right-o\",\n        \"order\": \"<number>\"\n      }\n    },\n    \"modified\": \"<string>\",\n    \"created\": \"<string>\",\n    \"createdBy\": \"<string>\",\n    \"modifiedBy\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "575584d0-5bb6-476e-bf2c-6e199c6b43f3",
+          "name": "/api/v1/workflows",
+          "request": {
+            "name": "/api/v1/workflows",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "workflows"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e02af668-d825-49ae-82f2-5438a626b6a6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f51c3153-1cf8-43ee-9059-d0596692f337",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79877362-50f8-408a-b322-3a5840425741",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "439e2652-bd45-4964-9d4d-719b9a0b6e39",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc367749-f16a-4a01-add6-aae976476f5b",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "47abf7fe-b16b-40f2-bf21-df22e95d9f55",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"workflowId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e925e7dd-d0fd-428b-86ff-616157a59422",
+    "name": "Uniform Platform Aggregates Workflows API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

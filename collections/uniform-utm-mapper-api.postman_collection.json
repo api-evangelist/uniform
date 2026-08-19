@@ -1,0 +1,493 @@
+{
+  "item": [
+    {
+      "id": "c181da06-5518-4554-975a-6bb28834cbe4",
+      "name": "UTM Mapper",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8e6a3c92-f59f-4c4f-97f0-946b97d668b7",
+          "name": "Handles preflight requests. This endpoint allows CORS.",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS.",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "utm-mapper-link-configuration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "27c0d7cc-28b7-4093-a255-f85436573288",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3f493385-bb99-49c0-a026-fddcee488516",
+          "name": "/api/v1/utm-mapper-link-configuration",
+          "request": {
+            "name": "/api/v1/utm-mapper-link-configuration",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "utm-mapper-link-configuration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project ID to get UTM mapper link configuration for."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "100b180b-186e-4614-a5c6-e416701314e1",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"caabcc64-07a1-c88a-169b-64f9939231bf\",\n  \"parts\": [\n    {\n      \"id\": \"cd888d16-6745-5895-f105-934fd8edc7f5\",\n      \"naming_convention\": {\n        \"id\": \"bb893ff4-76e4-41b0-0e05-c13a3c8491e7\",\n        \"delimiter\": \"s\",\n        \"name\": \"string\",\n        \"query_parameter\": \"string\",\n        \"taxonomies\": [\n          {\n            \"id\": \"bf2feabf-9239-8eb2-e71a-895fe2998937\",\n            \"name\": \"string\",\n            \"display_name\": \"string\",\n            \"required\": false,\n            \"value_length\": 22,\n            \"values\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"values_sort\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"default_value\": \"string\"\n          },\n          {\n            \"id\": \"19f84b12-e92e-372a-791e-c4e9f2677d27\",\n            \"name\": \"string\",\n            \"display_name\": \"string\",\n            \"required\": true,\n            \"value_length\": 26,\n            \"values\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"values_sort\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"default_value\": \"string\"\n          }\n        ],\n        \"taxonomies_sort\": [\n          \"f717df02-2103-9878-6223-b777a86678bc\",\n          \"045a1952-1926-7db7-a73f-8e15bd17ab4e\"\n        ]\n      },\n      \"naming_convention_id\": \"35a20e0e-2f77-fd81-4d06-621a4aafc0b2\",\n      \"query_parameter\": \"string\",\n      \"taxonomy\": {\n        \"id\": \"f4bc5aa1-7206-5d52-98fa-688aaf9f6313\",\n        \"name\": \"string\",\n        \"display_name\": \"string\",\n        \"required\": false,\n        \"value_length\": 76,\n        \"values\": [\n          {\n            \"id\": \"6cc82653-cd75-ee34-f664-64e801e86735\",\n            \"name\": \"string\",\n            \"value\": \"string\"\n          },\n          {\n            \"id\": \"c04c78ba-c9b2-76c6-b294-5de4a13d2bef\",\n            \"name\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"values_sort\": [\n          \"31dc520a-d859-a718-ab9a-c41b3a9ee7b6\",\n          \"fc53a81f-fe64-2e50-94a6-294b5f1240a0\"\n        ],\n        \"default_value\": \"string\"\n      },\n      \"taxonomy_id\": \"32d11931-8113-a75e-483b-70febf0781ae\"\n    },\n    {\n      \"id\": \"a2b63a04-98a7-1007-fcc8-625d3c837ceb\",\n      \"naming_convention\": {\n        \"id\": \"05d35142-ee62-efac-2271-bda1342e8e2a\",\n        \"delimiter\": \"s\",\n        \"name\": \"string\",\n        \"query_parameter\": \"string\",\n        \"taxonomies\": [\n          {\n            \"id\": \"12811670-867f-7d76-9d4c-85dfb9006dd4\",\n            \"name\": \"string\",\n            \"display_name\": \"string\",\n            \"required\": true,\n            \"value_length\": 4,\n            \"values\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"values_sort\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"default_value\": \"string\"\n          },\n          {\n            \"id\": \"1c5da62b-5af9-3372-d35a-867e158728db\",\n            \"name\": \"string\",\n            \"display_name\": \"string\",\n            \"required\": true,\n            \"value_length\": 97,\n            \"values\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"values_sort\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"default_value\": \"string\"\n          }\n        ],\n        \"taxonomies_sort\": [\n          \"3a51f523-a718-04d9-6bc2-df1b52cc545e\",\n          \"e7ac6726-521b-ee2d-5fc8-a708200b9d07\"\n        ]\n      },\n      \"naming_convention_id\": \"628c1f0b-3819-d714-facb-d50e4b036f6f\",\n      \"query_parameter\": \"string\",\n      \"taxonomy\": {\n        \"id\": \"d0190f5e-2120-59c6-22fb-18eca9b4bc7e\",\n        \"name\": \"string\",\n        \"display_name\": \"string\",\n        \"required\": false,\n        \"value_length\": 77,\n        \"values\": [\n          {\n            \"id\": \"f649d93f-007c-50bc-39db-f11984f3f0db\",\n            \"name\": \"string\",\n            \"value\": \"string\"\n          },\n          {\n            \"id\": \"2ee1e19b-d0eb-86b3-a721-e6eced86c894\",\n            \"name\": \"string\",\n            \"value\": \"string\"\n          }\n        ],\n        \"values_sort\": [\n          \"124d6c69-d8d8-6508-d4c7-d5f771ecfebd\",\n          \"15b6ad4e-786a-e6f0-5f96-0f3ab4985ab1\"\n        ],\n        \"default_value\": \"string\"\n      },\n      \"taxonomy_id\": \"aaa909a2-3e0a-39ff-2cb2-8f4878bdb7ee\"\n    }\n  ],\n  \"template_sort\": [\n    \"785990c7-fd5c-1eca-f1ad-47e0044949f5\",\n    \"d30799f9-0cd5-5271-4386-4f31e46c196a\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f16bf106-7b5d-4008-84a5-4cf7dd53812f",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bb01f55-f953-4a9b-b6d5-34c8f1a4f53f",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "564433c5-4d16-4cbf-8610-366b4556e0d4",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b7c3f63-d81f-497d-8226-5fbdceef4625",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "284cffd2-06be-430b-90ff-13d7cd2a8535",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "02ca582a-e0d9-47fb-9f87-9dec4f418a0b",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "utm-mapper-link-configuration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fa85965e-b63c-4e56-8a67-cc2ac5a8e936",
+    "name": "Uniform Platform Aggregates UTM Mapper API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

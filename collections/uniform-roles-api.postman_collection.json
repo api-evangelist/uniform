@@ -1,0 +1,1558 @@
+{
+  "item": [
+    {
+      "id": "b1070c44-6690-4bf8-bf56-a38db63dbb64",
+      "name": "Roles",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2e199a0d-5735-4574-824b-287b70f15f8b",
+          "name": "Reads roles for a team. Team admin permissions are required.",
+          "request": {
+            "name": "Reads roles for a team. Team admin permissions are required.",
+            "description": {
+              "content": "Reads roles for a team. Team admin permissions are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "roles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "teamId",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "12742d45-93cb-4d83-8bb4-1859dd2f6db3",
+              "name": "Roles read",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"roles\": [\n    {\n      \"singleRole\": {\n        \"id\": \"string\",\n        \"teamId\": \"string\",\n        \"name\": \"D.NLQ0XNPD18O3+4gpi+Hm9SF'=L~$*N!gO{pJTW1&)$,+\\\"=IU3eEj}:*92jo\\\"z@X#U$}-KqipAUU%o[U+Gke7`k\",\n        \"permissions\": [\n          \"UTM_WRITE\",\n          \"UPM_WRITE\"\n        ],\n        \"publicId\": \"0vnBjYXzhR\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        \"string\",\n        \"string\"\n      ],\n      \"apiKeys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"policies\": {\n        \"key_0\": {\n          \"allowing\": [\n            {\n              \"entityGroup\": \"aiPrompts\",\n              \"permission\": \"RDT_ADVANCED\",\n              \"condition\": {\n                \"property\": \"pattern\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"compositions\",\n              \"permission\": \"UPM_PUBLISH\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"denying\": [\n            {\n              \"entityGroup\": \"compositionPatterns\",\n              \"permission\": \"RDT_ADVANCED\",\n              \"condition\": {\n                \"property\": \"pattern\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"utmMapper\",\n              \"permission\": \"UPM_PUBLISH\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        },\n        \"key_1\": {\n          \"allowing\": [\n            {\n              \"entityGroup\": \"projectMap\",\n              \"permission\": \"OPT_CREATE_TESTS\",\n              \"condition\": {\n                \"property\": \"pattern\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"dataSources\",\n              \"permission\": \"UPM_RELEASE_DELETE\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"denying\": [\n            {\n              \"entityGroup\": \"releases\",\n              \"permission\": \"UPM_DATATYPE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"contentTypes\",\n              \"permission\": \"UPM_PUB\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        },\n        \"key_2\": {\n          \"allowing\": [\n            {\n              \"entityGroup\": \"assets\",\n              \"permission\": \"OPT_WRITE_SIGNALS\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"tests\",\n              \"permission\": \"UPM_DATATYPE\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"denying\": [\n            {\n              \"entityGroup\": \"compositions\",\n              \"permission\": \"LBL_CREATE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"entryPatterns\",\n              \"permission\": \"LBL_CREATE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        },\n        \"key_3\": {\n          \"allowing\": [\n            {\n              \"entityGroup\": \"projectMap\",\n              \"permission\": \"RDT_DELETE\",\n              \"condition\": {\n                \"property\": \"pattern\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"entryPatterns\",\n              \"permission\": \"RDT_DELETE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"denying\": [\n            {\n              \"entityGroup\": \"entryPatterns\",\n              \"permission\": \"UPM_ENTRY_SCHEMA\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"labels\",\n              \"permission\": \"UPM_SCHEMA\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        }\n      }\n    },\n    {\n      \"singleRole\": {\n        \"id\": \"string\",\n        \"teamId\": \"string\",\n        \"name\": \"E6KML;Y92_2 \\\"ZoVMNLO%KN1@dZlTaB'#[l\\\"8XB\",\n        \"permissions\": [\n          \"PROJECT\",\n          \"UTM_WRITE\"\n        ],\n        \"publicId\": \"W7KbSr4T\",\n        \"description\": \"string\"\n      },\n      \"users\": [\n        \"string\",\n        \"string\"\n      ],\n      \"apiKeys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"policies\": {\n        \"key_0\": {\n          \"allowing\": [\n            {\n              \"entityGroup\": \"utmMapper\",\n              \"permission\": \"UPM_RELEASE_DELETE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"redirects\",\n              \"permission\": \"UPM_PUBLISH\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"denying\": [\n            {\n              \"entityGroup\": \"intentsAndAudiences\",\n              \"permission\": \"UPM_RELEASE_CREATE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"redirects\",\n              \"permission\": \"UPM_DATATYPE\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        },\n        \"key_1\": {\n          \"allowing\": [\n            {\n              \"entityGroup\": \"utmMapper\",\n              \"permission\": \"OPT_WRITE_TESTS\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"utmMapper\",\n              \"permission\": \"UPM_SCHEMA\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ],\n          \"denying\": [\n            {\n              \"entityGroup\": \"compositionPatterns\",\n              \"permission\": \"LBL_UPDATE\",\n              \"condition\": {\n                \"property\": \"type\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"entityGroup\": \"components\",\n              \"permission\": \"OPT_PUBLISH\",\n              \"condition\": {\n                \"property\": \"id\",\n                \"value\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75e129f9-67bd-424a-9ebd-52c1d1d00e6c",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b7444ec-ec61-46f0-825e-aaacb6400d1c",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dabc5327-5a88-48e9-a3d2-ea09fe3b9e24",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b771f267-f76d-4460-b4bf-1fef08a5a08e",
+              "name": "404 response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e6d5397f-593f-4139-99c4-2a929d789b98",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c6a7f8a9-2889-4ea2-b965-e30b93720508",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "teamId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44157261-57b0-470b-ab32-771a664dc6a7",
+          "name": "Deletes a role. Team admin permissions are required.",
+          "request": {
+            "name": "Deletes a role. Team admin permissions are required.",
+            "description": {
+              "content": "Deletes a role. Team admin permissions are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "roles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "50a52a16-f7ae-413c-9c88-a901b4a67709",
+              "name": "Role deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"roleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2a8106d8-3c0e-46fc-9521-111ae4e5577a",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"roleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87a301f0-bf7b-4e9b-bb0e-194c914b41e3",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"roleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc26d61f-6695-49d8-893b-392abaa9662a",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"roleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45d88627-8880-46df-8932-ff2ac27e53ce",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"roleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "756f03a1-1ea3-4ef4-9e11-ffb577026e3c",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"roleId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd0b7616-9069-4a13-9c82-5d7bd946a532",
+          "name": "Creates a new role. Team admin permissions are required.",
+          "request": {
+            "name": "Creates a new role. Team admin permissions are required.",
+            "description": {
+              "content": "Creates a new role. Team admin permissions are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "roles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2287d0e9-3147-4052-8029-b7fb6dbf755f",
+              "name": "Role created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "866817f0-bd9f-4e07-a3f9-f21c07506212",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a309c4db-b97a-48d0-bbe2-afdea694edb4",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21958408-0845-4f70-b342-ef84b4059aa9",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62762884-cd74-436b-b924-e446d228ab26",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ddbe4a02-e549-47a4-be35-2c02b81b1185",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"id\": \"<string>\",\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6bd9bbd0-52f0-4475-8ac9-ffdc9b759f77",
+          "name": "Updates a role. Team admin permissions are required.",
+          "request": {
+            "name": "Updates a role. Team admin permissions are required.",
+            "description": {
+              "content": "Updates a role. Team admin permissions are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "roles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "05086672-61d8-4251-89c3-d0230dadb6e0",
+              "name": "Role updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36d85039-917b-4e24-bee7-e75314467b82",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "565750a4-515d-42da-a4b9-e2e927bbd457",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6736596-8640-45be-8ce2-d6fa95550b78",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7bb0ffa6-722e-444c-858a-4c96d6047100",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8f1c49f9-22ab-4568-b6d2-9dc676b44ea8",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "roles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"singleRole\": {\n    \"id\": \"<string>\",\n    \"teamId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"permissions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"publicId\": \"<string>\",\n    \"description\": \"<string>\"\n  },\n  \"policies\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cc966c57-43fb-4a51-8778-96d1cca3de37",
+    "name": "Uniform Platform Aggregates Roles API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

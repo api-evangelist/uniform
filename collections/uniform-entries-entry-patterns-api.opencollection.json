@@ -1,0 +1,306 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Entries & Entry Patterns API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entries & Entry Patterns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/entries-history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/entries-history",
+            "params": [
+              {
+                "name": "entryId",
+                "value": "",
+                "type": "query",
+                "description": "Specify the entry ID to get history for"
+              },
+              {
+                "name": "editionId",
+                "value": "",
+                "type": "query",
+                "description": "The edition ID. When set, gets history for a child edition of the entryId.\n"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project the entries(s) are on."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "If a request returns a cursor, pass it in this query parameter to get the next page of results."
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The release ID to get history for. Note that release history is independent of base histories."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/entries",
+            "params": [
+              {
+                "name": "entryIDs",
+                "value": "",
+                "type": "query",
+                "description": "Specify one or more entry IDs to fetch.\nWhen `editions=raw`, this matches on edition IDs or entry IDs and edition resolution is disabled.\nWhen `versionId` is passed, this parameter is required and must contain only one entry ID.\n"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a historical entry version ID to fetch (retrieved from the entries-history API).\nMust be used with the `entryIDs` parameter, and there must be only one entryID passed\n"
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single entry to fetch by slug"
+              },
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "Filters entry lists by the user who created them. The user is specified by their identity subject\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of records to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sets the sorting of the results. If unspecified, results are sorted by modification date descending.\nAllowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC, name_DESC, name_ASC, slug_DESC, slug_ASC\n"
+              },
+              {
+                "name": "facetBy",
+                "value": "",
+                "type": "query",
+                "description": "Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs)."
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query",
+                "description": "Matches entries based on whether they are pattern entries or regular entries.\nIf true, only pattern entries will be returned.\nIf false (default), only regular entries will be returned.\nIf 'any', both pattern and regular entries will be returned (useful for ID lookups).\n"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project the entry/entries are on"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Publishing state to fetch. 0 = draft, 64 = published"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The content type ID to filter by"
+              },
+              {
+                "name": "uiStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filters entries lists by the UI status of the entry.\nThis internal status is subject to change without notice, and is thus marked deprecated to discourage use of internal data\n"
+              },
+              {
+                "name": "updatedBy",
+                "value": "",
+                "type": "query",
+                "description": "Filters entry lists by the user who last updated them. The user is specified by their identity subject\n"
+              },
+              {
+                "name": "withTotalCount",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether the total count of results will be returned along with the current results page in a list.\nHas no effect when not fetching a list. This does impact performance when enabled\n"
+              },
+              {
+                "name": "withUIStatus",
+                "value": "",
+                "type": "query",
+                "description": "Returns the UI status string of the entry.\nThis internal status is subject to change without notice, and is thus marked deprecated to discourage use of internal data\n"
+              },
+              {
+                "name": "withWorkflowDefinition",
+                "value": "",
+                "type": "query",
+                "description": "Returns the definition of any attached workflow along with the entry data\n"
+              },
+              {
+                "name": "withComponentIDs",
+                "value": "",
+                "type": "query",
+                "description": "If true the `_id` unique identifier of blocks will be part of the response data.\nIf false, the `_id` will not be present in the API response\n"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Performs keyword search on the entries"
+              },
+              {
+                "name": "skipPatternResolution",
+                "value": "",
+                "type": "query",
+                "description": "If true, any pattern references in the composition will be left unresolved.\nThis is appropriate if you intend to serialize the composition without patterns\nembedded into it, and serialize the pattern data separately\n"
+              },
+              {
+                "name": "skipParameterResolution",
+                "value": "",
+                "type": "query",
+                "description": "This parameter is unused and has no effect. Passing this parameter will become an error in the future\n"
+              },
+              {
+                "name": "skipOverridesResolution",
+                "value": "",
+                "type": "query",
+                "description": "If true, any pattern override data is not resolved by the API.\nThis is intended for internal use in the Canvas editor, and should not be used.\nPassing this parameter automatically implies withComponentIDs to be true\n"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "One or more locales to filter and localize by.\nOnly entries that enable one of the specified locales _or enable no locales_ will be returned.\nThe response will be localized to include only the first matching locale's data.\n\nThis parameter accepts a single value, a comma-delimited list of values, or the Accept-Language header syntax. Examples:\nen-US\nfr-CA,fr\nde-AT;q=0.9,de-DE;q=0.8,en;q=0.7\n\nWhen this parameter is not passed, all locales' data will be returned\n"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of a release to fetch the content for.\n\n- When unspecified, all release content is excluded from the result(s).\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be null\n"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search on textual fields of an entry.\nMatches against fully rendered content including resolved pattern content.\nUse this for \"where does this content appear\" queries.\nNote: For long text fields, the tail of the text is not guaranteed to be searchable.\nExample: ?search=hello\n"
+              },
+              {
+                "name": "searchSemantic",
+                "value": "",
+                "type": "query",
+                "description": "BETA: Semantic search using vector similarity to find content by meaning.\nMatches against source content only - pattern base content matches the pattern itself, not consumers.\nUse this for \"where is this content defined\" queries.\nRequires AI credits.\n"
+              },
+              {
+                "name": "editions",
+                "value": "",
+                "type": "query",
+                "description": "Controls the edition resolution behavior.\n\nauto: (default) Editions are evaluated automatically and the best matching edition is returned.\n    When a locale is provided, the edition with the highest priority that enables that locale matches\n    Without a locale, the default edition is matched\n\nall: Every edition is returned as a separate row.\n\nraw: the entryIDs parameter targets exact edition/entry IDs and no edition resolution is performed.\n    entryIDs MUST be provided with this option.\n    If versionId is passed, this is always enabled.\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter conventions which are pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n* `select.<bucket>[<op>]` — data projection (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to entries matching field values. The\nallowed field names are project-specific — they come from the project's\nconten"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/entries",
+            "headers": [
+              {
+                "name": "X-If-Unmodified-Since",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upserts an entry"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/entries",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes or unpublishes an entry"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/entries"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

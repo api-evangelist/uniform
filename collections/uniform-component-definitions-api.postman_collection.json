@@ -1,0 +1,1367 @@
+{
+  "item": [
+    {
+      "id": "e6d7874a-66e1-4311-bdba-db211426dcde",
+      "name": "Component Definitions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a8292d43-c2c0-4ac9-8b32-5b1a7784eb50",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "canvas-definitions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "df7db29f-cf7c-48cf-b6db-b80dbb6ccc2e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d23f3d33-b7c9-46f8-a400-6238c5c898f2",
+          "name": "/api/v1/canvas-definitions",
+          "request": {
+            "name": "/api/v1/canvas-definitions",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "canvas-definitions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project ID to get component definitions for"
+                },
+                {
+                  "disabled": false,
+                  "key": "componentId",
+                  "value": "<string>",
+                  "description": "Limit the list to one result by ID (response remains an array)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Number of records to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of records to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "includeSystem",
+                  "value": "false",
+                  "description": "Whether to fetch system meta-component definitions (personalize, test, etc.)"
+                },
+                {
+                  "disabled": false,
+                  "key": "categories",
+                  "value": "<uuid>",
+                  "description": "Filter by category ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "categories",
+                  "value": "<uuid>",
+                  "description": "Filter by category ID"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "55a2003b-0e47-4afb-ba30-b2568e430aa0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "componentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "includeSystem",
+                      "value": "false"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"componentDefinitions\": [\n    {\n      \"id\": \"_\",\n      \"name\": \"QSI&.\",\n      \"icon\": \"screen\",\n      \"titleParameter\": null,\n      \"thumbnailParameter\": null,\n      \"canBeComposition\": false,\n      \"parameters\": [\n        {\n          \"id\": \"f8n5Koc\",\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"helpText\": \"string\",\n          \"guidance\": \"7anh\\\"tZKbvO\",\n          \"localizable\": true,\n          \"notLocalizedByDefault\": false,\n          \"allowConditionalValues\": true,\n          \"typeConfig\": {}\n        },\n        {\n          \"id\": \"dw9j\",\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"helpText\": \"string\",\n          \"guidance\": \";4h\",\n          \"localizable\": true,\n          \"notLocalizedByDefault\": false,\n          \"allowConditionalValues\": true,\n          \"typeConfig\": {}\n        }\n      ],\n      \"categoryId\": null,\n      \"description\": \"string\",\n      \"previewImageUrl\": \"string\",\n      \"useTeamPermissions\": true,\n      \"permissions\": [\n        {\n          \"roleId\": \"26j\",\n          \"permission\": \"write\",\n          \"state\": 4\n        },\n        {\n          \"roleId\": \"8JCpPx_M\",\n          \"permission\": \"read\",\n          \"state\": 12\n        }\n      ],\n      \"slots\": [\n        {\n          \"id\": \"WxlXj\",\n          \"name\": \"string\",\n          \"inheritAllowedComponents\": false,\n          \"allowedComponents\": [\n            \"string\",\n            \"string\"\n          ],\n          \"allowAllComponents\": false,\n          \"patternsInAllowedComponents\": false,\n          \"minComponents\": 1905358570,\n          \"maxComponents\": 919434051\n        },\n        {\n          \"id\": \"bBzxEtBX\",\n          \"name\": \"stri\",\n          \"inheritAllowedComponents\": false,\n          \"allowedComponents\": [\n            \"string\",\n            \"string\"\n          ],\n          \"allowAllComponents\": true,\n          \"patternsInAllowedComponents\": false,\n          \"minComponents\": 1614572565,\n          \"maxComponents\": 1535833816\n        }\n      ],\n      \"slugSettings\": {\n        \"required\": \"no\",\n        \"unique\": \"local\",\n        \"regularExpression\": \"string\",\n        \"regularExpressionMessage\": \"string\"\n      },\n      \"defaults\": {\n        \"type\": \"string\",\n        \"parameters\": {\n          \"key_0\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"connectedData\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"locales\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"localesConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"connectedData\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"locales\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"localesConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"variant\": \"string\",\n        \"slots\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            }\n          ],\n          \"key_1\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            }\n          ],\n          \"key_2\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            }\n          ]\n        },\n        \"_id\": \"string\",\n        \"_pattern\": \"efc63c57-fd1f-44d1-ad3b-d0a4fea9f8cc\",\n        \"_dataResources\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"_patternDataResources\": {\n          \"key_0\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ignorePatternParameterDefault\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"optionalPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variables\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_patternError\": \"NOTFOUND\",\n        \"_overrides\": {\n          \"key_0\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_patternOverrides\": {\n          \"key_0\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_overridability\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variants\": true,\n          \"hideLockedParameters\": false\n        },\n        \"_locales\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"variants\": [\n        {\n          \"id\": \"PR\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"z\",\n          \"name\": \"string\"\n        }\n      ],\n      \"created\": \"string\",\n      \"updated\": \"string\",\n      \"workflowId\": \"b0f3b65e-9aa2-2f05-42f4-3ef24c1d0d5a\"\n    },\n    {\n      \"id\": \"V\",\n      \"name\": \"*:}\",\n      \"icon\": \"screen\",\n      \"titleParameter\": null,\n      \"thumbnailParameter\": null,\n      \"canBeComposition\": false,\n      \"parameters\": [\n        {\n          \"id\": \"HZN5U\",\n          \"name\": \"str\",\n          \"type\": \"string\",\n          \"helpText\": \"string\",\n          \"guidance\": \"3PCR\",\n          \"localizable\": true,\n          \"notLocalizedByDefault\": true,\n          \"allowConditionalValues\": false,\n          \"typeConfig\": {}\n        },\n        {\n          \"id\": \"DR1dxBe\",\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"helpText\": \"string\",\n          \"guidance\": \"w\",\n          \"localizable\": true,\n          \"notLocalizedByDefault\": true,\n          \"allowConditionalValues\": false,\n          \"typeConfig\": {}\n        }\n      ],\n      \"categoryId\": null,\n      \"description\": \"string\",\n      \"previewImageUrl\": \"string\",\n      \"useTeamPermissions\": true,\n      \"permissions\": [\n        {\n          \"roleId\": \"r69MLBC\",\n          \"permission\": \"write\",\n          \"state\": 27\n        },\n        {\n          \"roleId\": \"OPP36LLy_\",\n          \"permission\": \"read\",\n          \"state\": 16\n        }\n      ],\n      \"slots\": [\n        {\n          \"id\": \"w_kzstZCb\",\n          \"name\": \"string\",\n          \"inheritAllowedComponents\": false,\n          \"allowedComponents\": [\n            \"string\",\n            \"string\"\n          ],\n          \"allowAllComponents\": true,\n          \"patternsInAllowedComponents\": false,\n          \"minComponents\": 2126647376,\n          \"maxComponents\": 1671320256\n        },\n        {\n          \"id\": \"_aQ1\",\n          \"name\": \"stri\",\n          \"inheritAllowedComponents\": false,\n          \"allowedComponents\": [\n            \"string\",\n            \"string\"\n          ],\n          \"allowAllComponents\": false,\n          \"patternsInAllowedComponents\": true,\n          \"minComponents\": 902360729,\n          \"maxComponents\": 189086378\n        }\n      ],\n      \"slugSettings\": {\n        \"required\": \"no\",\n        \"unique\": \"local\",\n        \"regularExpression\": \"string\",\n        \"regularExpressionMessage\": \"string\"\n      },\n      \"defaults\": {\n        \"type\": \"string\",\n        \"parameters\": {\n          \"key_0\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"connectedData\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"locales\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"conditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"localesConditions\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"variant\": \"string\",\n        \"slots\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n            }\n          ]\n        },\n        \"_id\": \"string\",\n        \"_pattern\": \"5708e814-fd23-1cf4-bdfc-6d664cd7a9a7\",\n        \"_dataResources\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"_patternDataResources\": {\n          \"key_0\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ignorePatternParameterDefault\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"optionalPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variables\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ignorePatternParameterDefault\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"optionalPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variables\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"isPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"ignorePatternParameterDefault\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"optionalPatternParameter\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variables\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_patternError\": \"NOTFOUND\",\n        \"_overrides\": {\n          \"key_0\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_patternOverrides\": {\n          \"key_0\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"slots\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"variant\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dataResources\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_overridability\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variants\": true,\n          \"hideLockedParameters\": false\n        },\n        \"_locales\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"variants\": [\n        {\n          \"id\": \"r3fB6_4J\",\n          \"name\": \"string\"\n        },\n        {\n          \"id\": \"0Mkfgj\",\n          \"name\": \"string\"\n        }\n      ],\n      \"created\": \"string\",\n      \"updated\": \"string\",\n      \"workflowId\": \"c5e65f41-9802-b5d2-7161-bf586b5cd99d\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a52327c1-6f57-47db-88b5-1289e23a5c7e",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "componentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "includeSystem",
+                      "value": "false"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d6f8cf8d-74ab-440f-b36b-5cc97141acc9",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "componentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "includeSystem",
+                      "value": "false"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c283f731-4dc0-43e9-aa0e-ee06e29b9dc0",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "componentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "includeSystem",
+                      "value": "false"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff90ab6a-a8c8-4593-8e41-a24d757e13c8",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "componentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "includeSystem",
+                      "value": "false"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4a2ee838-f1a8-48c9-a6a3-852d7e82c239",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "componentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "includeSystem",
+                      "value": "false"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c9cbb2cc-f9cf-4acf-b7e7-10027f4f6c95",
+          "name": "Upserts a component definition",
+          "request": {
+            "name": "Upserts a component definition",
+            "description": {
+              "content": "Upserts a component definition",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "canvas-definitions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_3\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_4\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "beb510e5-adb5-4f89-8a36-0c1971004667",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3223a2d6-1fed-4b10-8e53-2c0c9a9c2881",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "771ecec6-d230-4fa3-90b1-ff0a5a2d568a",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22fc5da8-ed38-4981-8d7b-b69bc6288c74",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "032eb786-7a74-43bc-bed9-eed64204a4fa",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "088df074-2090-4d39-b180-d213adf5ecfa",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"componentDefinition\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"icon\": \"screen\",\n    \"titleParameter\": null,\n    \"thumbnailParameter\": null,\n    \"canBeComposition\": false,\n    \"parameters\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"categoryId\": null,\n    \"description\": \"<string>\",\n    \"previewImageUrl\": \"<string>\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"slots\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"inheritAllowedComponents\": false,\n        \"allowedComponents\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"allowAllComponents\": \"<boolean>\",\n        \"patternsInAllowedComponents\": \"<boolean>\",\n        \"minComponents\": \"<integer>\",\n        \"maxComponents\": \"<integer>\"\n      }\n    ],\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"defaults\": {\n      \"type\": \"<string>\",\n      \"parameters\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"value\": {},\n          \"connectedData\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"locales\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"conditions\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"localesConditions\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"variant\": \"<string>\",\n      \"slots\": {\n        \"key_0\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_1\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ],\n        \"key_2\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/ComponentInstance detected>\"\n          }\n        ]\n      },\n      \"_id\": \"<string>\",\n      \"_pattern\": \"<string>\",\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"isPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"ignorePatternParameterDefault\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"optionalPatternParameter\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternDataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"_patternError\": \"<string>\",\n      \"_overrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_patternOverrides\": {\n        \"key_0\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"parameters\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"slots\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"variant\": \"<string>\",\n          \"dataResources\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"_overridability\": {\n        \"parameters\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"variants\": \"<boolean>\",\n        \"hideLockedParameters\": \"<boolean>\"\n      },\n      \"_locales\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"variants\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\"\n      }\n    ],\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"workflowId\": \"<uuid>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "95175dc8-ffb3-49f9-b955-2a1ea4780c08",
+          "name": "Deletes a component definition",
+          "request": {
+            "name": "Deletes a component definition",
+            "description": {
+              "content": "Deletes a component definition",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "canvas-definitions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d237148d-38bd-47fe-b91b-edc3a049e50b",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91174a36-5c78-424c-b6a1-2ed955dcdd1a",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11edb709-7e8f-423f-a497-193826dd8271",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b42c58a-4fb2-4637-856c-62dd0a1a050f",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "021f9218-c5dd-4f71-b947-6b9995e9c0ad",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1a78391d-f056-4ed3-8044-e294a3e5e494",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "canvas-definitions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"componentId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ecea49a5-3f3e-4c3a-af0b-4da47fa78af3",
+    "name": "Uniform Platform Aggregates Component Definitions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

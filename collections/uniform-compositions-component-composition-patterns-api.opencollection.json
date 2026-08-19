@@ -1,0 +1,378 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Compositions & Component/Composition Patterns API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compositions & Component/Composition Patterns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/canvas-history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/canvas-history",
+            "params": [
+              {
+                "name": "compositionId",
+                "value": "",
+                "type": "query",
+                "description": "Specify the composition ID to get history for"
+              },
+              {
+                "name": "editionId",
+                "value": "",
+                "type": "query",
+                "description": "The edition ID. When set, gets history for a child edition of the compositionId.\n"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project the composition(s) are on"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "If a request returns a cursor, pass it in this query parameter to get the next page of results"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The release ID to get history for. Note that release history is independent of base histories"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/canvas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/canvas",
+            "params": [
+              {
+                "name": "compositionId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single composition ID to fetch. The response will be a single composition.\nThis is a primary query parameter and cannot be used with any other primary query parameters.\nWhen `editions=raw`, this parameter matches on composition or edition IDs and edition resolution is disabled.\n"
+              },
+              {
+                "name": "componentId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single component ID to fetch the component's composition defaults. The response will be a single composition.\nThis is a primary query parameter and cannot be used with any other primary query parameters\n"
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a historical composition version ID to fetch (retrieved from the canvas-history API).\nMust be used with the `compositionId` parameter\n"
+              },
+              {
+                "name": "compositionIDs",
+                "value": "",
+                "type": "query",
+                "description": "Specify multiple composition IDs to fetch. The response type will be a list.\nThis is a primary query parameter and cannot be used with any other primary query parameters.\nWhen `editions=raw`, this parameter matches on composition or edition IDs and edition resolution is disabled.\n"
+              },
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "Filters composition lists by the user who created them. The user is specified by their identity subject.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Matches compositions where their name, slug, or definition name contains the specified keyword.\nNOT a full-text search; does not match composition contents.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sets the sorting of the results. If unspecified, results are sorted by name ascending.\nAllowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC,\nname_DESC, name_ASC, slug_DESC, slug_ASC.\nWhen using primary query parameters, this parameter is ignored\n"
+              },
+              {
+                "name": "facetBy",
+                "value": "",
+                "type": "query",
+                "description": "Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs)."
+              },
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query",
+                "description": "Matches compositions based on whether they are a pattern composition or a regular composition.\nIf true, only pattern compositions will be returned.\nIf false, only regular compositions will be returned.\nIf omitted or 'any', both pattern and regular compositions will be returned.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "patternType",
+                "value": "",
+                "type": "query",
+                "description": "This specifies which type of patterns to return. This query parameter has no effect when `pattern` is false.\n* `all` - Returns all pattern instances\n* `component` - Returns only component patterns\n* `composition` - Returns only composition patterns\n"
+              },
+              {
+                "name": "withPatternType",
+                "value": "",
+                "type": "query",
+                "description": "Includes the `patternType` attribute in the response"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project the composition(s) belong to"
+              },
+              {
+                "name": "projectMapId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a project map ID to fetch by path or node ID from.\nIf not specified, the default project map for the projectId is used.\nOnly used when fetching by projectMapNodeId or projectMapNodePath\n"
+              },
+              {
+                "name": "projectMapNodeId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single composition to fetch by associated project map node ID. The response will be a single composition.\nThis is a primary query parameter and cannot be used with any other primary query parameters\n"
+              },
+              {
+                "name": "projectMapNodePath",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single composition to fetch by associated project map node path. The response will be a single composition.\nThis is a primary query parameter and cannot be used with any other primary query parameters\n"
+              },
+              {
+                "name": "skipEnhance",
+                "value": "",
+                "type": "query",
+                "description": "Signals an enhancer proxy to skip processing enhancements to the data and return raw data only.\nThis improves performance if you do not require enhanced component data.\nIf calling the Canvas API directly with no enhancer proxy, this has no effect\n"
+              },
+              {
+                "name": "skipPatternResolution",
+                "value": "",
+                "type": "query",
+                "description": "If true, any pattern references in the composition will be left unresolved.\nThis is appropriate if you intend to serialize the composition without patterns\nembedded into it, and serialize the pattern data separately\n"
+              },
+              {
+                "name": "skipParameterResolution",
+                "value": "",
+                "type": "query",
+                "description": "This parameter is unused and has no effect. Passing this parameter will become an error in the future\n"
+              },
+              {
+                "name": "skipOverridesResolution",
+                "value": "",
+                "type": "query",
+                "description": "If true, any pattern override data is not resolved by the API.\nThis is intended for internal use in the Canvas editor and should not be used.\nPassing this parameter automatically implies `withComponentIDs` is true\n"
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single composition to fetch by slug. The response will be a single composition.\nThis is a primary query parameter and cannot be used with any other primary query parameters\n"
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "Filtration by category ID. An empty string can be used to include records without a category."
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Publishing state to fetch. 0 = draft, 64 = published.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The component type (by public ID) to filter by. Note that this filters the root composition type only; components in slots are not matched by this filter.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "uiStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filters composition lists by the UI status of the composition.\nThis internal status is subject to change without notice and is thus marked deprecated to discourage use of internal data.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "attachedToProjectMap",
+                "value": "",
+                "type": "query",
+                "description": "Filters out compositions without attached node or filters out compositions with attached nodes\nif set to false. If not specified, no filtration is applied.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "updatedBy",
+                "value": "",
+                "type": "query",
+                "description": "Filters composition lists by the user who last updated them. The user is specified by their identity subject.\nThis is a list query parameter and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "withComponentIDs",
+                "value": "",
+                "type": "query",
+                "description": "If true, the `_id` unique identifier of each non-root component will be part of the response data.\nIf false, the `_id` will not be present in the API response\n"
+              },
+              {
+                "name": "withTotalCount",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether the total count of results will be returned along with the current results page in a list.\nHas no effect when not fetching a list. This does impact performance when enabled\n"
+              },
+              {
+                "name": "withUIStatus",
+                "value": "",
+                "type": "query",
+                "description": "Returns the UI status string of the composition.\nThis internal status is subject to change without notice and is thus marked deprecated to discourage use of internal data\n"
+              },
+              {
+                "name": "withWorkflowDefinition",
+                "value": "",
+                "type": "query",
+                "description": "Returns the definition of any attached workflow along with the composition data\n"
+              },
+              {
+                "name": "withProjectMapNodes",
+                "value": "",
+                "type": "query",
+                "description": "Includes project map node information in the composition results"
+              },
+              {
+                "name": "withContentSourceMap",
+                "value": "",
+                "type": "query",
+                "description": "Includes content source map metadata on supported parameters"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "One or more locales to filter and localize by.\nFor list responses, only compositions that enable one of the specified locales _or enable no locales_ will be returned. When more than one locale is passed, the list matches with an OR on each locale.\nFor all types of response, the response will be localized to include only the first matching locale's data.\n\nThis parameter accepts a single value, a comma-delimited list of values, or the Accept-Language header syntax. Examples:\nen-US\nfr-CA,fr\nde-AT;q=0.9,de-DE;q=0.8,en;q=0.7\n\nWhen this parameter is not passed, all locales' data will be returned.\nIf a composition is requested by ID and does not possess any of the specified locales, HTTP 404 will be returned\n"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of a release to fetch the content for.\n\n- When unspecified, all release content is excluded from the result(s).\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be null\n"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search on textual fields of a composition.\nMatches against fully rendered content including resolved pattern content.\nUse this for \"where does this content appear\" queries.\nNote: For long text fields, the tail of the text is not guaranteed to be searchable.\nExample: ?search=hello\n"
+              },
+              {
+                "name": "searchSemantic",
+                "value": "",
+                "type": "query",
+                "description": "BETA: Semantic search using vector similarity to find content by meaning.\nMatches against source content only - pattern base content matches the pattern itself, not consumers.\nUse this for \"where is this content defined\" queries.\nRequires AI credits.\n"
+              },
+              {
+                "name": "editions",
+                "value": "",
+                "type": "query",
+                "description": "Controls the edition resolution behavior.\n\nauto: (default) Editions are evaluated automatically and the best matching edition is returned.\n    When a locale is provided, the edition with the highest priority that enables that locale matches\n    Without a locale, the default edition is matched\n\nall: Every edition is returned as a separate row.\n    Note: this has no effect when used with compositionId which always returns a single result.\n\nraw: the compositionId and compositionIDs parameters target exact edition/composition IDs and no edition resolution is performed.\n    compositionId or compositionIDs MUST be provided with this option.\n    If versionId is passed, this is always enabled.\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter conventions which are pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n* `select.<bucket>[<op>]` — data projection (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to compositions matching field values.\nThe allowed field names are project-specific — they come from the\nproject's c"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/canvas",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/canvas",
+            "headers": [
+              {
+                "name": "X-If-Unmodified-Since",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upserts a composition"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/canvas",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/canvas",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes or unpublishes a composition"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/canvas",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/canvas"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

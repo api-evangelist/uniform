@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Authentication API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "POST /api/v1/token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exchange credentials for delegation tokens.\n\nSupported grant types and authentication:\n- `session_token` (bearer-protected): requires `Authorization: Bearer <Auth0 access token>`. Mints a short-lived (10s) session token bound to the requested integration and project.\n- `delegation_token` (integration-secret protected): exchanges a session token plus the integration `app_secret` for a delegation access token (and, when allowed, a refresh token). No bearer token is used.\n- `refresh_token` (integra"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/token",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/token"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

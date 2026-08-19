@@ -1,0 +1,1653 @@
+{
+  "item": [
+    {
+      "id": "acfdc87c-a73a-4b6c-8c16-3c79cd18b484",
+      "name": "Redirects",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c9652c77-be6b-422d-b09e-cc46c95b4114",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "redirect"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c2815c56-7916-4001-829c-9fdb9d20cc06",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1b2e7d78-667e-4755-adb3-ad400f4e7b43",
+          "name": "Called to retrieve a list of redirects related to a project",
+          "request": {
+            "name": "Called to retrieve a list of redirects related to a project",
+            "description": {
+              "content": "Called to retrieve a list of redirects related to a project",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "redirect"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project to fetch redirects for"
+                },
+                {
+                  "disabled": false,
+                  "key": "id",
+                  "value": "<uuid>",
+                  "description": "Id of the redirect to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<uuid>",
+                  "description": "Ids of the redirects to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<uuid>",
+                  "description": "Ids of the redirects to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceUrl",
+                  "value": "<string>",
+                  "description": "Source url to attempt to find redirects for"
+                },
+                {
+                  "disabled": false,
+                  "key": "targetUrl",
+                  "value": "<string>",
+                  "description": "Find redirects that could redirect to this url"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectMapId",
+                  "value": "<uuid>",
+                  "description": "Id of the project map the source or target belongs to"
+                },
+                {
+                  "disabled": false,
+                  "key": "sourceProjectMapNodeId",
+                  "value": "<uuid>",
+                  "description": "Id of the project map node to find redirects for"
+                },
+                {
+                  "disabled": false,
+                  "key": "targetProjectMapNodeId",
+                  "value": "<uuid>",
+                  "description": "Id of the project map node to find redirects for"
+                },
+                {
+                  "disabled": false,
+                  "key": "orderBy",
+                  "value": "<string>",
+                  "description": "Column to order results by, only applicable if trie is not active"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<number>",
+                  "description": "Limit the results to this number of results, ignored if using trie parameter"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<number>",
+                  "description": "Offset the results a certain amount, useful for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search text to filter redirects by, filtering on the source and target urls"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9f305583-434e-48e5-986a-236ef3a3fdbc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"redirects\": [\n    {\n      \"redirect\": {\n        \"sourceUrl\": \"string\",\n        \"targetStatusCode\": 6658,\n        \"targetUrl\": \"string\",\n        \"id\": \"7cad2b2c-16aa-c81c-c695-27f60e25b857\",\n        \"sourceProjectMapNodeId\": \"7aed2c06-0f18-8578-4e38-a931fcf1edd7\",\n        \"targetProjectMapNodeId\": \"a5d14764-57f5-d5d6-84fa-66ac5c16474b\",\n        \"projectMapId\": \"896f1a50-530a-9776-56d5-b825683c8569\",\n        \"sourceRetainQuerystring\": true,\n        \"sourceMustMatchDomain\": true,\n        \"targetPreserveIncomingProtocol\": true,\n        \"targetPreserveIncomingDomain\": false,\n        \"targetMergeQuerystring\": true,\n        \"labelAsSystem\": false\n      },\n      \"metadata\": {\n        \"updatedAt\": \"string\",\n        \"updatedBy\": \"string\",\n        \"createdAt\": \"string\",\n        \"createdBy\": \"string\",\n        \"createdByName\": \"string\"\n      }\n    },\n    {\n      \"redirect\": {\n        \"sourceUrl\": \"string\",\n        \"targetStatusCode\": 7863,\n        \"targetUrl\": \"string\",\n        \"id\": \"83d9e8b6-5160-545f-1399-c207353e944c\",\n        \"sourceProjectMapNodeId\": \"b26b93a7-c227-a80c-ad87-ebe16b735155\",\n        \"targetProjectMapNodeId\": \"a7c74d74-8435-e15a-f80a-dd9c6c0fe774\",\n        \"projectMapId\": \"9398b922-ac54-0cfe-1885-22ac3b0bb86b\",\n        \"sourceRetainQuerystring\": false,\n        \"sourceMustMatchDomain\": false,\n        \"targetPreserveIncomingProtocol\": true,\n        \"targetPreserveIncomingDomain\": false,\n        \"targetMergeQuerystring\": false,\n        \"labelAsSystem\": false\n      },\n      \"metadata\": {\n        \"updatedAt\": \"string\",\n        \"updatedBy\": \"string\",\n        \"createdAt\": \"string\",\n        \"createdBy\": \"string\",\n        \"createdByName\": \"string\"\n      }\n    }\n  ],\n  \"total\": 7774\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef835e6b-a95f-41e0-afa9-ac36156a73e8",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c3cf33d-4621-4fad-a17d-8e3d3634bac2",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2148a03-b467-4731-ab29-7b82ac2c5c31",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5fbce70e-9eab-4e2f-ad46-65352c2ec991",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "42a22370-cb0f-4a82-9faa-ac9d7a28cda9",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "ids",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "targetUrl",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectMapId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "sourceProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetProjectMapNodeId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75513458-c717-4e6e-b1d5-b067e6dc9736",
+          "name": "/api/v1/redirect",
+          "request": {
+            "name": "/api/v1/redirect",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "redirect"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d3448168-2cc7-44ae-9582-b78f9b109cb7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"79849618-dc9b-27dd-9f1a-3186dc663ed4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83086964-f732-460f-9b41-587b1342f018",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "873be1aa-88c8-4c26-926c-c7adeb04da30",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79969976-53f1-4e92-8385-1cd642794055",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "843c2466-a24a-42d8-950f-c458a8d6110b",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ed7d23f-6930-4cc0-871f-131a92604ff1",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "977da479-3efd-4ecc-bbec-77fb9121d06f",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"redirect\": {\n    \"sourceUrl\": \"<string>\",\n    \"targetStatusCode\": \"<integer>\",\n    \"targetUrl\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"sourceProjectMapNodeId\": \"<uuid>\",\n    \"targetProjectMapNodeId\": \"<uuid>\",\n    \"projectMapId\": \"<uuid>\",\n    \"sourceRetainQuerystring\": \"<boolean>\",\n    \"sourceMustMatchDomain\": \"<boolean>\",\n    \"targetPreserveIncomingProtocol\": \"<boolean>\",\n    \"targetPreserveIncomingDomain\": \"<boolean>\",\n    \"targetMergeQuerystring\": \"<boolean>\",\n    \"labelAsSystem\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb62997c-bd33-441c-9671-b4d92e636821",
+          "name": "Called to delete a redirect",
+          "request": {
+            "name": "Called to delete a redirect",
+            "description": {
+              "content": "Called to delete a redirect",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "redirect"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7ea0f2cd-e1b7-4dd2-9917-36a738a3a3fb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"79849618-dc9b-27dd-9f1a-3186dc663ed4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0685b4d9-3015-4a5a-9fbe-f87fb76c21b7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2f5756e8-43a6-424d-89f2-dfb1eb5fcf03",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcd5b378-ba10-41bd-bf21-02c8745b68cf",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b711b178-e72b-4118-805e-f70c1ac04cab",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b14ac6a3-230e-47cf-8260-2dbbbc0ec4d2",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "30af276b-c4f7-4360-a0f9-47d1b2dc43eb",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "redirect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<uuid>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7fb7c856-452e-4bac-8460-90963e2639d5",
+    "name": "Uniform Platform Aggregates Redirects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Project Map API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Project Map",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/project-map-nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/project-map-nodes",
+            "params": [
+              {
+                "name": "projectMapId",
+                "value": "",
+                "type": "query",
+                "description": "The project map id that the desired nodes belong"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project id that contains the project map tree that this node belongs to"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of a release to fetch the composition data for.\n\n- When unspecified, composition data is fetched from base.\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will not be defined\n"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The id of the node to retrieve, cannot have both this parameter and `path`"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query",
+                "description": "The path of the root node to retrieve, cannot have both this parameter and `id`"
+              },
+              {
+                "name": "compositionId",
+                "value": "",
+                "type": "query",
+                "description": "Composition id to find associated project map node for"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number or records returned by a number"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip before returning nodes"
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query",
+                "description": "Depth of the tree to fetch. This only applies when fetching by path"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "State of compositions to fetch. 0 = draft, 64 = published"
+              },
+              {
+                "name": "tree",
+                "value": "",
+                "type": "query",
+                "description": "should the data be returned as a json tree object (or a flat array)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "text search filter"
+              },
+              {
+                "name": "includeAncestors",
+                "value": "",
+                "type": "query",
+                "description": "Modifies the results to include all ancestors of matched nodes, in addition to the nodes themselves.\nResults are sorted by path. If multiple nodes are selected, ancestors are not duplicated\n"
+              },
+              {
+                "name": "expanded",
+                "value": "",
+                "type": "query",
+                "description": "include expanded helper computed properties, including `isLeaf`, `parentPath`, `pathSegment` etc"
+              },
+              {
+                "name": "withCompositionData",
+                "value": "",
+                "type": "query",
+                "description": "include basic composition information.  ID, type, state, name, and definition id"
+              },
+              {
+                "name": "withCompositionUIStatus",
+                "value": "",
+                "type": "query",
+                "description": "Returns the UI status string of the composition.\nThis internal status is subject to change without notice and is thus marked deprecated to discourage the use of internal data\n"
+              },
+              {
+                "name": "withRedirectData",
+                "value": "",
+                "type": "query",
+                "description": "Include basic redirect information"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to get a list of nodes belonging to a specific path or Id"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/project-map-nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/project-map-nodes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to insert or update a node or nodes"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/project-map-nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/project-map-nodes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to delete a particular projectMap node by id or path"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/project-map-nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/project-map-nodes"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/project-map",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/project-map",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project to fetch project map for"
+              },
+              {
+                "name": "projectMapId",
+                "value": "",
+                "type": "query",
+                "description": "The id of the project map to fetch"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to retrieve a list of project maps related to a project or a specific project map by id"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/project-map",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/project-map",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/project-map",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/project-map",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to delete a projectMap"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/project-map",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/project-map"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

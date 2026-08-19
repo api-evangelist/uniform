@@ -1,0 +1,1277 @@
+{
+  "item": [
+    {
+      "id": "eade1471-1aac-4c02-bc5c-3f6d09714fbd",
+      "name": "Content Types",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3430a37e-f591-4e62-a2e7-ab4e363d9216",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "content-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4eb2f289-776e-41d2-b9db-083731c2ecd8",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a8a41fad-681b-4b79-ac08-b356e1bd33fa",
+          "name": "/api/v1/content-types",
+          "request": {
+            "name": "/api/v1/content-types",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "content-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project ID to get content type for"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Number of records to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Max number of records to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Limit the types of content type to return. If not specified, both block types and content types are returned"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "032aed3d-778d-4ff2-a03d-f6e8ace7c30e",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"contentTypes\": [\n    {\n      \"id\": \"UhfH52X\",\n      \"name\": \":nO@AF\\\"l%M\",\n      \"entryName\": \"string\",\n      \"thumbnailField\": null,\n      \"fields\": [\n        {\n          \"id\": \"EKCmkrQvx\",\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"helpText\": \"string\",\n          \"guidance\": \"nd97&q\",\n          \"localizable\": false,\n          \"notLocalizedByDefault\": true,\n          \"allowConditionalValues\": true,\n          \"typeConfig\": {}\n        },\n        {\n          \"id\": \"cm\",\n          \"name\": \"string\",\n          \"type\": \"string\",\n          \"helpText\": \"string\",\n          \"guidance\": \"`4)ne(!\",\n          \"localizable\": false,\n          \"notLocalizedByDefault\": true,\n          \"allowConditionalValues\": false,\n          \"typeConfig\": {}\n        }\n      ],\n      \"description\": \"string\",\n      \"icon\": \"file-document\",\n      \"created\": \"string\",\n      \"updated\": \"string\",\n      \"slugSettings\": {\n        \"required\": \"no\",\n        \"unique\": \"global\",\n        \"regularExpression\": \"string\",\n        \"regularExpressionMessage\": \"string\"\n      },\n      \"type\": \"contentType\",\n      \"useTeamPermissions\": true,\n      \"permissions\": [\n        {\n          \"roleId\": \"-ti0pB5\",\n          \"permission\": \"write\",\n          \"state\": 54\n        },\n        {\n          \"roleId\": \"YL\",\n          \"permission\": \"create\",\n          \"state\": 10\n        }\n      ],\n      \"workflowId\": \"5713baeb-dac8-1ad3-e15b-e1eacfedab18\",\n      \"previewConfigurations\": [\n        {\n          \"type\": \"project-map\",\n          \"label\": \"\\\\]&dkQU8P\",\n          \"id\": \"8b47b2ac-96f7-3909-323c-2a51aea6d654\",\n          \"dynamicInputs\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\",\n            \"key_3\": \"string\"\n          }\n        },\n        {\n          \"type\": \"project-map\",\n          \"label\": \"(Qy[G\",\n          \"id\": \"d498da9b-d6c8-9545-1c1b-6443c0472cb4\",\n          \"dynamicInputs\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\",\n            \"key_3\": \"string\"\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"f-\",\n      \"name\": \"Nj/K ?~osS\",\n      \"entryName\": \"string\",\n      \"thumbnailField\": null,\n      \"fields\": [\n        {\n          \"id\": \"CpksnPpIvqi\",\n          \"name\": \"string\",\n          \"type\": \"str\",\n          \"helpText\": \"string\",\n          \"guidance\": \"j\",\n          \"localizable\": false,\n          \"notLocalizedByDefault\": true,\n          \"allowConditionalValues\": true,\n          \"typeConfig\": {}\n        },\n        {\n          \"id\": \"5qbTjsI2-I\",\n          \"name\": \"string\",\n          \"type\": \"strin\",\n          \"helpText\": \"string\",\n          \"guidance\": \"}M=4`~TTtq(\",\n          \"localizable\": true,\n          \"notLocalizedByDefault\": false,\n          \"allowConditionalValues\": true,\n          \"typeConfig\": {}\n        }\n      ],\n      \"description\": \"string\",\n      \"icon\": \"file-document\",\n      \"created\": \"string\",\n      \"updated\": \"string\",\n      \"slugSettings\": {\n        \"required\": \"no\",\n        \"unique\": \"global\",\n        \"regularExpression\": \"string\",\n        \"regularExpressionMessage\": \"string\"\n      },\n      \"type\": \"contentType\",\n      \"useTeamPermissions\": true,\n      \"permissions\": [\n        {\n          \"roleId\": \"wDYbBDKemm\",\n          \"permission\": \"create\",\n          \"state\": 21\n        },\n        {\n          \"roleId\": \"7x\",\n          \"permission\": \"delete\",\n          \"state\": 3\n        }\n      ],\n      \"workflowId\": \"6a76d19d-1d43-130d-9f26-c532a07416ad\",\n      \"previewConfigurations\": [\n        {\n          \"type\": \"pattern\",\n          \"label\": \"P@SCRp)e\",\n          \"id\": \"a95bd1e3-803d-f709-b8ac-5497b950e477\",\n          \"dynamicInputs\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"type\": \"pattern\",\n          \"label\": \"xZiB9D'U)p\",\n          \"id\": \"12cc5f5a-d7f6-0f5e-1511-7f1baa1fd74d\",\n          \"dynamicInputs\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "35935a52-399b-4f48-8770-5ba3556fff78",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41618580-7360-45c8-8ba7-457f61c13551",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb11560e-6548-424a-a20b-e398cf6761df",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fdab4a29-4153-4145-8c41-6e688cdc3b3d",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "adaac0c9-b312-47c6-b3bc-0930ab6e968d",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dbdd410b-8591-4dea-8597-daf28f4e0748",
+          "name": "Upserts a content type",
+          "request": {
+            "name": "Upserts a content type",
+            "description": {
+              "content": "Upserts a content type",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "content-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "174bfcfc-eb66-4a4c-b380-4e660d860022",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "11e18e7a-d50e-4f68-9caf-b947bf69d6cd",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97b0dcdb-b8da-47ff-ab6b-6221d0d7282f",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "880d7dd4-1e45-4b46-9946-c07ec08f72c7",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ddfa4415-a2b4-4108-94cb-d23ed54ec6b5",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f57e24cd-7d04-42fa-b7a2-6bdb3526f182",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"contentType\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"entryName\": \"<string>\",\n    \"thumbnailField\": null,\n    \"fields\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"helpText\": \"<string>\",\n        \"guidance\": \"<string>\",\n        \"localizable\": \"<boolean>\",\n        \"notLocalizedByDefault\": \"<boolean>\",\n        \"allowConditionalValues\": \"<boolean>\",\n        \"typeConfig\": {}\n      }\n    ],\n    \"description\": \"<string>\",\n    \"icon\": \"file-document\",\n    \"created\": \"<string>\",\n    \"updated\": \"<string>\",\n    \"slugSettings\": {\n      \"required\": \"no\",\n      \"unique\": \"<string>\",\n      \"regularExpression\": \"<string>\",\n      \"regularExpressionMessage\": \"<string>\"\n    },\n    \"type\": \"contentType\",\n    \"useTeamPermissions\": true,\n    \"permissions\": [\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      },\n      {\n        \"roleId\": \"<string>\",\n        \"permission\": \"<string>\",\n        \"state\": \"<integer>\"\n      }\n    ],\n    \"workflowId\": \"<uuid>\",\n    \"previewConfigurations\": [\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"label\": \"<string>\",\n        \"id\": \"<uuid>\",\n        \"dynamicInputs\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd5e4651-7e7c-4d7f-afde-d811541d24da",
+          "name": "Deletes a content type",
+          "request": {
+            "name": "Deletes a content type",
+            "description": {
+              "content": "Deletes a content type",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "content-types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "33b28e56-7bce-4689-b030-375b63cf4944",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "20a068f8-24cb-4c61-8ad1-ee44dcd0921b",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4acb4154-6fce-49c6-b0e7-cb9ec61badfd",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cbf858bb-8b98-4812-82b3-c20381c6414b",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e45e9ff8-8cf9-4a78-9d68-11d99ab879a8",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6e494427-522c-46eb-b2ac-035cb03f7531",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "content-types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"contentTypeId\": \"<string>\",\n  \"projectId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8b57a8c2-d8b0-43ea-a7a1-508933d76772",
+    "name": "Uniform Platform Aggregates Content Types API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Relationships API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Relationships",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/relationships",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/relationships",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Entity IDs"
+              },
+              {
+                "name": "withInstances",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include a list of related instances in the response. Only supported when a single entity ID is provided"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Use this to paginate over the instances when \"whenInstances\" is true"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Use this to paginate over the instances when \"whenInstances\" is true"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets the relationships for a given entity type"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

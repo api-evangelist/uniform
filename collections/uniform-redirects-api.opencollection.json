@@ -1,0 +1,161 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Redirects API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Redirects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/redirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/redirect",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project to fetch redirects for"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Id of the redirect to retrieve"
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Ids of the redirects to retrieve"
+              },
+              {
+                "name": "sourceUrl",
+                "value": "",
+                "type": "query",
+                "description": "Source url to attempt to find redirects for"
+              },
+              {
+                "name": "targetUrl",
+                "value": "",
+                "type": "query",
+                "description": "Find redirects that could redirect to this url"
+              },
+              {
+                "name": "projectMapId",
+                "value": "",
+                "type": "query",
+                "description": "Id of the project map the source or target belongs to"
+              },
+              {
+                "name": "sourceProjectMapNodeId",
+                "value": "",
+                "type": "query",
+                "description": "Id of the project map node to find redirects for"
+              },
+              {
+                "name": "targetProjectMapNodeId",
+                "value": "",
+                "type": "query",
+                "description": "Id of the project map node to find redirects for"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Column to order results by, only applicable if trie is not active"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the results to this number of results, ignored if using trie parameter"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Offset the results a certain amount, useful for pagination"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search text to filter redirects by, filtering on the source and target urls"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to retrieve a list of redirects related to a project"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/redirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/redirect",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/redirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/redirect",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Called to delete a redirect"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/redirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/redirect"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -2,57 +2,59 @@ generated: '2026-07-21'
 method: searched
 status: published
 source: https://docs.uniform.app/docs/guides/ai/mcp-server
-description: >-
-  Uniform publishes an official, hosted (remote HTTP) MCP server that lets any
-  MCP client — Cursor, Claude Code, GitHub Copilot, Windsurf, Claude Desktop,
-  v0.dev, n8n — manage a Uniform project: compositions, entries, translations,
-  assets, patterns, component and content type definitions, project map,
-  releases, classification (signals, quirks, aggregates, enrichments),
-  optimization data, and utilities. Tools that call an LLM (search, create,
-  edit, duplicate, translate) consume Uniform AI credits; pure read tools do
-  not. Changes apply immediately (no staged review). Uniform recommends
-  pairing the MCP server with its published AI rules
-  (https://github.com/uniformdev/ai-rules) so the model has conceptual
-  context. An npm package (@uniformdev/uniform-mcp) is also published.
+description: 'Uniform publishes an official, hosted (remote HTTP) MCP server that lets any MCP client
+  — Cursor, Claude Code, GitHub Copilot, Windsurf, Claude Desktop, v0.dev, n8n — manage a Uniform project:
+  compositions, entries, translations, assets, patterns, component and content type definitions, project
+  map, releases, classification (signals, quirks, aggregates, enrichments), optimization data, and utilities.
+  Tools that call an LLM (search, create, edit, duplicate, translate) consume Uniform AI credits; pure
+  read tools do not. Changes apply immediately (no staged review). Uniform recommends pairing the MCP
+  server with its published AI rules (https://github.com/uniformdev/ai-rules) so the model has conceptual
+  context. An npm package (@uniformdev/uniform-mcp) is also published.'
 docs:
-  - https://docs.uniform.app/docs/guides/ai/mcp-server
-  - https://docs.uniform.app/docs/guides/ai/ai-rules
+- https://docs.uniform.app/docs/guides/ai/mcp-server
+- https://docs.uniform.app/docs/guides/ai/ai-rules
 servers:
-  - name: uniform
-    kind: hosted-remote
-    transport: http
-    url: https://ai.uniform.global/projects/<project-id>/mcp
-    auth: x-api-key header (service account or personal access token with the Developer role)
-    regions: >-
-      Endpoint URL depends on the team's data-center region (US uniform.app /
-      EU eu.uniform.app) — see https://docs.uniform.app/docs/guides/regions
-    install:
-      cli: npx @uniformdev/cli@latest ai mcp install
-      manual: >-
-        mcp.json: {"mcpServers": {"Uniform": {"url":
-        "https://ai.uniform.global/projects/<project-id>/mcp", "headers":
-        {"x-api-key": "<api-key>"}}}}
-    tool_categories:
-      - Content — compositions, entries, and translations
-      - Assets — assets and asset labels
-      - Structure — patterns, component and content type definitions, project map
-      - Releases — release contents and scheduling
-      - Classification — signals, quirks, aggregates, and enrichments
-      - Optimization — optimization and personalization data
-      - Utilities — locales, environment lookup, docs Q&A, and UUIDs
-    example_tools:
-      - name: getUniformEnvironment
-        description: Report which Uniform project the server is connected to
-      - name: mutateComponent
-        description: Create or modify a component definition
-      - name: readContent
-        description: Read entries/compositions before making changes
-      - name: getDefinition
-        description: Read component/content type definitions
-    surface: 30+ tools
-  - name: uniform-mcp-npm
-    kind: local-npm
-    transport: stdio
-    package: "@uniformdev/uniform-mcp"
-    registry: https://www.npmjs.com/package/@uniformdev/uniform-mcp
-    description: Uniform MCP Server npm package (local/stdio alternative to the hosted endpoint)
+- name: uniform
+  kind: hosted-remote
+  transport: http
+  url: https://ai.uniform.global/projects/<project-id>/mcp
+  auth: x-api-key header (service account or personal access token with the Developer role)
+  regions: Endpoint URL depends on the team's data-center region (US uniform.app / EU eu.uniform.app)
+    — see https://docs.uniform.app/docs/guides/regions
+  install:
+    cli: npx @uniformdev/cli@latest ai mcp install
+    manual: 'mcp.json: {"mcpServers": {"Uniform": {"url": "https://ai.uniform.global/projects/<project-id>/mcp",
+      "headers": {"x-api-key": "<api-key>"}}}}'
+  tool_categories:
+  - Content — compositions, entries, and translations
+  - Assets — assets and asset labels
+  - Structure — patterns, component and content type definitions, project map
+  - Releases — release contents and scheduling
+  - Classification — signals, quirks, aggregates, and enrichments
+  - Optimization — optimization and personalization data
+  - Utilities — locales, environment lookup, docs Q&A, and UUIDs
+  example_tools:
+  - name: getUniformEnvironment
+    description: Report which Uniform project the server is connected to
+  - name: mutateComponent
+    description: Create or modify a component definition
+  - name: readContent
+    description: Read entries/compositions before making changes
+  - name: getDefinition
+    description: Read component/content type definitions
+  surface: 30+ tools
+- name: uniform-mcp-npm
+  kind: local-npm
+  transport: stdio
+  package: '@uniformdev/uniform-mcp'
+  registry: https://www.npmjs.com/package/@uniformdev/uniform-mcp
+  description: Uniform MCP Server npm package (local/stdio alternative to the hosted endpoint)
+deployment:
+  mode: none
+  endpoint: https://ai.uniform.global/projects/
+  verified: probed
+  probe: dead
+  note: the endpoint this manifest claimed did not answer; recorded as none rather than deleted so the
+    claim stays auditable
+  checked: '2026-08-12'
+  source: catalog MCP census

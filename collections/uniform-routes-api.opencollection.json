@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Routes API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Routes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/route",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/route",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project the entry/entries are on"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query",
+                "description": "The path to resolve. Dynamic project map nodes and redirects can be resolved when a matching path is passed.\nQuery string parameters may be passed with the path. They are ignored for route matching.\nIf the route matches a composition and the project map node allows passed query string parameters, query parameters will\nbe returned as as dynamic inputs to the composition.\n\nExamples:\n* route \"/company/about-us\" would match \"/company/about-us\" in project map or redirects\n* route \"/products/123\" would match \"/products/:productId\" in project map or \"/products/*\" in redirects\n* route \"/products/123?color=red\" would match \"/products/:productId\" in project map, and provde productId=123 and color=red as dynamic inputs to the composition\n\nConflict resolution:\nIf a route matches multiple possible project map or redirect nodes, the resulting action will use the following logic:\n* If a redirect matches, it wins over project map nodes in all cases\n* If multiple redirects or project map nodes match the route, the one with the most specific path wins:\n    * The route with the most path segments wins\n    * If several matches have the same number of segments, the one with the fewest dynamic segments wins\n    * If still ambiguous, the first matching route arbitrarily wins\n"
+              },
+              {
+                "name": "projectMapId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a project map ID to fetch route from. If not specified, the default project map for the projectId is used"
+              },
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Publishing state to fetch. 0 = draft, 64 = published"
+              },
+              {
+                "name": "withComponentIDs",
+                "value": "",
+                "type": "query",
+                "description": "If true the `_id` unique identifier of blocks will be part of the response data.\nIf false, the `_id` will not be present in the API response\n"
+              },
+              {
+                "name": "withContentSourceMap",
+                "value": "",
+                "type": "query",
+                "description": "Includes content source map metadata on supported parameters"
+              },
+              {
+                "name": "locale",
+                "value": "",
+                "type": "query",
+                "description": "One or more locales to filter and localize by.\nOnly entries that enable one of the specified locales _or enable no locales_ will be returned.\nThe response will be localized to include only the first matching locale's data.\n\nThis parameter accepts a single value, a comma-delimited list of values, or the Accept-Language header syntax. Examples:\nen-US\nfr-CA,fr\nde-AT;q=0.9,de-DE;q=0.8,en;q=0.7\n\nWhen this parameter is not passed, all locales' data will be returned\n"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of a release to fetch the content for.\n\n- When unspecified, all release content is excluded from the result(s).\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be null\n"
+              },
+              {
+                "name": "dataSourceVariant",
+                "value": "",
+                "type": "query",
+                "description": "Indicates the data variant that was fetched for data resources.\nundefined: Data resources were resolved using published data from their data source\nunpublished: Data resources which support unpublished data retrieved unpublished data from their data source. Data resources that did not support unpublished data retrieved published data instead.\n"
+              },
+              {
+                "name": "ignoreRedirects",
+                "value": "",
+                "type": "query",
+                "description": "When true, redirects are not evaluated for the route matching; the result will be either a composition or not found.\nNote: this is always true when state=63 (internal RSC editor state) to allow contextual editing of compositions\nthat have redirects configured on their paths.\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetches the correct response action for a given route (redirection, composition, not found).\n\nIn addition to the named parameters below, this endpoint accepts data projection syntax:\n`select.<bucket>[<op>]` — documented below.\n\n#### Data projection (`select.*`)\n\nProjection returns a subset of the matched composition by pruning fields\n(parameters), field types, and slots before values are resolved. It only\napplies when the route resolves to a composition; redirect and notFound\nresponses are retur"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/route",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/route"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

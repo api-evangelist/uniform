@@ -1,0 +1,264 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Insights API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Insights",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/insights-connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/insights-connections",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "workspace",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets insights connection for a project and workspace"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/insights-connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/insights-connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates an insights connection with read/write tokens"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/insights-connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/insights-connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes an insights connection"
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/insights",
+            "params": [
+              {
+                "name": "insightsType",
+                "value": "",
+                "type": "query",
+                "description": "The type of insights to fetch"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project to fetch insights for"
+              },
+              {
+                "name": "metricType",
+                "value": "",
+                "type": "query",
+                "description": "The selected metric type to fetch insights for"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the test or personalization to fetch insights for"
+              },
+              {
+                "name": "goalId",
+                "value": "",
+                "type": "query",
+                "description": "The goal id to fetch insights for"
+              },
+              {
+                "name": "dateStart",
+                "value": "",
+                "type": "query",
+                "description": "The date start to fetch insights for"
+              },
+              {
+                "name": "dateEnd",
+                "value": "",
+                "type": "query",
+                "description": "The date end to fetch insights for"
+              },
+              {
+                "name": "pathName",
+                "value": "",
+                "type": "query",
+                "description": "The pathname to fetch insights for"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "GET /api/v2/insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v2/insights",
+            "params": [
+              {
+                "name": "insightType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "goalId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "compositionId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pathname",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pmNodePath",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "visitorId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "isBounce",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "segmentId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeGoals",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "includeBounceRate",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetch insights data"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

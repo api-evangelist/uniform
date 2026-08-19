@@ -1,0 +1,253 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Releases API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Releases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/entity-releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/entity-releases",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Matches entity by their ID\n"
+              },
+              {
+                "name": "definitionType",
+                "value": "",
+                "type": "query",
+                "description": "Entity type (i.e. composition, entry, ...).\nNOTE: New values may be added to this list without being considered a breaking API change\n"
+              },
+              {
+                "name": "releaseStates",
+                "value": "",
+                "type": "query",
+                "description": "Matches entity instances where their release state is one of a list. NOTE: base instance, when present, is always included in the results.\n"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records to return\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists entity instances across all releases (and base). Default to draft state if entity supports it."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/release-contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/release-contents",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip\nThis is a list query parameter, and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of records to return\nThis is a list query parameter, and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "publicIDs",
+                "value": "",
+                "type": "query",
+                "description": "Matches release contents where their public ID is one of a list\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Lists all contents (adds, moves, deletes) of a release"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/release-contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/release-contents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a change from a release"
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/releases",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of records to return"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Matches releases where their name contains the specified keyword\n"
+              },
+              {
+                "name": "states",
+                "value": "",
+                "type": "query",
+                "description": "Matches releases where their state is one of a list\n"
+              },
+              {
+                "name": "scheduleStates",
+                "value": "",
+                "type": "query",
+                "description": "Matches releases by whether an auto-launch schedule is set\n"
+              },
+              {
+                "name": "releaseIDs",
+                "value": "",
+                "type": "query",
+                "description": "Matches releases where their ID is one of a list\n"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sets the sorting of the results. If unspecified, results are sorted by launch(ed) date descending, and then by name ascending.\nAllowed values are: auto_launch_schedule_DESC, auto_launch_schedule_ASC, launched_at_DESC, launched_at_ASC, name_DESC, name_ASC\n"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/releases",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Adds or updates a release"
+        },
+        {
+          "info": {
+            "name": "PATCH /api/v1/releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/releases",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Readies or un-readies a release"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/releases",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1818 @@
+{
+  "item": [
+    {
+      "id": "d61e092d-387b-48af-bcec-a13d5a90b6d8",
+      "name": "Assets",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b1fdca69-83a0-4f8a-8d74-d4181be708dc",
+          "name": "Handles preflight requests. This endpoint allows CORS",
+          "request": {
+            "name": "Handles preflight requests. This endpoint allows CORS",
+            "description": {
+              "content": "Handles preflight requests. This endpoint allows CORS",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "OPTIONS",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba9c5637-6d60-4396-9491-bcdc55b39cda",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "OPTIONS",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46e11688-c43e-4dfc-8290-77fbfc050950",
+          "name": "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter convention which is pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to assets matching field values. The\nallowed field names are project-specific — they come from the project's\nasset definitions — which is why `filters.*` parameters are\npattern-validated rather than declared as named parameters.\n\nSyntax: `filters.<field>[<operator>]=<value>`. `<field>` is one of:\n\n* A system field such as `name`, `type`, `created`, `modified`,\n  `entityId`, `creator`, `creatorSubject`, `author`, `authorSubject`,\n  `categoryId`, `labels`, `labelGroups`, or `uiStatus`.\n* An asset field, addressed as `fields.<fieldId>`. Unlike entries and\n  compositions, asset field filters do not require a single-type\n  filter — but if the same field ID has differing types across asset\n  types, HTTP 400 is returned and a single asset type must be\n  filtered.\n\n| Operator | Effect |\n|---|---|\n| `[eq]` / `[neq]` | Exact equality / inequality. |\n| `[match]` | Contains (text search) match; text-like fields only. |\n| `[starts]` | Prefix match. Value limited to letters, numbers, `_`, `.`, `-`, and spaces. |\n| `[lt]` / `[lte]` / `[gt]` / `[gte]` | Comparisons for number, date, and datetime fields (including `created` / `modified`). |\n| `[in]` / `[nin]` | Comma-separated list; matches any (OR) / none of the values. |\n| `[all]` | Comma-separated list; list-valued fields (e.g. `labels`, multi-selects) must contain every value (AND). |\n| `[def]` | `true` or `false`; whether the field has a value at all. |\n\nBehavior:\n\n* Values are single strings, or comma-separated lists for `[in]`,\n  `[nin]`, and `[all]`. Dates accept `YYYY-MM-DD` or a full datetime\n  string. An empty value is rejected — use `[def]` to test presence.\n* Not every operator is valid for every field; the allowed set depends\n  on the field's type. An unsupported combination returns HTTP 400\n  with the supported operators listed.\n* Malformed keys, unknown operators, and unknown field names return\n  HTTP 400.\n\nExamples:\n\n* `filters.type[eq]=productImage` — only assets of type `productImage`.\n* `filters.modified[gte]=2026-01-01` — modified this year.\n* `filters.fields.altText[def]=false` — assets missing alt text.\n",
+          "request": {
+            "name": "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter convention which is pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to assets matching field values. The\nallowed field names are project-specific — they come from the project's\nasset definitions — which is why `filters.*` parameters are\npattern-validated rather than declared as named parameters.\n\nSyntax: `filters.<field>[<operator>]=<value>`. `<field>` is one of:\n\n* A system field such as `name`, `type`, `created`, `modified`,\n  `entityId`, `creator`, `creatorSubject`, `author`, `authorSubject`,\n  `categoryId`, `labels`, `labelGroups`, or `uiStatus`.\n* An asset field, addressed as `fields.<fieldId>`. Unlike entries and\n  compositions, asset field filters do not require a single-type\n  filter — but if the same field ID has differing types across asset\n  types, HTTP 400 is returned and a single asset type must be\n  filtered.\n\n| Operator | Effect |\n|---|---|\n| `[eq]` / `[neq]` | Exact equality / inequality. |\n| `[match]` | Contains (text search) match; text-like fields only. |\n| `[starts]` | Prefix match. Value limited to letters, numbers, `_`, `.`, `-`, and spaces. |\n| `[lt]` / `[lte]` / `[gt]` / `[gte]` | Comparisons for number, date, and datetime fields (including `created` / `modified`). |\n| `[in]` / `[nin]` | Comma-separated list; matches any (OR) / none of the values. |\n| `[all]` | Comma-separated list; list-valued fields (e.g. `labels`, multi-selects) must contain every value (AND). |\n| `[def]` | `true` or `false`; whether the field has a value at all. |\n\nBehavior:\n\n* Values are single strings, or comma-separated lists for `[in]`,\n  `[nin]`, and `[all]`. Dates accept `YYYY-MM-DD` or a full datetime\n  string. An empty value is rejected — use `[def]` to test presence.\n* Not every operator is valid for every field; the allowed set depends\n  on the field's type. An unsupported combination returns HTTP 400\n  with the supported operators listed.\n* Malformed keys, unknown operators, and unknown field names return\n  HTTP 400.\n\nExamples:\n\n* `filters.type[eq]=productImage` — only assets of type `productImage`.\n* `filters.modified[gte]=2026-01-01` — modified this year.\n* `filters.fields.altText[def]=false` — assets missing alt text.\n",
+            "description": {
+              "content": "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter convention which is pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to assets matching field values. The\nallowed field names are project-specific — they come from the project's\nasset definitions — which is why `filters.*` parameters are\npattern-validated rather than declared as named parameters.\n\nSyntax: `filters.<field>[<operator>]=<value>`. `<field>` is one of:\n\n* A system field such as `name`, `type`, `created`, `modified`,\n  `entityId`, `creator`, `creatorSubject`, `author`, `authorSubject`,\n  `categoryId`, `labels`, `labelGroups`, or `uiStatus`.\n* An asset field, addressed as `fields.<fieldId>`. Unlike entries and\n  compositions, asset field filters do not require a single-type\n  filter — but if the same field ID has differing types across asset\n  types, HTTP 400 is returned and a single asset type must be\n  filtered.\n\n| Operator | Effect |\n|---|---|\n| `[eq]` / `[neq]` | Exact equality / inequality. |\n| `[match]` | Contains (text search) match; text-like fields only. |\n| `[starts]` | Prefix match. Value limited to letters, numbers, `_`, `.`, `-`, and spaces. |\n| `[lt]` / `[lte]` / `[gt]` / `[gte]` | Comparisons for number, date, and datetime fields (including `created` / `modified`). |\n| `[in]` / `[nin]` | Comma-separated list; matches any (OR) / none of the values. |\n| `[all]` | Comma-separated list; list-valued fields (e.g. `labels`, multi-selects) must contain every value (AND). |\n| `[def]` | `true` or `false`; whether the field has a value at all. |\n\nBehavior:\n\n* Values are single strings, or comma-separated lists for `[in]`,\n  `[nin]`, and `[all]`. Dates accept `YYYY-MM-DD` or a full datetime\n  string. An empty value is rejected — use `[def]` to test presence.\n* Not every operator is valid for every field; the allowed set depends\n  on the field's type. An unsupported combination returns HTTP 400\n  with the supported operators listed.\n* Malformed keys, unknown operators, and unknown field names return\n  HTTP 400.\n\nExamples:\n\n* `filters.type[eq]=productImage` — only assets of type `productImage`.\n* `filters.modified[gte]=2026-01-01` — modified this year.\n* `filters.fields.altText[def]=false` — assets missing alt text.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "assetId",
+                  "value": "<uuid>",
+                  "description": "Specify a single asset ID to fetch"
+                },
+                {
+                  "disabled": false,
+                  "key": "assetIDs",
+                  "value": "<uuid>",
+                  "description": "Specify multiple asset IDs to fetch. Response type will be a list"
+                },
+                {
+                  "disabled": false,
+                  "key": "assetIDs",
+                  "value": "<uuid>",
+                  "description": "Specify multiple asset IDs to fetch. Response type will be a list"
+                },
+                {
+                  "disabled": false,
+                  "key": "createdBy",
+                  "value": "<string>",
+                  "description": "Filters asset lists by the user who created them. The user is specified by their identity subject\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "keyword",
+                  "value": "<string>",
+                  "description": "Matches assets where their name or description contains the specified keyword.\nThis is a list query parameter, and cannot be used with any primary query parameters\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "searchSemantic",
+                  "value": "<string>",
+                  "description": "BETA: Semantic search using vector similarity to find assets by meaning.\nUse this for \"images of mountains\" style queries.\nRequires AI credits.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Max number of records to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Number of records to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "orderBy",
+                  "value": "created_at_ASC",
+                  "description": "Sets the sorting of the results. If unspecified, results are sorted by creation date ascending.\nAllowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC, name_DESC, name_ASC, slug_DESC, slug_ASC, relevance_DESC (when searching).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "facetBy",
+                  "value": "<string>",
+                  "description": "Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs)."
+                },
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "(Required) The project the asset/assets are on"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The asset type ID to filter by"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "The asset type ID to filter by"
+                },
+                {
+                  "disabled": false,
+                  "key": "updatedBy",
+                  "value": "<string>",
+                  "description": "Filters asset lists by the user who last updated them. The user is specified by their identity subject\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "withTotalCount",
+                  "value": "<boolean>",
+                  "description": "Controls whether the total count of results will be returned along with the current results page in a list.\nHas no effect when not fetching a list. This does impact performance when enabled\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "releaseId",
+                  "value": "<uuid>",
+                  "description": "The ID of a release to fetch the content for.\n\n- When unspecified, all release content is excluded from the result(s).\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be undefined\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "withAssignedLabels",
+                  "value": "<boolean>",
+                  "description": "When true, includes full label entities in the response for UI rendering.\nThe assignedLabels array includes the label and its parent group (if any).\nThis parameter is not supported with uniform.global.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "withUIStatus",
+                  "value": "false",
+                  "description": "Returns additional author and creator metadata for the asset.\nThis internal status is subject to change without notice and is thus marked deprecated to discourage use of internal data\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4699db1a-8e0f-4edd-ba83-ad5f86d6f680",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"assets\": [\n    {\n      \"projectId\": \"d118ce8f-cb1e-ca38-ed98-2c20d9b818c2\",\n      \"asset\": {\n        \"type\": \"string\",\n        \"_id\": \"438c7ea4-0c2d-7ce0-1502-1c4e8157e3c6\",\n        \"_name\": \"string\",\n        \"_author\": \"string\",\n        \"_authorSubject\": \"string\",\n        \"_creator\": \"string\",\n        \"_creatorSubject\": \"string\",\n        \"fields\": {\n          \"title\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"description\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"file\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"mediaType\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"url\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"size\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"width\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"height\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"focalPoint\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"custom\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_dataResources\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"labels\": [\n          \"apk3\",\n          \"_9z_lsao25-348u6z0tbov\"\n        ]\n      },\n      \"created\": \"1971-04-02T21:27:07.622Z\",\n      \"modified\": \"1953-12-29T17:34:14.572Z\",\n      \"releaseId\": \"8ba11cc6-11fc-b2be-edd2-6ef3f5bf9355\",\n      \"assignedLabels\": {\n        \"key_0\": {\n          \"projectId\": \"ebef2fc9-c5b8-dea9-1c1d-c0be7e2e9f91\",\n          \"label\": {\n            \"publicId\": \"r73rznn5hdsgcgbsq1l1d\",\n            \"displayName\": \"string\",\n            \"isGroup\": true,\n            \"color\": \"string\",\n            \"scope\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parent\": \"3h-5xnip4_\",\n            \"description\": \"string\"\n          },\n          \"created\": \"2004-10-25T15:05:26.778Z\",\n          \"modified\": \"1964-01-26T08:29:36.212Z\",\n          \"createdBy\": \"string\",\n          \"modifiedBy\": \"string\"\n        },\n        \"key_1\": {\n          \"projectId\": \"4dd297ff-cf68-3334-f99e-f28f79a44091\",\n          \"label\": {\n            \"publicId\": \"w0ngtzax\",\n            \"displayName\": \"string\",\n            \"isGroup\": true,\n            \"color\": \"string\",\n            \"scope\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parent\": \"7tihptbb9sj0yca8_h8x06esbyd121y6\",\n            \"description\": \"string\"\n          },\n          \"created\": \"1956-06-08T03:42:12.674Z\",\n          \"modified\": \"1955-05-18T08:19:13.598Z\",\n          \"createdBy\": \"string\",\n          \"modifiedBy\": \"string\"\n        }\n      }\n    },\n    {\n      \"projectId\": \"52d1b2f2-6042-fe5a-0a92-d47b2e247ec0\",\n      \"asset\": {\n        \"type\": \"string\",\n        \"_id\": \"fbc8601e-e440-72d0-cd6f-9ef02fe342fb\",\n        \"_name\": \"string\",\n        \"_author\": \"string\",\n        \"_authorSubject\": \"string\",\n        \"_creator\": \"string\",\n        \"_creatorSubject\": \"string\",\n        \"fields\": {\n          \"title\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"description\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"file\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"mediaType\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"url\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"size\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"width\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"height\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"focalPoint\": {\n            \"value\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"custom\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"_dataResources\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"labels\": [\n          \"wzo8a1d\",\n          \"zwh3vyi7ogqyezc0eg3p40vs0s_\"\n        ]\n      },\n      \"created\": \"1986-07-16T23:07:23.385Z\",\n      \"modified\": \"2014-08-05T05:51:53.011Z\",\n      \"releaseId\": \"bcb5350f-fe09-0074-b5a1-87f1ab5a00bc\",\n      \"assignedLabels\": {\n        \"key_0\": {\n          \"projectId\": \"7692a38a-6551-a7e6-b0d8-68e18333821a\",\n          \"label\": {\n            \"publicId\": \"l9da9bwz_lzvm4a5yb_ne0ku62h\",\n            \"displayName\": \"string\",\n            \"isGroup\": true,\n            \"color\": \"string\",\n            \"scope\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parent\": \"iu3v9k-cv6iux3-j6ng917q2s0srcv0a983ih\",\n            \"description\": \"string\"\n          },\n          \"created\": \"2002-02-08T06:44:52.830Z\",\n          \"modified\": \"1976-07-31T08:26:19.125Z\",\n          \"createdBy\": \"string\",\n          \"modifiedBy\": \"string\"\n        },\n        \"key_1\": {\n          \"projectId\": \"355421fa-f5de-856f-17ab-712bbf4b0a48\",\n          \"label\": {\n            \"publicId\": \"w8dkxg\",\n            \"displayName\": \"string\",\n            \"isGroup\": false,\n            \"color\": \"string\",\n            \"scope\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"parent\": \"zne2xvl5h7tm5b5hn457-5gakytm8w3ueaf0-nk\",\n            \"description\": \"string\"\n          },\n          \"created\": \"1963-05-07T00:37:47.061Z\",\n          \"modified\": \"1963-11-26T22:57:06.559Z\",\n          \"createdBy\": \"string\",\n          \"modifiedBy\": \"string\"\n        }\n      }\n    }\n  ],\n  \"totalCount\": 7914,\n  \"facets\": {\n    \"key_0\": {\n      \"key_0\": 8470.88360864384,\n      \"key_1\": 3208.189993534378\n    },\n    \"key_1\": {\n      \"key_0\": 9518.762219252845,\n      \"key_1\": 3288.8401702443916,\n      \"key_2\": 6314.413663337641,\n      \"key_3\": 4270.324951529992\n    },\n    \"key_2\": {\n      \"key_0\": 9108.65418451519,\n      \"key_1\": 9952.957132096408,\n      \"key_2\": 6354.4382236630345,\n      \"key_3\": 7505.627134378576\n    },\n    \"key_3\": {\n      \"key_0\": 1927.0692059872686\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4907ce45-8571-4930-9c29-996750bfecae",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "267ed62e-f495-4390-ba8c-8952d145df45",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "327bec8e-4a9a-44b8-a1a6-b31b41989c40",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29f6fe63-8c35-40e2-87db-bab77a4b7c2e",
+              "name": "Asset not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e83dc4c5-262e-4d68-840b-4ac5eb20dbcf",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "547b133d-78a2-46a5-a871-011c8148ed79",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "assetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "assetIDs",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "createdBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "searchSemantic",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "created_at_ASC"
+                    },
+                    {
+                      "key": "facetBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "updatedBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "withTotalCount",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "releaseId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "withAssignedLabels",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "withUIStatus",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f74cf3ca-5c03-4aff-a4ba-0e80c9126606",
+          "name": "Upserts an asset",
+          "request": {
+            "name": "Upserts an asset",
+            "description": {
+              "content": "Upserts an asset",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9be91e2e-187b-49e8-b58c-a5ae5cc7ec98",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cc087097-6a08-473c-87a8-5e8cd4955d47",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9b8f47d-21fb-43f0-b81b-9b78976150cd",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba350466-d617-4999-be4b-e569f61c5419",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90f7fa80-8fe7-4315-8976-75af8cec51e8",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2651a465-cb7b-462c-8ed6-0f1f434c8673",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\",\n  \"asset\": {\n    \"type\": \"<string>\",\n    \"_id\": \"<uuid>\",\n    \"_name\": \"<string>\",\n    \"fields\": {\n      \"title\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"description\": {\n        \"value\": \"<string>\",\n        \"type\": {}\n      },\n      \"file\": {\n        \"value\": \"<uuid>\",\n        \"type\": {}\n      },\n      \"focalPoint\": {\n        \"value\": {\n          \"x\": \"<number>\",\n          \"y\": \"<number>\"\n        },\n        \"type\": {}\n      }\n    },\n    \"_dataResources\": {\n      \"key_0\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"type\": \"<string>\",\n        \"isPatternParameter\": \"<boolean>\",\n        \"ignorePatternParameterDefault\": \"<boolean>\",\n        \"optionalPatternParameter\": \"<boolean>\",\n        \"variables\": {\n          \"key_0\": \"<string>\"\n        }\n      }\n    },\n    \"labels\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"assets\": [\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"_id\": \"<uuid>\",\n      \"_name\": \"<string>\",\n      \"fields\": {\n        \"title\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"description\": {\n          \"value\": \"<string>\",\n          \"type\": {}\n        },\n        \"file\": {\n          \"value\": \"<uuid>\",\n          \"type\": {}\n        },\n        \"focalPoint\": {\n          \"value\": {\n            \"x\": \"<number>\",\n            \"y\": \"<number>\"\n          },\n          \"type\": {}\n        }\n      },\n      \"_dataResources\": {\n        \"key_0\": {\n          \"type\": \"<string>\",\n          \"isPatternParameter\": \"<boolean>\",\n          \"ignorePatternParameterDefault\": \"<boolean>\",\n          \"optionalPatternParameter\": \"<boolean>\",\n          \"variables\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec0fa8da-c83c-4b31-9a3a-ef3afdf9297e",
+          "name": "Deletes or unpublishes an asset",
+          "request": {
+            "name": "Deletes or unpublishes an asset",
+            "description": {
+              "content": "Deletes or unpublishes an asset",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a3f64d14-f654-4b1b-8ce4-3dc45d3605f9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "920a0a56-97d7-4e3c-9d85-321c3640dfb2",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2dc3cf61-2663-4836-8042-aa8073b65baa",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad00270c-3ca7-41d3-ad61-662bf5d6cea0",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9d303c1-16fb-488d-a0e9-cbc7b731d0f9",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4961fe8e-75ad-46c5-8d85-0aa32f00a5f9",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assetId\": \"<uuid>\",\n  \"projectId\": \"<uuid>\",\n  \"releaseId\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6db101f2-d394-429f-beab-bc7d08d4da81",
+    "name": "Uniform Platform Aggregates Assets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

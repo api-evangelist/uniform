@@ -1,0 +1,413 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Integrations API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "POST /api/v1/integration-credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/integration-credentials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Mints or rotates the credential for an integration definition. Atomic: a successful response invalidates any previously-issued secret of the same kind. The plaintext secret is returned in the response body and cannot be retrieved later."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/integration-credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/integration-credentials",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Revokes the credential for an integration definition. Future grants and refreshes will fail until a new credential is minted. In-flight delegation tokens remain valid until natural expiry."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/integration-credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/integration-credentials"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/integration-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/integration-definitions",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query",
+                "description": "The team ID"
+              },
+              {
+                "name": "includePublic",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include Mesh apps that are shared publicly to all teams, or only custom apps registered on this team."
+              },
+              {
+                "name": "teamSpecificType",
+                "value": "",
+                "type": "query",
+                "description": "Whether to use team-specific integration types or team-agnostic types (for serialization across projects)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of Mesh apps that are available for a Uniform team"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/integration-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/integration-definitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates or updates a Mesh app definition on a team."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/integration-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/integration-definitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Removes a Mesh app definition from a team. Note that public integrations may not be deleted without contacting Uniform."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/integration-definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/integration-definitions"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/integration-edgehancers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/integration-edgehancers",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of custom edgehancers for a project."
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/integration-edgehancers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/integration-edgehancers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates or updates a custom edgehancer on a Mesh app."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/integration-edgehancers",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/integration-edgehancers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Removes a custom edgehancer from a Mesh app. The integration will not be removed, only the custom code."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/integration-edgehancers",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/integration-edgehancers"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/integration-installations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/integration-installations",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project ID"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Limit results to a single integration type"
+              },
+              {
+                "name": "exactType",
+                "value": "",
+                "type": "query",
+                "description": "Whether to match the passed type exactly or to treat the type as a prefix"
+              },
+              {
+                "name": "teamSpecificType",
+                "value": "",
+                "type": "query",
+                "description": "Whether to use team-specific integration types or team-agnostic types (for serialization across projects)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of installed integrations for a Uniform Project"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/integration-installations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/integration-installations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Installs or updates an integration on a Uniform Project. If data is not provided, it will remain unmodified from any existing value."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/integration-installations",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/integration-installations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Removes an integration from a project."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/integration-installations",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/integration-installations"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        },
+        {
+          "info": {
+            "name": "GET /api/v1/integration-property-editors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/integration-property-editors",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query",
+                "description": "The team ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of propertyType and hook names for the current team, including public integrations' hooks."
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/integration-property-editors",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/integration-property-editors",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates or updates a custom AI property editor on a Mesh app."
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/integration-property-editors",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/integration-property-editors",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Removes a custom AI property editor from a Mesh app. The property type will not be removed, only the custom code."
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/integration-property-editors",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/integration-property-editors"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,760 @@
+{
+  "item": [
+    {
+      "id": "ad6ce515-3fb4-4119-b9de-659965226152",
+      "name": "Policies",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a6f6eba1-62d8-4fd1-af26-88cc0e6ff1f8",
+          "name": "Reads policy documents for a project. Team admin permissions are required.",
+          "request": {
+            "name": "Reads policy documents for a project. Team admin permissions are required.",
+            "description": {
+              "content": "Reads policy documents for a project. Team admin permissions are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "policy-documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "27be2e9b-abde-4e6b-a3c2-208cd348c1d1",
+              "name": "Policy documents read",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": {\n    \"allowing\": [\n      {\n        \"entityGroup\": \"aiPrompts\",\n        \"permission\": \"OPT_DELETE_QUIRKS\",\n        \"condition\": {\n          \"property\": \"id\",\n          \"value\": \"string\"\n        }\n      },\n      {\n        \"entityGroup\": \"utmMapper\",\n        \"permission\": \"OPT_WRITE_SIGNALS\",\n        \"condition\": {\n          \"property\": \"type\",\n          \"value\": \"string\"\n        }\n      }\n    ],\n    \"denying\": [\n      {\n        \"entityGroup\": \"signals\",\n        \"permission\": \"UPM_RELEASE_CREATE\",\n        \"condition\": {\n          \"property\": \"id\",\n          \"value\": \"string\"\n        }\n      },\n      {\n        \"entityGroup\": \"releases\",\n        \"permission\": \"OPT_CREATE_SIGNALS\",\n        \"condition\": {\n          \"property\": \"type\",\n          \"value\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48146e78-12a8-4203-8a4b-97befb71d200",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fefeb917-b0b0-4418-ae46-ae5db34234e1",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "acdd1727-e317-4c40-8ab6-a92ab65c71c1",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1360cb0-57de-4dad-9e09-faf7d6919f86",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "004d14d6-3e97-401e-9976-57bb6ed7c3f7",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "projectId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11c6c3ed-c506-4370-9e0f-46f468ed7483",
+          "name": "Writes policy documents for a project. Team admin permissions are required.",
+          "request": {
+            "name": "Writes policy documents for a project. Team admin permissions are required.",
+            "description": {
+              "content": "Writes policy documents for a project. Team admin permissions are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "policy-documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8dbb4904-7bc9-4bbb-b20a-93de5279a284",
+              "name": "Policy documents written",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f25dc7c6-62f6-46c6-840b-69d265eecec6",
+              "name": "Request input validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e33ac7d-22b9-4ae1-bf66-85074ca300e4",
+              "name": "API key or token was not valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d84229ea-fb25-41a5-9dee-1ef9a6c03f89",
+              "name": "Permission was denied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errorMessage\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a88df489-f0c8-4d12-8bdf-a18e4a684427",
+              "name": "Too many requests in allowed time period",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "66c0ab94-5226-477c-b969-ee9e9bb0bf26",
+              "name": "Execution error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "policy-documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"projectId\": \"<string>\",\n  \"documents\": {\n    \"key_0\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_1\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    \"key_2\": {\n      \"allowing\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ],\n      \"denying\": [\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"entityGroup\": \"<string>\",\n          \"permission\": \"<string>\",\n          \"condition\": {\n            \"property\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "72e09d74-ceb7-47c0-8c95-66209d1bf8ed",
+    "name": "Uniform Platform Aggregates Policies API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

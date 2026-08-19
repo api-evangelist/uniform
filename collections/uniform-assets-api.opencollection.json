@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Uniform Platform Aggregates Assets API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/assets",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "query",
+                "description": "Specify a single asset ID to fetch"
+              },
+              {
+                "name": "assetIDs",
+                "value": "",
+                "type": "query",
+                "description": "Specify multiple asset IDs to fetch. Response type will be a list"
+              },
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "Filters asset lists by the user who created them. The user is specified by their identity subject\n"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Matches assets where their name or description contains the specified keyword.\nThis is a list query parameter, and cannot be used with any primary query parameters\n"
+              },
+              {
+                "name": "searchSemantic",
+                "value": "",
+                "type": "query",
+                "description": "BETA: Semantic search using vector similarity to find assets by meaning.\nUse this for \"images of mountains\" style queries.\nRequires AI credits.\n"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max number of records to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sets the sorting of the results. If unspecified, results are sorted by creation date ascending.\nAllowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC, name_DESC, name_ASC, slug_DESC, slug_ASC, relevance_DESC (when searching).\n"
+              },
+              {
+                "name": "facetBy",
+                "value": "",
+                "type": "query",
+                "description": "Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs)."
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "The project the asset/assets are on"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The asset type ID to filter by"
+              },
+              {
+                "name": "updatedBy",
+                "value": "",
+                "type": "query",
+                "description": "Filters asset lists by the user who last updated them. The user is specified by their identity subject\n"
+              },
+              {
+                "name": "withTotalCount",
+                "value": "",
+                "type": "query",
+                "description": "Controls whether the total count of results will be returned along with the current results page in a list.\nHas no effect when not fetching a list. This does impact performance when enabled\n"
+              },
+              {
+                "name": "releaseId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of a release to fetch the content for.\n\n- When unspecified, all release content is excluded from the result(s).\n- When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.\n\nContent copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be undefined\n"
+              },
+              {
+                "name": "withAssignedLabels",
+                "value": "",
+                "type": "query",
+                "description": "When true, includes full label entities in the response for UI rendering.\nThe assignedLabels array includes the label and its parent group (if any).\nThis parameter is not supported with uniform.global.\n"
+              },
+              {
+                "name": "withUIStatus",
+                "value": "",
+                "type": "query",
+                "description": "Returns additional author and creator metadata for the asset.\nThis internal status is subject to change without notice and is thus marked deprecated to discourage use of internal data\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "In addition to the named parameters below, this endpoint accepts the\nfollowing query parameter convention which is pattern-validated and\ntherefore not declared as named parameters:\n\n* `filters.<field>[<op>]` — content filtering (documented below).\n\n#### Content filtering (`filters.*`)\n\nFiltering narrows list results to assets matching field values. The\nallowed field names are project-specific — they come from the project's\nasset definitions — which is why `filters.*` parameters are\npattern-valid"
+        },
+        {
+          "info": {
+            "name": "PUT /api/v1/assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upserts an asset"
+        },
+        {
+          "info": {
+            "name": "DELETE /api/v1/assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes or unpublishes an asset"
+        },
+        {
+          "info": {
+            "name": "OPTIONS /api/v1/assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "OPTIONS",
+            "url": "{{baseUrl}}/api/v1/assets"
+          },
+          "docs": "Handles preflight requests. This endpoint allows CORS"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
