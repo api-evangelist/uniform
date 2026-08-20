@@ -43,6 +43,16 @@ tags:
 - Digital Experience Platform
 - Content Management
 - Personalization
+- A/B Testing
+- Composable
+- Headless CMS
+- AI Agents
+- Webhook
+tags_raw:
+- Company
+- Digital Experience Platform
+- Content Management
+- Personalization
 - AB Testing
 - Composable
 - Headless CMS
@@ -254,6 +264,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
@@ -282,6 +294,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -324,6 +338,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - Manifests
+  tags_raw:
   - Manifest
   properties:
   - type: OpenAPI
@@ -352,6 +368,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -408,6 +426,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -548,6 +568,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
@@ -604,6 +626,8 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
