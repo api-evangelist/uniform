@@ -22,6 +22,18 @@ x-backed-by:
 - insight-partners
 x-tier: enriched
 x-tier-reason: portfolio-lead
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -656,6 +668,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/uniform-capability-edges.yml
+  name: Uniform Business Capability Map
 - type: Overlay
   url: overlays/uniform-platform-api-overlay.yaml
 - type: Website
