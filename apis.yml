@@ -55,7 +55,7 @@ tags:
 - Digital Experience Platform
 - Content Management
 - Personalization
-- AB Testing
+- A/B Testing
 - Composable
 - Headless CMS
 - AI Agents
@@ -350,7 +350,7 @@ apis:
   humanURL: https://docs.uniform.app/docs/api
   baseURL: https://uniform.app
   tags:
-  - Manifest
+  - Manifests
   tags_raw:
   - Manifest
   properties:
