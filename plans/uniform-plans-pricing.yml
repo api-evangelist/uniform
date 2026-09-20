@@ -1,0 +1,46 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.uniform.dev/pricing
+sources:
+- https://www.uniform.dev/pricing
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+note: Only Lite shows a numeric price; other tiers are contact-us. Page emphasizes no charges for API
+  calls, user seats, traffic/bandwidth.
+plan_count: 4
+currency: USD
+plans:
+- name: Lite
+  price_text: Starting at $12,000 USD a year
+  price: 12000
+  currency: USD
+  period: year
+  included_quota: 1 Production Project, 1 Non-production Project, Limited Content Entries/Types/Compositions/Assets,
+    Limited Personalization, Limited A/B Testing, 2 Locales, 1 Integration, 1 Release, 1 Workflow, Bronze
+    Support; Unlimited Users, Bandwidth, API Calls
+- name: Professional
+  price_text: Contact us
+  period: none
+  included_quota: 1 Production Project, 2 Non-production Projects, Unlimited Content Entries/Types/Compositions/Assets*,
+    Unlimited Personalization*, Unlimited A/B Testing*, 2 Locales, 2 Integrations, AI Copilot, 1 Release,
+    1 Workflow, Silver Support
+- name: Enterprise
+  price_text: Contact us
+  period: none
+  included_quota: 1 Production Project, 4 Non-production Projects, Unlimited Locales*, 4 Integrations,
+    Agentic AI, Insights (shared cluster), Unlimited Releases/Workflows/Editions*, Single Sign On, Gold
+    Support
+- name: Personalization & A/B testing
+  price_text: Contact us
+  period: none
+  included_quota: 1 production project, 2 non-production projects, 1 Uniform pre-built data integration,
+    unlimited personalization, unlimited A/B tests, unlimited users, unlimited custom-built integrations,
+    Insights (shared cluster), tailored onboarding
+rate_limit_statements:
+- '* Fair use policy applies'
