@@ -1,0 +1,55 @@
+slug: uniform
+provider: Uniform
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Members
+  spec_file: uniform-members-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET/DELETE /api/v1/invitations, GET/POST/PUT/PATCH/DELETE /api/v1/members
+  reason: Manages team member accounts and invitations to the platform tenant — user provisioning and
+    access administration, i.e. identity & access management. No schemas given, so not fully certain of
+    role/permission scope.
+- tag: Roles
+  spec_file: uniform-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: GET /api/v1/roles, PUT /api/v1/roles, PATCH /api/v1/roles, DELETE /api/v1/roles
+  reason: Full CRUD over roles for platform users is role-based access administration, i.e. identity and
+    access management. Only Error schema is exposed, so not maximal confidence.
+- tag: Entries & Entry Patterns
+  spec_file: uniform-entries-entry-patterns-api-openapi.yml
+  capability_id: BC-400.70
+  capability_id_l1: BC-400
+  capability_name: Content Marketing Management
+  confidence: 0.7
+  evidence: GET/PUT/DELETE /api/v1/entries, schemas Entry, EntryInput, WorkflowStage, WorkflowDefinition,
+    HistoryEntry
+  reason: Manages content entries with authoring workflow stages and version history — content production
+    and editorial workflow for digital experiences, i.e. content marketing management.
+- tag: Tests
+  spec_file: uniform-tests-api-openapi.yml
+  capability_id: BC-4280.50
+  capability_id_l1: BC-4280
+  capability_name: A/B Test Execution
+  confidence: 0.7
+  evidence: 'GET/PUT/DELETE /api/v2/test; vendor: ''personalized, A/B-tested digital experiences without
+    glue code'''
+  reason: In this DXP the 'test' resource is the A/B test definition used to vary digital experiences,
+    matching configuration and management of running A/B tests. Schema detail is minimal (Test1), so confidence
+    is moderate rather than high.
