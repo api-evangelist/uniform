@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Data Sources API
+  title: Uniform Platform Data Sources API
   version: '2.0'
 tags:
 - name: Data Sources
@@ -49,6 +49,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api data source
+      x-summary-source: derived
+      operationId: getApiV1DataSource
+      x-operation-id-source: derived
     put:
       tags:
       - Data Sources
@@ -94,6 +98,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api data source
+      x-summary-source: derived
+      operationId: putApiV1DataSource
+      x-operation-id-source: derived
     delete:
       tags:
       - Data Sources
@@ -132,6 +140,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api data source
+      x-summary-source: derived
+      operationId: deleteApiV1DataSource
+      x-operation-id-source: derived
   /api/v1/data-sources:
     get:
       tags:
@@ -178,8 +190,49 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api data sources
+      x-summary-source: derived
+      operationId: getApiV1DataSources
+      x-operation-id-source: derived
 components:
   schemas:
+    DataVariableDefinition:
+      type: object
+      description: Defines the shape of a data variable on a Data Source or Data Type
+      required:
+      - default
+      properties:
+        displayName:
+          type: string
+          description: Display name of the data variable
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Explanatory text that is provided to the data resource editor to explain what this variable does
+          maxLength: 256
+          minLength: 1
+        type:
+          type: string
+          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
+          default: text
+          maxLength: 36
+          minLength: 1
+          pattern: ^[A-Za-z0-9\-]+$
+        default:
+          type: string
+          description: Default value of the data variable
+        order:
+          type: number
+          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+        source:
+          type: string
+          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
+
+            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
+
+            '
+      additionalProperties: false
     AlternativeDataSourceData:
       type: object
       description: 'Additional set of headers, parameters, variables, etc to be used for data resolving in the context like e.g. Unpublished Data.
@@ -230,6 +283,16 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/DataVariableDefinition'
       additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     DataSource:
       type: object
       description: 'An instance of a data source (i.e. "Master environment of the stable space", "Yelp API", "Sanity dev dataset").
@@ -345,60 +408,9 @@ components:
           type: string
           description: User or API key ID that last modified the data source (ignored for writes)
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
-    DataVariableDefinition:
-      type: object
-      description: Defines the shape of a data variable on a Data Source or Data Type
-      required:
-      - default
-      properties:
-        displayName:
-          type: string
-          description: Display name of the data variable
-          maxLength: 100
-          minLength: 1
-        helpText:
-          type: string
-          description: Explanatory text that is provided to the data resource editor to explain what this variable does
-          maxLength: 256
-          minLength: 1
-        type:
-          type: string
-          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
-          default: text
-          maxLength: 36
-          minLength: 1
-          pattern: ^[A-Za-z0-9\-]+$
-        default:
-          type: string
-          description: Default value of the data variable
-        order:
-          type: number
-          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
-        source:
-          type: string
-          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
-
-            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
-
-            '
-      additionalProperties: false
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     RateLimitError:
       description: Too many requests in allowed time period
     BadRequestError:
@@ -407,10 +419,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

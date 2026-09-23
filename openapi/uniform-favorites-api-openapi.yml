@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Favorites API
+  title: Uniform Platform Favorites API
   version: '2.0'
 tags:
 - name: Favorites
@@ -34,8 +34,9 @@ paths:
         name: entityType
         in: query
       - schema:
-          type: number
-          nullable: true
+          type:
+          - number
+          - 'null'
           minimum: 0
           default: 0
           description: Number of records to skip.
@@ -117,6 +118,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api favorites
+      x-summary-source: derived
+      operationId: getApiV1Favorites
+      x-operation-id-source: derived
     delete:
       description: Removes a favorite. Body-keyed by `(entityType, entityId)` rather than by row id so toggling doesn't need a prior fetch. Returns 204 even if the row was already absent (delete is idempotent).
       requestBody:
@@ -172,6 +177,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api favorites
+      x-summary-source: derived
+      operationId: deleteApiV1Favorites
+      x-operation-id-source: derived
     put:
       description: Idempotent upsert. Adds a favorite for the current user if none exists; returns the existing row otherwise. Identity is taken from the verified token, never the body.
       requestBody:
@@ -259,6 +268,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Replace api favorites
+      x-summary-source: derived
+      operationId: putApiV1Favorites
+      x-operation-id-source: derived
     options:
       tags:
       - Favorites
@@ -266,26 +279,30 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api favorites
+      x-summary-source: derived
+      operationId: optionsApiV1Favorites
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

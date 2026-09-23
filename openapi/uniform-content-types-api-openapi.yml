@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Content Types API
+  title: Uniform Platform Content Types API
   version: '2.0'
 tags:
 - name: Content Types
@@ -13,6 +13,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api content types
+      x-summary-source: derived
+      operationId: optionsApiV1ContentTypes
+      x-operation-id-source: derived
     get:
       tags:
       - Content Types
@@ -74,6 +78,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api content types
+      x-summary-source: derived
+      operationId: getApiV1ContentTypes
+      x-operation-id-source: derived
     put:
       tags:
       - Content Types
@@ -111,6 +119,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api content types
+      x-summary-source: derived
+      operationId: putApiV1ContentTypes
+      x-operation-id-source: derived
     delete:
       tags:
       - Content Types
@@ -149,36 +161,12 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api content types
+      x-summary-source: derived
+      operationId: deleteApiV1ContentTypes
+      x-operation-id-source: derived
 components:
   schemas:
-    ComponentDefinitionPermission:
-      type: object
-      description: Permission set for a component definition
-      required:
-      - roleId
-      - permission
-      - state
-      properties:
-        roleId:
-          $ref: '#/components/schemas/PublicIdProperty'
-        permission:
-          type: string
-          description: 'Permission type for this permission ComponentDefinition:
-
-            read | write | create | delete
-
-            '
-          enum:
-          - read
-          - write
-          - create
-          - delete
-        state:
-          type: integer
-          description: State of the component that this permission applies to
-          maximum: 64
-          minimum: 0
-      additionalProperties: false
     ComponentDefinitionSlugSettings:
       type: object
       description: The definition of a composition's slug settings
@@ -230,117 +218,33 @@ components:
       minLength: 1
       maxLength: 100
       pattern: ^[a-zA-Z0-9-_]+$
-    ContentTypePreviewConfiguration:
+    ComponentDefinitionPermission:
       type: object
-      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
+      description: Permission set for a component definition
       required:
-      - type
-      - label
-      - id
+      - roleId
+      - permission
+      - state
       properties:
-        type:
-          type: string
-          description: The type of preview configuration
-          enum:
-          - pattern
-          - project-map
-        label:
-          type: string
-          description: Display label for the preview configuration
-          minLength: 1
-          maxLength: 100
-          pattern: ^[^<>]*$
-        id:
-          type: string
-          description: Target preview entity ID (project map node ID or pattern ID)
-          format: uuid
-        dynamicInputs:
-          type: object
-          description: Optional mapping of dynamic input names to their values
-          additionalProperties:
-            type: string
-      additionalProperties: false
-    ContentType:
-      type: object
-      description: Defines a content type
-      required:
-      - id
-      - name
-      properties:
-        id:
+        roleId:
           $ref: '#/components/schemas/PublicIdProperty'
-        name:
+        permission:
           type: string
-          description: Friendly name of the content type
-          maxLength: 100
-          minLength: 1
-          pattern: ^[^<>]*$
-        entryName:
-          type: string
-          description: 'The public ID of the field whose value should be used to create a display name for entries of this content type in the UI.
+          description: 'Permission type for this permission ComponentDefinition:
 
-            The field type must support being used as an entry name for this to work
+            read | write | create | delete
 
             '
-          maxLength: 100
-          nullable: true
-        thumbnailField:
-          type: string
-          description: 'The public ID of the field whose value should be used as a thumbnail for entries of this content type in the UI
-
-            '
-          maxLength: 100
-          nullable: true
-          default: null
-        fields:
-          type: array
-          description: The fields for this content type. Fields are key-value pairs that can be text, numbers, JSON objects, etc.
-          items:
-            $ref: '#/components/schemas/ComponentDefinitionParameter'
-        description:
-          type: string
-          description: Description of the content type
-          maxLength: 2024
-        icon:
-          type: string
-          description: Icon name for the content type (e.g. 'screen')
-          default: file-document
-          maxLength: 2024
-        created:
-          type: string
-          description: Created date string for this content type (ignored for writes)
-          maxLength: 50
-        updated:
-          type: string
-          description: Last modified date string for this content type (ignored for writes)
-          maxLength: 50
-        slugSettings:
-          $ref: '#/components/schemas/ComponentDefinitionSlugSettings'
-        type:
-          description: The definition type of this content type (block or content type)
-          type: string
           enum:
-          - contentType
-          - block
-          default: contentType
-        useTeamPermissions:
-          type: boolean
-          description: if this content type uses team permissions or custom permissions
-          default: true
-        permissions:
-          type: array
-          description: Custom role permissions for this content type
-          items:
-            $ref: '#/components/schemas/ComponentDefinitionPermission'
-        workflowId:
-          type: string
-          format: uuid
-          description: ID of the workflow that instances of this content type will use by default. When not set, no workflow is attached
-        previewConfigurations:
-          type: array
-          description: Configurations for previewing an entry on a consuming pattern or composition.
-          items:
-            $ref: '#/components/schemas/ContentTypePreviewConfiguration'
+          - read
+          - write
+          - create
+          - delete
+        state:
+          type: integer
+          description: State of the component that this permission applies to
+          maximum: 64
+          minimum: 0
       additionalProperties: false
     Error:
       type: object
@@ -414,25 +318,139 @@ components:
         typeConfig:
           description: The configuration object for the type (type-specific)
       additionalProperties: false
+    ContentTypePreviewConfiguration:
+      type: object
+      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
+      required:
+      - type
+      - label
+      - id
+      properties:
+        type:
+          type: string
+          description: The type of preview configuration
+          enum:
+          - pattern
+          - project-map
+        label:
+          type: string
+          description: Display label for the preview configuration
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]*$
+        id:
+          type: string
+          description: Target preview entity ID (project map node ID or pattern ID)
+          format: uuid
+        dynamicInputs:
+          type: object
+          description: Optional mapping of dynamic input names to their values
+          additionalProperties:
+            type: string
+      additionalProperties: false
+    ContentType:
+      type: object
+      description: Defines a content type
+      required:
+      - id
+      - name
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the content type
+          maxLength: 100
+          minLength: 1
+          pattern: ^[^<>]*$
+        entryName:
+          type:
+          - string
+          - 'null'
+          description: 'The public ID of the field whose value should be used to create a display name for entries of this content type in the UI.
+
+            The field type must support being used as an entry name for this to work
+
+            '
+          maxLength: 100
+        thumbnailField:
+          type:
+          - string
+          - 'null'
+          description: 'The public ID of the field whose value should be used as a thumbnail for entries of this content type in the UI
+
+            '
+          maxLength: 100
+          default: null
+        fields:
+          type: array
+          description: The fields for this content type. Fields are key-value pairs that can be text, numbers, JSON objects, etc.
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionParameter'
+        description:
+          type: string
+          description: Description of the content type
+          maxLength: 2024
+        icon:
+          type: string
+          description: Icon name for the content type (e.g. 'screen')
+          default: file-document
+          maxLength: 2024
+        created:
+          type: string
+          description: Created date string for this content type (ignored for writes)
+          maxLength: 50
+        updated:
+          type: string
+          description: Last modified date string for this content type (ignored for writes)
+          maxLength: 50
+        slugSettings:
+          $ref: '#/components/schemas/ComponentDefinitionSlugSettings'
+        type:
+          description: The definition type of this content type (block or content type)
+          type: string
+          enum:
+          - contentType
+          - block
+          default: contentType
+        useTeamPermissions:
+          type: boolean
+          description: if this content type uses team permissions or custom permissions
+          default: true
+        permissions:
+          type: array
+          description: Custom role permissions for this content type
+          items:
+            $ref: '#/components/schemas/ComponentDefinitionPermission'
+        workflowId:
+          type: string
+          format: uuid
+          description: ID of the workflow that instances of this content type will use by default. When not set, no workflow is attached
+        previewConfigurations:
+          type: array
+          description: Configurations for previewing an entry on a consuming pattern or composition.
+          items:
+            $ref: '#/components/schemas/ContentTypePreviewConfiguration'
+      additionalProperties: false
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

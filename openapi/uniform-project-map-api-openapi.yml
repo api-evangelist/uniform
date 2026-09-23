@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Project Map API
+  title: Uniform Platform Project Map API
   version: '2.0'
 tags:
 - name: Project Map
@@ -13,6 +13,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api project map nodes
+      x-summary-source: derived
+      operationId: optionsApiV1ProjectMapNodes
+      x-operation-id-source: derived
     get:
       description: Called to get a list of nodes belonging to a specific path or Id
       tags:
@@ -171,6 +175,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api project map nodes
+      x-summary-source: derived
+      operationId: getApiV1ProjectMapNodes
+      x-operation-id-source: derived
     put:
       description: Called to insert or update a node or nodes
       tags:
@@ -228,6 +236,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api project map nodes
+      x-summary-source: derived
+      operationId: putApiV1ProjectMapNodes
+      x-operation-id-source: derived
     delete:
       description: Called to delete a particular projectMap node by id or path
       tags:
@@ -298,6 +310,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api project map nodes
+      x-summary-source: derived
+      operationId: deleteApiV1ProjectMapNodes
+      x-operation-id-source: derived
   /api/v1/project-map:
     options:
       tags:
@@ -306,6 +322,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api project map
+      x-summary-source: derived
+      operationId: optionsApiV1ProjectMap
+      x-operation-id-source: derived
     get:
       description: Called to retrieve a list of project maps related to a project or a specific project map by id
       tags:
@@ -352,6 +372,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api project map
+      x-summary-source: derived
+      operationId: getApiV1ProjectMap
+      x-operation-id-source: derived
     put:
       tags:
       - Project Map
@@ -403,6 +427,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api project map
+      x-summary-source: derived
+      operationId: putApiV1ProjectMap
+      x-operation-id-source: derived
     delete:
       description: Called to delete a projectMap
       tags:
@@ -442,37 +470,89 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api project map
+      x-summary-source: derived
+      operationId: deleteApiV1ProjectMap
+      x-operation-id-source: derived
 components:
   schemas:
-    ProjectMapNodeLocale:
+    ProjectMapNodeData:
       type: object
+      properties:
+        isSearchHit:
+          description: While performing a search if a node is a hit, this property will return true.  If it's supporting structure, like a parent of a search hit, it will return false
+          type: boolean
+        queryStrings:
+          description: Query strings that are allowed to be passed to the node
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
+        previewValue:
+          description: 'For dynamic nodes, this is the preview value for the dynamic value.
+
+            The preview value is used when editing a connected composition, and is the default
+
+            dynamic node value unless the author has explicitly chosen a different value
+
+            '
+          type: string
+          maxLength: 512
+      additionalProperties: false
+    ProjectMapNodeUpdate:
+      type: object
+      required:
+      - name
+      - path
+      - type
+      properties:
+        id:
+          description: The id of the projectMap entry
+          type: string
+          format: uuid
+        path:
+          description: Path representing the path to the current node
+          pattern: ^\/$|^(\/[^\/]+)+$
+          type: string
+        order:
+          description: Ordering of the node, higher numbers go after lower numbers
+          type: integer
+        data:
+          $ref: '#/components/schemas/ProjectMapNodeData'
+        name:
+          description: The name of the projectMap entry
+          type: string
+          minLength: 1
+        type:
+          description: The type of the projectMap entry
+          type: string
+          enum:
+          - composition
+          - placeholder
+        compositionId:
+          description: The composition id related to the projectMap entry
+          type: string
+          format: uuid
+        description:
+          description: Description of the projectMap node
+          type: string
+          maxLength: 300
+        locales:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProjectMapNodeLocaleUpdate'
+      additionalProperties: false
+    ProjectMapNodeLocaleUpdate:
       required:
       - pathSegment
       properties:
         name:
           description: Name of node in the locale
           type: string
-        path:
-          description: Full path to the current node in this locale, only included if requested with the expanded flag
-          type: string
         pathSegment:
-          description: Last segment of the url in this locale
+          description: Locale specific path segment for this node (not a full path)
           type: string
-        inherited:
-          description: 'When false, the node explicitly defines a locale-specific path segment.
-
-
-            When true, an ancestor defines a locale-specific path segment,
-
-            which makes its descendants resolvable using that segment.
-
-            This node does not define a locale-specific path segment.
-
-
-            Only included if requested with the expanded flag. Without the expanded flag, inherited locales are not included in the response
-
-            '
-          type: boolean
+          minLength: 1
       additionalProperties: false
     ProjectMapDefinition:
       type: object
@@ -504,29 +584,6 @@ components:
           maxItems: 50
           items:
             $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
-    ProjectMapNodeData:
-      type: object
-      properties:
-        isSearchHit:
-          description: While performing a search if a node is a hit, this property will return true.  If it's supporting structure, like a parent of a search hit, it will return false
-          type: boolean
-        queryStrings:
-          description: Query strings that are allowed to be passed to the node
-          type: array
-          maxItems: 50
-          items:
-            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
-        previewValue:
-          description: 'For dynamic nodes, this is the preview value for the dynamic value.
-
-            The preview value is used when editing a connected composition, and is the default
-
-            dynamic node value unless the author has explicitly chosen a different value
-
-            '
-          type: string
-          maxLength: 512
-      additionalProperties: false
     ProjectMapNodeCompositionData:
       type: object
       required:
@@ -558,9 +615,10 @@ components:
             '
           format: uuid
         slug:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Slug pattern of the linked composition or edition
-          nullable: true
           maxLength: 512
         name:
           type: string
@@ -620,24 +678,19 @@ components:
             IMPORTANT: if the composition has more than one edition, this is the modified date of the default edition. Each edition has its own modified date in the `editions` array.
 
             '
-    ProjectMapSourceRedirectData:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            description: The public UUID of the source redirect
-            type: string
-            format: uuid
-    ProjectMapTargetRedirectData:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            description: The public UUID of the target redirect
-            type: string
-            format: uuid
+    ProjectMapTreeNodeDefinition:
+      allOf:
+      - $ref: '#/components/schemas/ProjectMapNodeDefinition'
+      type: object
+      required:
+      - name
+      properties:
+        children:
+          description: Children of the node
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectMapTreeNodeDefinition'
+      additionalProperties: false
     ProjectMapNodeDefinition:
       type: object
       required:
@@ -706,61 +759,54 @@ components:
             items:
               type: string
           - type: string
-    ProjectMapNodeUpdate:
+    ProjectMapNodeLocale:
       type: object
-      required:
-      - name
-      - path
-      - type
-      properties:
-        id:
-          description: The id of the projectMap entry
-          type: string
-          format: uuid
-        path:
-          description: Path representing the path to the current node
-          pattern: ^\/$|^(\/[^\/]+)+$
-          type: string
-        order:
-          description: Ordering of the node, higher numbers go after lower numbers
-          type: integer
-        data:
-          $ref: '#/components/schemas/ProjectMapNodeData'
-        name:
-          description: The name of the projectMap entry
-          type: string
-          minLength: 1
-        type:
-          description: The type of the projectMap entry
-          type: string
-          enum:
-          - composition
-          - placeholder
-        compositionId:
-          description: The composition id related to the projectMap entry
-          type: string
-          format: uuid
-        description:
-          description: Description of the projectMap node
-          type: string
-          maxLength: 300
-        locales:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ProjectMapNodeLocaleUpdate'
-      additionalProperties: false
-    ProjectMapNodeLocaleUpdate:
       required:
       - pathSegment
       properties:
         name:
           description: Name of node in the locale
           type: string
-        pathSegment:
-          description: Locale specific path segment for this node (not a full path)
+        path:
+          description: Full path to the current node in this locale, only included if requested with the expanded flag
           type: string
-          minLength: 1
+        pathSegment:
+          description: Last segment of the url in this locale
+          type: string
+        inherited:
+          description: 'When false, the node explicitly defines a locale-specific path segment.
+
+
+            When true, an ancestor defines a locale-specific path segment,
+
+            which makes its descendants resolvable using that segment.
+
+            This node does not define a locale-specific path segment.
+
+
+            Only included if requested with the expanded flag. Without the expanded flag, inherited locales are not included in the response
+
+            '
+          type: boolean
       additionalProperties: false
+    ProjectMapTargetRedirectData:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: The public UUID of the target redirect
+            type: string
+            format: uuid
+    ProjectMapSourceRedirectData:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: The public UUID of the source redirect
+            type: string
+            format: uuid
     ProjectMapNodeCompositionEditionData:
       type: object
       required:
@@ -784,9 +830,10 @@ components:
           description: The edition UUID underneath the linked composition
           format: uuid
         slug:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Slug pattern of this edition
-          nullable: true
         name:
           type: string
           description: Friendly name of the linked composition
@@ -824,19 +871,6 @@ components:
           type: string
           format: date-time
           description: Date and time the edition was last modified (or created if never modified). Uses ISO-8859-1 formatting and UTC timezone.
-    ProjectMapTreeNodeDefinition:
-      allOf:
-      - $ref: '#/components/schemas/ProjectMapNodeDefinition'
-      type: object
-      required:
-      - name
-      properties:
-        children:
-          description: Children of the node
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectMapTreeNodeDefinition'
-      additionalProperties: false
     ProjectMapNodeAllowedQueryString:
       type: object
       required:
@@ -893,8 +927,12 @@ components:
           - options
       additionalProperties: false
   responses:
-    ForbiddenError:
-      description: Permission was denied
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
       content:
         application/json:
           schema:
@@ -905,16 +943,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
-    InternalServerError:
-      description: Execution error occurred
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

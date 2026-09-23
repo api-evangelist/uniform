@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Manifest API
+  title: Uniform Platform Manifest API
   version: '2.0'
 tags:
 - name: Manifest
@@ -13,12 +13,14 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api manifest
+      x-summary-source: derived
+      operationId: optionsApiV2Manifest
+      x-operation-id-source: derived
     get:
       description: 'Fetches the optimization Manifest for a given project.
 
-        If no manifest has ever been published, and an API key is used that has preview manifest permissions then the current preview manifest will be returned (in delivery format).
-
-        '
+        If no manifest has ever been published, and an API key is used that has preview manifest permissions then the current preview manifest will be returned (in delivery format).'
       tags:
       - Manifest
       parameters:
@@ -61,8 +63,177 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api manifest
+      x-summary-source: derived
+      operationId: getApiV2Manifest
+      x-operation-id-source: derived
 components:
   schemas:
+    AggregateDimensionInput:
+      description: Defines an input dimension to an aggregate dimension
+      type: object
+      required:
+      - dim
+      properties:
+        dim:
+          description: 'Dimension name to reference as an input.
+
+            For enrichment inputs, use CATEGORY_KEY as the dimension.
+
+            Enrichments, signals, and other aggregate dimensions may be referenced.
+
+
+            Note that creating a cycle of aggregate dimensions is allowed, however
+
+            the final score will _ignore_ the cycled aggregate dimension in the result.
+
+            This can be used to create mutually exclusive aggregates
+
+            '
+          type: string
+          minLength: 1
+        sign:
+          description: 'The sign of the input dimension controls how it affects the aggregate dimension''s final score.
+
+
+            ''+'' = add to the final score
+
+            ''-'' = subtract from the final score
+
+            ''c'' = clear the final score (if the input dimension has any score at all, this aggregate will have no score regardless of other inputs)
+
+
+            Default if unspecified: ''+''
+
+            '
+          type: string
+          enum:
+          - +
+          - '-'
+          - c
+          default: +
+      additionalProperties: false
+    Conversion:
+      type: object
+      required:
+      - freq
+      properties:
+        freq:
+          description: The frequency of the conversion event
+          type: string
+          enum:
+          - O
+    NumberMatch:
+      description: Describes a match expression on a number
+      type: object
+      required:
+      - op
+      - rhs
+      properties:
+        rhs:
+          description: The right-hand side of the match expression
+          type: number
+        op:
+          description: 'The type of match to perform
+
+            ''='' = exact match
+
+            ''!='' = not an exact match
+
+            ''<'' = less than match expression
+
+            ''>'' = greater than match expression
+
+            '
+          type: string
+          enum:
+          - '='
+          - <
+          - '>'
+          - '!='
+    EnrichmentCategory:
+      type: object
+      required:
+      - cap
+      properties:
+        cap:
+          description: The maximum visitor score allowed for enrichment keys in this category
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+    QuirkCriteria:
+      description: Matches a visitor quirk key and value
+      type: object
+      required:
+      - type
+      - key
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - QK
+        key:
+          description: The name of the quirk key to match
+          type: string
+          minLength: 1
+        match:
+          description: The quirk value to match against
+          $ref: '#/components/schemas/StringMatch'
+    RootSignalCriteriaGroup:
+      type: object
+      required:
+      - clauses
+      - type
+      properties:
+        type:
+          description: Criteria type (Group of other criteria)
+          type: string
+          enum:
+          - G
+        op:
+          type: string
+          description: 'The logical operator to apply to the criteria groups
+
+            & = AND
+
+            | = OR
+
+
+            Default is `&` if unspecified
+
+            '
+          default: '&'
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          description: The criteria clauses that make up this grouping of criteria
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/SignalCriteriaGroup'
+            - $ref: '#/components/schemas/SignalCriteria'
+      additionalProperties: false
+    SignalCriteria:
+      oneOf:
+      - $ref: '#/components/schemas/CookieCriteria'
+      - $ref: '#/components/schemas/QueryStringCriteria'
+      - $ref: '#/components/schemas/QuirkCriteria'
+      - $ref: '#/components/schemas/EventCriteria'
+      - $ref: '#/components/schemas/CurrentPageCriteria'
+      - $ref: '#/components/schemas/PageViewCountCriteria'
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     ManifestV2:
       type: object
       required:
@@ -90,16 +261,43 @@ components:
                 $ref: '#/components/schemas/Test'
           additionalProperties: false
       additionalProperties: false
-    EnrichmentCategory:
+    QueryStringCriteria:
+      description: Matches a URL query string parameter value
       type: object
       required:
-      - cap
+      - type
+      - queryName
+      - match
       properties:
-        cap:
-          description: The maximum visitor score allowed for enrichment keys in this category
-          type: integer
-          minimum: 1
-          maximum: 2147483647
+        type:
+          type: string
+          enum:
+          - QS
+        queryName:
+          description: The name of the query string parameter to match
+          type: string
+          minLength: 1
+        match:
+          description: The value to match the query string parameter against
+          $ref: '#/components/schemas/StringMatch'
+    CurrentPageCriteria:
+      description: 'Matches the current page''s absolute path (i.e. /path/to/page.html)
+
+        Does not include the query string or protocol and hostname (i.e. NOT https://foo.com/path/to/page.html?query=something)
+
+        '
+      type: object
+      required:
+      - type
+      - path
+      properties:
+        type:
+          type: string
+          enum:
+          - PV
+        path:
+          description: The page/route path to match as a page that has been visited
+          $ref: '#/components/schemas/StringMatch'
     StringMatch:
       description: Describes a match expression on a string
       type: object
@@ -155,129 +353,6 @@ components:
             - '!*'
       discriminator:
         propertyName: op
-    QuirkCriteria:
-      description: Matches a visitor quirk key and value
-      type: object
-      required:
-      - type
-      - key
-      - match
-      properties:
-        type:
-          type: string
-          enum:
-          - QK
-        key:
-          description: The name of the quirk key to match
-          type: string
-          minLength: 1
-        match:
-          description: The quirk value to match against
-          $ref: '#/components/schemas/StringMatch'
-    AggregateDimension:
-      description: Defines an aggregate dimension that is a grouping of other dimensions' scores; an intent or audience
-      type: object
-      required:
-      - inputs
-      properties:
-        inputs:
-          description: Input dimensions to the aggregate dimension
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregateDimensionInput'
-      additionalProperties: false
-    PageViewCountCriteria:
-      type: object
-      required:
-      - type
-      - match
-      properties:
-        type:
-          type: string
-          enum:
-          - PVC
-        match:
-          description: The expression to match the page view count against
-          $ref: '#/components/schemas/NumberMatch'
-    Test:
-      type: object
-      properties:
-        wv:
-          description: Winning variation ID - if set, the test will not run and this variation is shown to all visitors (the test is closed)
-          type: string
-      additionalProperties: false
-    NumberMatch:
-      description: Describes a match expression on a number
-      type: object
-      required:
-      - op
-      - rhs
-      properties:
-        rhs:
-          description: The right-hand side of the match expression
-          type: number
-        op:
-          description: 'The type of match to perform
-
-            ''='' = exact match
-
-            ''!='' = not an exact match
-
-            ''<'' = less than match expression
-
-            ''>'' = greater than match expression
-
-            '
-          type: string
-          enum:
-          - '='
-          - <
-          - '>'
-          - '!='
-    SignalCriteria:
-      oneOf:
-      - $ref: '#/components/schemas/CookieCriteria'
-      - $ref: '#/components/schemas/QueryStringCriteria'
-      - $ref: '#/components/schemas/QuirkCriteria'
-      - $ref: '#/components/schemas/EventCriteria'
-      - $ref: '#/components/schemas/CurrentPageCriteria'
-      - $ref: '#/components/schemas/PageViewCountCriteria'
-    RootSignalCriteriaGroup:
-      type: object
-      required:
-      - clauses
-      - type
-      properties:
-        type:
-          description: Criteria type (Group of other criteria)
-          type: string
-          enum:
-          - G
-        op:
-          type: string
-          description: 'The logical operator to apply to the criteria groups
-
-            & = AND
-
-            | = OR
-
-
-            Default is `&` if unspecified
-
-            '
-          default: '&'
-          enum:
-          - '&'
-          - '|'
-        clauses:
-          description: The criteria clauses that make up this grouping of criteria
-          type: array
-          minItems: 1
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/SignalCriteriaGroup'
-            - $ref: '#/components/schemas/SignalCriteria'
-      additionalProperties: false
     PersonalizationManifest:
       type: object
       properties:
@@ -302,55 +377,19 @@ components:
           minimum: 0
           maximum: 100
       additionalProperties: false
-    EventCriteria:
-      description: Matches an analytics event name being fired
+    PageViewCountCriteria:
       type: object
       required:
       - type
-      - event
+      - match
       properties:
         type:
           type: string
           enum:
-          - EVT
-        event:
-          description: How to match the event name
-          $ref: '#/components/schemas/StringMatch'
-    SignalCriteriaGroup:
-      type: object
-      required:
-      - clauses
-      - type
-      properties:
-        type:
-          description: Criteria type (Group of other criteria)
-          type: string
-          enum:
-          - G
-        op:
-          type: string
-          description: 'The logical operator to apply to the criteria groups
-
-            & = AND
-
-            | = OR
-
-
-            Default is `&` if unspecified
-
-            '
-          enum:
-          - '&'
-          - '|'
-        clauses:
-          description: The criteria clauses that make up this grouping of criteria
-          type: array
-          minItems: 1
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/SignalCriteriaGroup'
-            - $ref: '#/components/schemas/SignalCriteria'
-      additionalProperties: false
+          - PVC
+        match:
+          description: The expression to match the page view count against
+          $ref: '#/components/schemas/NumberMatch'
     Signal:
       type: object
       required:
@@ -391,26 +430,53 @@ components:
           - $ref: '#/components/schemas/Conversion'
           - enum:
             - null
-    Conversion:
+    SignalCriteriaGroup:
       type: object
       required:
-      - freq
+      - clauses
+      - type
       properties:
-        freq:
-          description: The frequency of the conversion event
+        type:
+          description: Criteria type (Group of other criteria)
           type: string
           enum:
-          - O
-    Error:
+          - G
+        op:
+          type: string
+          description: 'The logical operator to apply to the criteria groups
+
+            & = AND
+
+            | = OR
+
+
+            Default is `&` if unspecified
+
+            '
+          enum:
+          - '&'
+          - '|'
+        clauses:
+          description: The criteria clauses that make up this grouping of criteria
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/SignalCriteriaGroup'
+            - $ref: '#/components/schemas/SignalCriteria'
+      additionalProperties: false
+    AggregateDimension:
+      description: Defines an aggregate dimension that is a grouping of other dimensions' scores; an intent or audience
       type: object
+      required:
+      - inputs
       properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
+        inputs:
+          description: Input dimensions to the aggregate dimension
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregateDimensionInput'
+      additionalProperties: false
     CookieCriteria:
       description: Matches a web cookie value
       type: object
@@ -430,96 +496,36 @@ components:
         match:
           description: The value to match the cookie against
           $ref: '#/components/schemas/StringMatch'
-    AggregateDimensionInput:
-      description: Defines an input dimension to an aggregate dimension
+    Test:
       type: object
-      required:
-      - dim
       properties:
-        dim:
-          description: 'Dimension name to reference as an input.
-
-            For enrichment inputs, use CATEGORY_KEY as the dimension.
-
-            Enrichments, signals, and other aggregate dimensions may be referenced.
-
-
-            Note that creating a cycle of aggregate dimensions is allowed, however
-
-            the final score will _ignore_ the cycled aggregate dimension in the result.
-
-            This can be used to create mutually exclusive aggregates
-
-            '
+        wv:
+          description: Winning variation ID - if set, the test will not run and this variation is shown to all visitors (the test is closed)
           type: string
-          minLength: 1
-        sign:
-          description: 'The sign of the input dimension controls how it affects the aggregate dimension''s final score.
-
-
-            ''+'' = add to the final score
-
-            ''-'' = subtract from the final score
-
-            ''c'' = clear the final score (if the input dimension has any score at all, this aggregate will have no score regardless of other inputs)
-
-
-            Default if unspecified: ''+''
-
-            '
-          type: string
-          enum:
-          - +
-          - '-'
-          - c
-          default: +
       additionalProperties: false
-    QueryStringCriteria:
-      description: Matches a URL query string parameter value
+    EventCriteria:
+      description: Matches an analytics event name being fired
       type: object
       required:
       - type
-      - queryName
-      - match
+      - event
       properties:
         type:
           type: string
           enum:
-          - QS
-        queryName:
-          description: The name of the query string parameter to match
-          type: string
-          minLength: 1
-        match:
-          description: The value to match the query string parameter against
-          $ref: '#/components/schemas/StringMatch'
-    CurrentPageCriteria:
-      description: 'Matches the current page''s absolute path (i.e. /path/to/page.html)
-
-        Does not include the query string or protocol and hostname (i.e. NOT https://foo.com/path/to/page.html?query=something)
-
-        '
-      type: object
-      required:
-      - type
-      - path
-      properties:
-        type:
-          type: string
-          enum:
-          - PV
-        path:
-          description: The page/route path to match as a page that has been visited
+          - EVT
+        event:
+          description: How to match the event name
           $ref: '#/components/schemas/StringMatch'
   responses:
-    BadRequestError:
-      description: Request input validation failed
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
+    BadRequestError:
+      description: Request input validation failed
       content:
         application/json:
           schema:

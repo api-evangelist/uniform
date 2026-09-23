@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Quirks API
+  title: Uniform Platform Quirks API
   version: '2.0'
 tags:
 - name: Quirks
@@ -13,6 +13,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api quirk
+      x-summary-source: derived
+      operationId: optionsApiV2Quirk
+      x-operation-id-source: derived
     get:
       tags:
       - Quirks
@@ -68,6 +72,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api quirk
+      x-summary-source: derived
+      operationId: getApiV2Quirk
+      x-operation-id-source: derived
     put:
       tags:
       - Quirks
@@ -103,6 +111,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api quirk
+      x-summary-source: derived
+      operationId: putApiV2Quirk
+      x-operation-id-source: derived
     delete:
       tags:
       - Quirks
@@ -141,14 +153,14 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api quirk
+      x-summary-source: derived
+      operationId: deleteApiV2Quirk
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     RateLimitError:
       description: Too many requests in allowed time period
     BadRequestError:
@@ -157,10 +169,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
@@ -183,10 +199,11 @@ components:
           maxLength: 100
           pattern: ^[^<>]+$
         description:
-          type: string
+          type:
+          - string
+          - 'null'
           maxLength: 512
           pattern: ^[^<>]*$
-          nullable: true
         options:
           type: array
           items:
@@ -207,6 +224,16 @@ components:
         id:
           type: string
           maxLength: 100
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     QuirkOptions:
       type: object
       required:
@@ -224,16 +251,6 @@ components:
           maxLength: 36
           pattern: ^[^<>]+$
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

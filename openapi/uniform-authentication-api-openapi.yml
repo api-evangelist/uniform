@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Authentication API
+  title: Uniform Platform Authentication API
   version: '2.0'
 tags:
 - name: Authentication
@@ -12,7 +12,7 @@ paths:
 
         Supported grant types and authentication:
 
-        - `session_token` (bearer-protected): requires `Authorization: Bearer <Auth0 access token>`. Mints a short-lived (10s) session token bound to the requested integration and project.
+        - `session_token` (bearer-protected): requires `Authorization: Bearer `. Mints a short-lived (10s) session token bound to the requested integration and project.
 
         - `delegation_token` (integration-secret protected): exchanges a session token plus the integration `app_secret` for a delegation access token (and, when allowed, a refresh token). No bearer token is used.
 
@@ -126,6 +126,10 @@ paths:
       tags:
       - Authentication
       security: []
+      summary: Create api token
+      x-summary-source: derived
+      operationId: postApiV1Token
+      x-operation-id-source: derived
     options:
       tags:
       - Authentication
@@ -133,26 +137,30 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api token
+      x-summary-source: derived
+      operationId: optionsApiV1Token
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

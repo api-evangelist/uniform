@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Insights API
+  title: Uniform Platform Insights API
   version: '2.0'
 tags:
 - name: Insights
@@ -88,6 +88,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api insights connections
+      x-summary-source: derived
+      operationId: getApiV1InsightsConnections
+      x-operation-id-source: derived
     delete:
       description: Deletes an insights connection
       deprecated: true
@@ -133,6 +137,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api insights connections
+      x-summary-source: derived
+      operationId: deleteApiV1InsightsConnections
+      x-operation-id-source: derived
     put:
       description: Creates an insights connection with read/write tokens
       deprecated: true
@@ -210,6 +218,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Replace api insights connections
+      x-summary-source: derived
+      operationId: putApiV1InsightsConnections
+      x-operation-id-source: derived
   /api/v1/insights:
     get:
       tags:
@@ -286,6 +298,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api insights
+      x-summary-source: derived
+      operationId: getApiV1Insights
+      x-operation-id-source: derived
   /api/v2/insights:
     get:
       description: Fetch insights data
@@ -399,8 +415,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    nullable: true
+                  data: {}
         '400':
           $ref: '#/components/responses/BadRequestError'
         '401':
@@ -427,41 +442,35 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api insights
+      x-summary-source: derived
+      operationId: getApiV2Insights
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     InsightDefinition:
       type: object
       required:
@@ -475,6 +484,16 @@ components:
           description: The integration key (id) associated with the retrieved insights data
           type: string
       additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

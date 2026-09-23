@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Teams API
+  title: Uniform Platform Teams API
   version: '2.0'
 tags:
 - name: Teams
@@ -39,6 +39,10 @@ paths:
       - Teams
       security:
       - BearerAuth: []
+      summary: Delete api team
+      x-summary-source: derived
+      operationId: deleteApiV1Team
+      x-operation-id-source: derived
     post:
       description: Create a new team
       requestBody:
@@ -61,8 +65,7 @@ paths:
                         minLength: 1
                       quantity:
                         type: integer
-                        minimum: 0
-                        exclusiveMinimum: true
+                        exclusiveMinimum: 0
                     required:
                     - entitlement_id
                     - quantity
@@ -95,8 +98,9 @@ paths:
                             name:
                               type: string
                             email_address:
-                              type: string
-                              nullable: true
+                              type:
+                              - string
+                              - 'null'
                           required:
                           - name
                           - email_address
@@ -123,6 +127,10 @@ paths:
       - Teams
       security:
       - BearerAuth: []
+      summary: Create api team
+      x-summary-source: derived
+      operationId: postApiV1Team
+      x-operation-id-source: derived
     patch:
       description: Update team name and/or LLM configuration
       requestBody:
@@ -191,7 +199,7 @@ paths:
                     required:
                     - provider
                     - apiKey
-                  - nullable: true
+                  - {}
                   description: The new LLM configuration for the team. Pass null to clear existing configuration. If not provided, the LLM configuration will not be updated.
                   deprecated: true
               required:
@@ -214,26 +222,30 @@ paths:
       - Teams
       security:
       - BearerAuth: []
+      summary: Update api team
+      x-summary-source: derived
+      operationId: patchApiV1Team
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

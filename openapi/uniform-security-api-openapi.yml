@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Security API
+  title: Uniform Platform Security API
   version: '2.0'
 tags:
 - name: Security
@@ -16,8 +16,9 @@ paths:
         name: teamId
         in: query
       - schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           description: Number of records to skip for pagination. Defaults to 0.
         required: false
@@ -34,8 +35,9 @@ paths:
         name: limit
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: When true, includes totalCount in the response for pagination.
         required: false
         description: When true, includes totalCount in the response for pagination.
@@ -160,20 +162,23 @@ paths:
                           - policy
                           - integration
                         targetId:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                         targetName:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                         projectId:
-                          type: string
-                          nullable: true
+                          type:
+                          - string
+                          - 'null'
                           format: uuid
                         metadata:
-                          type: object
-                          nullable: true
-                          additionalProperties:
-                            nullable: true
+                          type:
+                          - object
+                          - 'null'
+                          additionalProperties: {}
                         createdAt:
                           type: string
                       required:
@@ -206,26 +211,30 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api security audit log
+      x-summary-source: derived
+      operationId: getApiV1SecurityAuditLog
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

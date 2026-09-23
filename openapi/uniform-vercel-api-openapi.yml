@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Vercel API
+  title: Uniform Platform Vercel API
   version: '2.0'
 tags:
 - name: Vercel
@@ -60,6 +60,10 @@ paths:
       - Vercel
       security:
       - BearerAuth: []
+      summary: Get api vercel patch
+      x-summary-source: derived
+      operationId: getApiV1VercelPatch
+      x-operation-id-source: derived
     post:
       description: Sets the value of the parameter
       deprecated: true
@@ -126,26 +130,30 @@ paths:
       - Vercel
       security:
       - BearerAuth: []
+      summary: Create api vercel patch
+      x-summary-source: derived
+      operationId: postApiV1VercelPatch
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

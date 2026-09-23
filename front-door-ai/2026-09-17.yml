@@ -1,0 +1,35 @@
+# Front Door AI Index — uniform — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: uniform
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: uniform.dev
+  final_host: www.uniform.dev
+  ownership: own
+  owner: uniform
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 61
+  host_score: 61
+  density: 28.24
+  words: 2160
+  tiers:
+    agentic: 29
+    core: 26
+    model: 6
+  ambiguous: 28
+  top_terms:
+    agent: 28
+    AI: 25
+    agentic: 15
+    AI agent: 7
+    MCP: 4
+    ChatGPT: 2
+    Claude: 2
+    Gemini: 2
+    prompts: 2
+    AI assistant: 1
+    gen ai: 1

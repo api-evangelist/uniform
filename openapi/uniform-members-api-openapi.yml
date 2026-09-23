@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Members API
+  title: Uniform Platform Members API
   version: '2.0'
 tags:
 - name: Members
@@ -69,6 +69,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api invitations
+      x-summary-source: derived
+      operationId: getApiV1Invitations
+      x-operation-id-source: derived
     delete:
       description: Revokes a pending invitation. Requires team admin.
       requestBody:
@@ -103,6 +107,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api invitations
+      x-summary-source: derived
+      operationId: deleteApiV1Invitations
+      x-operation-id-source: derived
   /api/v1/members:
     get:
       description: Lists members of a team and their permissions. Callers that are not a team admin will see all members, but project roles and team admin status will only be provided for the caller identity.
@@ -133,8 +141,9 @@ paths:
         name: ownerSubject
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: Includes additional metaddata with member info, specifically created timestamp and project names.
         required: false
         description: Includes additional metaddata with member info, specifically created timestamp and project names.
@@ -269,6 +278,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api members
+      x-summary-source: derived
+      operationId: getApiV1Members
+      x-operation-id-source: derived
     delete:
       description: Removes a team member or API key from the team. Team admin permissions are required.
       requestBody:
@@ -307,6 +320,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api members
+      x-summary-source: derived
+      operationId: deleteApiV1Members
+      x-operation-id-source: derived
     post:
       description: Invites a new member to the team via email, with specific permissions. Team admin permissions are required.
       requestBody:
@@ -437,6 +454,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Create api members
+      x-summary-source: derived
+      operationId: postApiV1Members
+      x-operation-id-source: derived
     put:
       description: Creates an API key. Team admin permissions are required.
       requestBody:
@@ -564,6 +585,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Replace api members
+      x-summary-source: derived
+      operationId: putApiV1Members
+      x-operation-id-source: derived
     patch:
       description: Updates permissions for an existing member or API key
       requestBody:
@@ -682,6 +707,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Update api members
+      x-summary-source: derived
+      operationId: patchApiV1Members
+      x-operation-id-source: derived
     options:
       tags:
       - Members
@@ -689,6 +718,10 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api members
+      x-summary-source: derived
+      operationId: optionsApiV1Members
+      x-operation-id-source: derived
   /api/v2/members:
     get:
       description: Lists members of a team and their permissions. Callers that are not a team admin will see all members, but project roles and team admin status will only be provided for the caller identity.
@@ -732,8 +765,9 @@ paths:
         name: keyword
         in: query
       - schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           description: Number of records to skip for pagination. Defaults to 0.
         required: false
@@ -750,24 +784,27 @@ paths:
         name: limit
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: Includes additional metadata with member info, specifically created timestamp and project names.
         required: false
         description: Includes additional metadata with member info, specifically created timestamp and project names.
         name: includeMetadata
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: Includes project and role assignments for each member. Required to see role information.
         required: false
         description: Includes project and role assignments for each member. Required to see role information.
         name: includeProjects
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: Includes custom permissions for each member (deprecated feature). Requires includeProjects to be true.
           deprecated: true
         required: false
@@ -775,8 +812,9 @@ paths:
         name: includeCustomPermissions
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: When true, includes totalCount in the response for pagination. May add slight overhead.
         required: false
         description: When true, includes totalCount in the response for pagination. May add slight overhead.
@@ -937,6 +975,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api members
+      x-summary-source: derived
+      operationId: getApiV2Members
+      x-operation-id-source: derived
     options:
       tags:
       - Members
@@ -944,26 +986,30 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api members
+      x-summary-source: derived
+      operationId: optionsApiV2Members
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Redirects API
+  title: Uniform Platform Redirects API
   version: '2.0'
 tags:
 - name: Redirects
@@ -13,6 +13,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api redirect
+      x-summary-source: derived
+      operationId: optionsApiV1Redirect
+      x-operation-id-source: derived
     get:
       description: Called to retrieve a list of redirects related to a project
       tags:
@@ -131,6 +135,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api redirect
+      x-summary-source: derived
+      operationId: getApiV1Redirect
+      x-operation-id-source: derived
     put:
       tags:
       - Redirects
@@ -182,6 +190,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api redirect
+      x-summary-source: derived
+      operationId: putApiV1Redirect
+      x-operation-id-source: derived
     delete:
       description: Called to delete a redirect
       tags:
@@ -235,30 +247,11 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api redirect
+      x-summary-source: derived
+      operationId: deleteApiV1Redirect
+      x-operation-id-source: derived
 components:
-  responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     RedirectGetResponse:
       type: array
@@ -272,16 +265,6 @@ components:
             $ref: '#/components/schemas/Redirect'
           metadata:
             $ref: '#/components/schemas/RedirectMetadata'
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     Redirect:
       additionalProperties: false
       type: object
@@ -335,6 +318,16 @@ components:
         labelAsSystem:
           type: boolean
           description: Label as system generated or user generated
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     RedirectMetadata:
       type: object
       properties:
@@ -358,6 +351,29 @@ components:
           type: string
           maxLength: 200
           description: The user who created this redirect's name
+  responses:
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

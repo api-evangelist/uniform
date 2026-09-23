@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Data Types API
+  title: Uniform Platform Data Types API
   version: '2.0'
 tags:
 - name: Data Types
@@ -43,6 +43,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api data types
+      x-summary-source: derived
+      operationId: getApiV1DataTypes
+      x-operation-id-source: derived
     put:
       tags:
       - Data Types
@@ -78,6 +82,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api data types
+      x-summary-source: derived
+      operationId: putApiV1DataTypes
+      x-operation-id-source: derived
     delete:
       tags:
       - Data Types
@@ -116,8 +124,49 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api data types
+      x-summary-source: derived
+      operationId: deleteApiV1DataTypes
+      x-operation-id-source: derived
 components:
   schemas:
+    DataVariableDefinition:
+      type: object
+      description: Defines the shape of a data variable on a Data Source or Data Type
+      required:
+      - default
+      properties:
+        displayName:
+          type: string
+          description: Display name of the data variable
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Explanatory text that is provided to the data resource editor to explain what this variable does
+          maxLength: 256
+          minLength: 1
+        type:
+          type: string
+          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
+          default: text
+          maxLength: 36
+          minLength: 1
+          pattern: ^[A-Za-z0-9\-]+$
+        default:
+          type: string
+          description: Default value of the data variable
+        order:
+          type: number
+          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+        source:
+          type: string
+          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
+
+            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
+
+            '
+      additionalProperties: false
     DataType:
       type: object
       description: A specific type of data that a Data Source can provide (i.e. "Recipe", "Recipes List by Tag", "Yelp Reviews of My Restaurant"). These are created in the UI and shared a whole project
@@ -263,50 +312,9 @@ components:
             items:
               type: string
           - type: string
-    DataVariableDefinition:
-      type: object
-      description: Defines the shape of a data variable on a Data Source or Data Type
-      required:
-      - default
-      properties:
-        displayName:
-          type: string
-          description: Display name of the data variable
-          maxLength: 100
-          minLength: 1
-        helpText:
-          type: string
-          description: Explanatory text that is provided to the data resource editor to explain what this variable does
-          maxLength: 256
-          minLength: 1
-        type:
-          type: string
-          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
-          default: text
-          maxLength: 36
-          minLength: 1
-          pattern: ^[A-Za-z0-9\-]+$
-        default:
-          type: string
-          description: Default value of the data variable
-        order:
-          type: number
-          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
-        source:
-          type: string
-          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
-
-            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
-
-            '
-      additionalProperties: false
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     RateLimitError:
       description: Too many requests in allowed time period
     BadRequestError:
@@ -315,10 +323,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

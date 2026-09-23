@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates UTM Mapper API
+  title: Uniform Platform UTM Mapper API
   version: '2.0'
 tags:
 - name: UTM Mapper
@@ -14,6 +14,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api utm mapper link configuration
+      x-summary-source: derived
+      operationId: optionsApiV1UtmMapperLinkConfiguration
+      x-operation-id-source: derived
     get:
       deprecated: true
       tags:
@@ -48,8 +52,47 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api utm mapper link configuration
+      x-summary-source: derived
+      operationId: getApiV1UtmMapperLinkConfiguration
+      x-operation-id-source: derived
 components:
   schemas:
+    LinkConfiguration:
+      type: object
+      description: A link configuration
+      required:
+      - id
+      - parts
+      - template_sort
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the link configuration
+        parts:
+          type: array
+          description: The parts of the link configuration
+          items:
+            $ref: '#/components/schemas/LinkConfigurationPart'
+        template_sort:
+          type: array
+          description: The order of the parts in the link configuration
+          items:
+            type: string
+            format: uuid
+            description: The ID (UUID) of the link configuration part
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     LinkConfigurationPart:
       type: object
       description: A part of a link configuration
@@ -77,54 +120,6 @@ components:
           type: string
           format: uuid
           description: The ID (UUID) of the taxonomy to use for the link configuration part
-      additionalProperties: false
-    LinkConfiguration:
-      type: object
-      description: A link configuration
-      required:
-      - id
-      - parts
-      - template_sort
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the link configuration
-        parts:
-          type: array
-          description: The parts of the link configuration
-          items:
-            $ref: '#/components/schemas/LinkConfigurationPart'
-        template_sort:
-          type: array
-          description: The order of the parts in the link configuration
-          items:
-            type: string
-            format: uuid
-            description: The ID (UUID) of the link configuration part
-      additionalProperties: false
-    TaxonomyValue:
-      type: object
-      description: One of taxonomy possible values
-      required:
-      - id
-      - name
-      - value
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the taxonomy value
-        name:
-          type: string
-          description: Friendly name of the value
-          maxLength: 100
-          minLength: 1
-        value:
-          type: string
-          description: Actual value of the value
-          maxLength: 100
-          minLength: 1
       additionalProperties: false
     NamingConvention:
       type: object
@@ -169,16 +164,6 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     Taxonomy:
       type: object
       description: A core building block of the link configuration
@@ -231,9 +216,42 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy value
       additionalProperties: false
+    TaxonomyValue:
+      type: object
+      description: One of taxonomy possible values
+      required:
+      - id
+      - name
+      - value
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy value
+        name:
+          type: string
+          description: Friendly name of the value
+          maxLength: 100
+          minLength: 1
+        value:
+          type: string
+          description: Actual value of the value
+          maxLength: 100
+          minLength: 1
+      additionalProperties: false
   responses:
-    NotFoundError:
-      description: Resource not found
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
       content:
         application/json:
           schema:
@@ -244,18 +262,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    UnauthorizedError:
-      description: API key or token was not valid
+    NotFoundError:
+      description: Resource not found
       content:
         application/json:
           schema:

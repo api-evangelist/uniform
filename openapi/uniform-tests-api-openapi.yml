@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Tests API
+  title: Uniform Platform Tests API
   version: '2.0'
 tags:
 - name: Tests
@@ -13,6 +13,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api test
+      x-summary-source: derived
+      operationId: optionsApiV2Test
+      x-operation-id-source: derived
     get:
       tags:
       - Tests
@@ -60,6 +64,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api test
+      x-summary-source: derived
+      operationId: getApiV2Test
+      x-operation-id-source: derived
     put:
       tags:
       - Tests
@@ -95,6 +103,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api test
+      x-summary-source: derived
+      operationId: putApiV2Test
+      x-operation-id-source: derived
     delete:
       tags:
       - Tests
@@ -132,14 +144,14 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api test
+      x-summary-source: derived
+      operationId: deleteApiV2Test
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     RateLimitError:
       description: Too many requests in allowed time period
     BadRequestError:
@@ -148,10 +160,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

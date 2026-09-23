@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Locales API
+  title: Uniform Platform Locales API
   version: '2.0'
 tags:
 - name: Locales
@@ -46,6 +46,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api locales
+      x-summary-source: derived
+      operationId: getApiV1Locales
+      x-operation-id-source: derived
     put:
       tags:
       - Locales
@@ -71,6 +75,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api locales
+      x-summary-source: derived
+      operationId: putApiV1Locales
+      x-operation-id-source: derived
     delete:
       tags:
       - Locales
@@ -96,6 +104,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api locales
+      x-summary-source: derived
+      operationId: deleteApiV1Locales
+      x-operation-id-source: derived
 components:
   schemas:
     LocalePutBody:
@@ -126,6 +138,16 @@ components:
           format: uuid
           description: The project ID
       additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     Locale:
       type: object
       required:
@@ -181,23 +203,9 @@ components:
 
             '
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     RateLimitError:
       description: Too many requests in allowed time period
     BadRequestError:
@@ -206,10 +214,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

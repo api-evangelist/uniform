@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates AI Agents API
+  title: Uniform Platform AI Agents API
   version: '2.0'
 tags:
 - name: AI Agents
@@ -82,8 +82,9 @@ paths:
                             - type
                             additionalProperties: false
                         enabledTools:
-                          type: array
-                          nullable: true
+                          type:
+                          - array
+                          - 'null'
                           items:
                             type: string
                         isActive:
@@ -123,6 +124,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api mcp servers
+      x-summary-source: derived
+      operationId: getApiV1McpServers
+      x-operation-id-source: derived
     delete:
       description: 'Deletes an MCP server configuration.
 
@@ -169,6 +174,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api mcp servers
+      x-summary-source: derived
+      operationId: deleteApiV1McpServers
+      x-operation-id-source: derived
     put:
       description: 'Upserts an MCP server configuration (create or update by publicId within the project).
 
@@ -235,8 +244,9 @@ paths:
                         - type
                         additionalProperties: false
                     enabledTools:
-                      type: array
-                      nullable: true
+                      type:
+                      - array
+                      - 'null'
                       items:
                         type: string
                     isActive:
@@ -268,6 +278,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Replace api mcp servers
+      x-summary-source: derived
+      operationId: putApiV1McpServers
+      x-operation-id-source: derived
     options:
       tags:
       - AI Agents
@@ -275,6 +289,10 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api mcp servers
+      x-summary-source: derived
+      operationId: optionsApiV1McpServers
+      x-operation-id-source: derived
   /api/v1/skills:
     get:
       description: 'Gets a list of agent skills for a project (max 10 per project).
@@ -346,6 +364,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api skills
+      x-summary-source: derived
+      operationId: getApiV1Skills
+      x-operation-id-source: derived
     delete:
       description: 'Deletes a skill.
 
@@ -389,6 +411,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api skills
+      x-summary-source: derived
+      operationId: deleteApiV1Skills
+      x-operation-id-source: derived
     put:
       description: 'Upserts a skill (create or update by id).
 
@@ -455,6 +481,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Replace api skills
+      x-summary-source: derived
+      operationId: putApiV1Skills
+      x-operation-id-source: derived
     options:
       tags:
       - AI Agents
@@ -462,26 +492,30 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api skills
+      x-summary-source: derived
+      operationId: optionsApiV1Skills
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

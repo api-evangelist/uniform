@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Notifications API
+  title: Uniform Platform Notifications API
   version: '2.0'
 tags:
 - name: Notifications
@@ -101,6 +101,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api notifications
+      x-summary-source: derived
+      operationId: getApiV1Notifications
+      x-operation-id-source: derived
     patch:
       description: Updates a notification (e.g. Mark it as read.)
       deprecated: true
@@ -126,8 +130,7 @@ paths:
           description: 204 response
           content:
             application/json:
-              schema:
-                nullable: true
+              schema: {}
         '400':
           $ref: '#/components/responses/BadRequestError'
         '401':
@@ -145,26 +148,30 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Update api notifications
+      x-summary-source: derived
+      operationId: patchApiV1Notifications
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

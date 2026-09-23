@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Labels API
+  title: Uniform Platform Labels API
   version: '2.0'
 tags:
 - name: Labels
@@ -17,8 +17,9 @@ paths:
         name: projectId
         in: query
       - schema:
-          type: number
-          nullable: true
+          type:
+          - number
+          - 'null'
           minimum: 0
           default: 0
           description: Number of records to skip
@@ -50,8 +51,9 @@ paths:
         name: groupId
         in: query
       - schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           description: Filter to only group labels
         required: false
         description: Filter to only group labels
@@ -159,6 +161,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api labels
+      x-summary-source: derived
+      operationId: getApiV1Labels
+      x-operation-id-source: derived
     delete:
       description: Deletes a label
       requestBody:
@@ -201,6 +207,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api labels
+      x-summary-source: derived
+      operationId: deleteApiV1Labels
+      x-operation-id-source: derived
     put:
       description: Creates or updates a label
       requestBody:
@@ -270,6 +280,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Replace api labels
+      x-summary-source: derived
+      operationId: putApiV1Labels
+      x-operation-id-source: derived
     options:
       tags:
       - Labels
@@ -277,26 +291,30 @@ paths:
         '204':
           description: ok
       description: Handles preflight requests. This endpoint allows CORS.
+      summary: Describe api labels
+      x-summary-source: derived
+      operationId: optionsApiV1Labels
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:

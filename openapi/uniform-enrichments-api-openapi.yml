@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Enrichments API
+  title: Uniform Platform Enrichments API
   version: '2.0'
 tags:
 - name: Enrichments
@@ -13,6 +13,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api enrichment values
+      x-summary-source: derived
+      operationId: optionsApiV1EnrichmentValues
+      x-operation-id-source: derived
     put:
       tags:
       - Enrichments
@@ -54,6 +58,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api enrichment values
+      x-summary-source: derived
+      operationId: putApiV1EnrichmentValues
+      x-operation-id-source: derived
     delete:
       tags:
       - Enrichments
@@ -100,6 +108,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api enrichment values
+      x-summary-source: derived
+      operationId: deleteApiV1EnrichmentValues
+      x-operation-id-source: derived
   /api/v1/enrichments:
     options:
       tags:
@@ -108,6 +120,10 @@ paths:
       responses:
         '204':
           description: OK
+      summary: Describe api enrichments
+      x-summary-source: derived
+      operationId: optionsApiV1Enrichments
+      x-operation-id-source: derived
     get:
       tags:
       - Enrichments
@@ -145,6 +161,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api enrichments
+      x-summary-source: derived
+      operationId: getApiV1Enrichments
+      x-operation-id-source: derived
     put:
       tags:
       - Enrichments
@@ -180,6 +200,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api enrichments
+      x-summary-source: derived
+      operationId: putApiV1Enrichments
+      x-operation-id-source: derived
     delete:
       tags:
       - Enrichments
@@ -217,81 +241,12 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api enrichments
+      x-summary-source: derived
+      operationId: deleteApiV1Enrichments
+      x-operation-id-source: derived
 components:
-  responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    EnrichmentCategory1:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: Public ID of the enrichment category
-          minLength: 1
-          maxLength: 36
-          pattern: ^[A-Za-z0-9\-\$]+$
-        name:
-          type: string
-          description: Display name of the enrichment category
-          maxLength: 100
-          pattern: ^[^<>]*$
-        sortOrder:
-          type: integer
-          description: Optional sort order of the enrichment category (if not set, sorts by name)
-          nullable: true
-          maximum: 2147483647
-        cap:
-          type: integer
-          description: The maximum visitor score allowed for enrichment keys in this category
-          minimum: 1
-          default: 99999999
-          maximum: 2147483647
-    EnrichmentCategoryWithValues:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/EnrichmentCategory1'
-      - type: object
-        required:
-        - values
-        properties:
-          values:
-            type: array
-            items:
-              $ref: '#/components/schemas/EnrichmentValue'
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     EnrichmentValue:
       type: object
       required:
@@ -311,12 +266,87 @@ components:
           minLength: 1
           pattern: ^[^<>]{1,100}$
         sortOrder:
-          type: integer
+          type:
+          - integer
+          - 'null'
           description: Optional sort order of the enrichment value (if not set, sorts by name)
-          nullable: true
           maximum: 2147483647
           minimum: -2147483648
       additionalProperties: false
+    EnrichmentCategory1:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Public ID of the enrichment category
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+        name:
+          type: string
+          description: Display name of the enrichment category
+          maxLength: 100
+          pattern: ^[^<>]*$
+        sortOrder:
+          type:
+          - integer
+          - 'null'
+          description: Optional sort order of the enrichment category (if not set, sorts by name)
+          maximum: 2147483647
+        cap:
+          type: integer
+          description: The maximum visitor score allowed for enrichment keys in this category
+          minimum: 1
+          default: 99999999
+          maximum: 2147483647
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    EnrichmentCategoryWithValues:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/EnrichmentCategory1'
+      - type: object
+        required:
+        - values
+        properties:
+          values:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnrichmentValue'
+  responses:
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

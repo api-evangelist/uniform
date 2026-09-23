@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Projects API
+  title: Uniform Platform Projects API
   version: '2.0'
 tags:
 - name: Projects
@@ -44,6 +44,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Get api project
+      x-summary-source: derived
+      operationId: getApiV1Project
+      x-operation-id-source: derived
     post:
       tags:
       - Projects
@@ -79,6 +83,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Create api project
+      x-summary-source: derived
+      operationId: postApiV1Project
+      x-operation-id-source: derived
     put:
       tags:
       - Projects
@@ -114,6 +122,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Replace api project
+      x-summary-source: derived
+      operationId: putApiV1Project
+      x-operation-id-source: derived
     patch:
       tags:
       - Projects
@@ -139,6 +151,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Update api project
+      x-summary-source: derived
+      operationId: patchApiV1Project
+      x-operation-id-source: derived
     delete:
       tags:
       - Projects
@@ -173,6 +189,10 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      summary: Delete api project
+      x-summary-source: derived
+      operationId: deleteApiV1Project
+      x-operation-id-source: derived
   /api/v1/projects:
     get:
       description: Lists projects grouped by team. If teamId is provided, returns a single team with its projects. If omitted, returns all accessible teams and their projects.
@@ -270,31 +290,138 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api projects
+      x-summary-source: derived
+      operationId: getApiV1Projects
+      x-operation-id-source: derived
 components:
+  responses:
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    PatchProject:
+    GetProject:
       type: object
       required:
       - id
+      - createdAt
+      - name
+      - previewUrl
+      - teamId
+      - teamName
+      - projectTypeId
+      - uiVersion
+      - searchIndexVersion
+      - searchIndexStatus
+      - relationshipsIndexStatus
       properties:
         id:
           type: string
           format: uuid
+        createdAt:
+          type: string
         name:
           type: string
-        organization_id:
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this project
+          maxLength: 3000
+        guidanceAssets:
+          type: object
+          properties:
+            title:
+              type: string
+              maxLength: 1000
+            description:
+              type: string
+              maxLength: 1000
+            labels:
+              type: string
+              maxLength: 1000
+        teamId:
           type: string
           format: uuid
-        url:
+        teamName:
           type: string
-        preview_url:
-          type: string
-        site_type_id:
+        projectTypeId:
           type: string
           format: uuid
-        ui_version:
+        previewUrl:
+          type: string
+        uiVersion:
           type: number
-      additionalProperties: false
+        sampleSize:
+          type: number
+        searchIndexVersion:
+          type: string
+        searchIndexStatus:
+          type: string
+          enum:
+          - absent
+          - present
+          - unavailable
+          - unknown
+        searchIndexNextVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexNextVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        relationshipsIndexStatus:
+          type: string
+          enum:
+          - absent
+          - outdated
+          - indexing
+          - indexed
+          - failed
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     PostProject:
       type: object
       required:
@@ -397,132 +524,29 @@ components:
           type: string
           deprecated: true
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
-    GetProject:
+    PatchProject:
       type: object
       required:
       - id
-      - createdAt
-      - name
-      - previewUrl
-      - teamId
-      - teamName
-      - projectTypeId
-      - uiVersion
-      - searchIndexVersion
-      - searchIndexStatus
-      - relationshipsIndexStatus
       properties:
         id:
           type: string
           format: uuid
-        createdAt:
-          type: string
         name:
           type: string
-        guidance:
-          type: string
-          description: Context provided to AI when generating content for this project
-          maxLength: 3000
-        guidanceAssets:
-          type: object
-          properties:
-            title:
-              type: string
-              maxLength: 1000
-            description:
-              type: string
-              maxLength: 1000
-            labels:
-              type: string
-              maxLength: 1000
-        teamId:
+        organization_id:
           type: string
           format: uuid
-        teamName:
+        url:
           type: string
-        projectTypeId:
+        preview_url:
+          type: string
+        site_type_id:
           type: string
           format: uuid
-        previewUrl:
-          type: string
-        uiVersion:
+        ui_version:
           type: number
-        sampleSize:
-          type: number
-        searchIndexVersion:
-          type: string
-        searchIndexStatus:
-          type: string
-          enum:
-          - absent
-          - present
-          - unavailable
-          - unknown
-        searchIndexNextVersion:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        searchIndexNextVersionCreated:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        searchIndexQueuedVersion:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        searchIndexQueuedVersionCreated:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        relationshipsIndexStatus:
-          type: string
-          enum:
-          - absent
-          - outdated
-          - indexing
-          - indexed
-          - failed
-  responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      additionalProperties: false
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

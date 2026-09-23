@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Uniform Platform Aggregates Files API
+  title: Uniform Platform Files API
   version: '2.0'
 tags:
 - name: Files
@@ -50,8 +50,7 @@ paths:
                     type: string
                   mediaType:
                     type: string
-                  metadata:
-                    nullable: true
+                  metadata: {}
                   size:
                     type: number
                   sourceId:
@@ -83,6 +82,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Get api files
+      x-summary-source: derived
+      operationId: getApiV1Files
+      x-operation-id-source: derived
     delete:
       description: Deletes a file
       requestBody:
@@ -133,6 +136,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Delete api files
+      x-summary-source: derived
+      operationId: deleteApiV1Files
+      x-operation-id-source: derived
     post:
       description: Creates a new file
       requestBody:
@@ -220,6 +227,10 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Create api files
+      x-summary-source: derived
+      operationId: postApiV1Files
+      x-operation-id-source: derived
     patch:
       description: Replaces a file while preserving the existing URL
       requestBody:
@@ -262,8 +273,7 @@ paths:
                     type: string
                   mediaType:
                     type: string
-                  metadata:
-                    nullable: true
+                  metadata: {}
                   size:
                     type: number
                   sourceId:
@@ -298,26 +308,30 @@ paths:
       security:
       - ApiKeyAuth: []
       - BearerAuth: []
+      summary: Update api files
+      x-summary-source: derived
+      operationId: patchApiV1Files
+      x-operation-id-source: derived
 components:
   responses:
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
