@@ -167,95 +167,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ComponentDefinitionSlugSettings:
+    ContentTypePreviewConfiguration:
       type: object
-      description: The definition of a composition's slug settings
-      properties:
-        required:
-          type: string
-          description: 'Whether the slug is required
-
-            no: slug is optional
-
-            yes: slug is required
-
-            disabled: slug is disabled and will not be shown in the editor
-
-            '
-          default: 'no'
-          enum:
-          - 'no'
-          - 'yes'
-          - disabled
-        unique:
-          type: string
-          description: 'Slug uniqueness configuration.
-
-            no = no unique constraint
-
-            local = must be unique within this component type
-
-            global = must be unique across all component types
-
-            '
-          enum:
-          - 'no'
-          - local
-          - global
-        regularExpression:
-          type: string
-          description: Regular expression slugs must match
-        regularExpressionMessage:
-          type: string
-          description: 'Custom error message when regular expression validation fails.
-
-            Has no effect if `regularExpression` is not set
-
-            '
-    PublicIdProperty:
-      description: Public ID (used in code). Do not change after creation
-      type: string
-      minLength: 1
-      maxLength: 100
-      pattern: ^[a-zA-Z0-9-_]+$
-    ComponentDefinitionPermission:
-      type: object
-      description: Permission set for a component definition
+      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
       required:
-      - roleId
-      - permission
-      - state
+      - type
+      - label
+      - id
       properties:
-        roleId:
-          $ref: '#/components/schemas/PublicIdProperty'
-        permission:
+        type:
           type: string
-          description: 'Permission type for this permission ComponentDefinition:
-
-            read | write | create | delete
-
-            '
+          description: The type of preview configuration
           enum:
-          - read
-          - write
-          - create
-          - delete
-        state:
-          type: integer
-          description: State of the component that this permission applies to
-          maximum: 64
-          minimum: 0
+          - pattern
+          - project-map
+        label:
+          type: string
+          description: Display label for the preview configuration
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]*$
+        id:
+          type: string
+          description: Target preview entity ID (project map node ID or pattern ID)
+          format: uuid
+        dynamicInputs:
+          type: object
+          description: Optional mapping of dynamic input names to their values
+          additionalProperties:
+            type: string
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     ComponentDefinitionParameter:
       type: object
       description: The definition of a component parameter
@@ -318,36 +259,16 @@ components:
         typeConfig:
           description: The configuration object for the type (type-specific)
       additionalProperties: false
-    ContentTypePreviewConfiguration:
+    Error:
       type: object
-      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
-      required:
-      - type
-      - label
-      - id
       properties:
-        type:
-          type: string
-          description: The type of preview configuration
-          enum:
-          - pattern
-          - project-map
-        label:
-          type: string
-          description: Display label for the preview configuration
-          minLength: 1
-          maxLength: 100
-          pattern: ^[^<>]*$
-        id:
-          type: string
-          description: Target preview entity ID (project map node ID or pattern ID)
-          format: uuid
-        dynamicInputs:
-          type: object
-          description: Optional mapping of dynamic input names to their values
-          additionalProperties:
-            type: string
-      additionalProperties: false
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     ContentType:
       type: object
       description: Defines a content type
@@ -432,29 +353,108 @@ components:
           items:
             $ref: '#/components/schemas/ContentTypePreviewConfiguration'
       additionalProperties: false
+    ComponentDefinitionPermission:
+      type: object
+      description: Permission set for a component definition
+      required:
+      - roleId
+      - permission
+      - state
+      properties:
+        roleId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        permission:
+          type: string
+          description: 'Permission type for this permission ComponentDefinition:
+
+            read | write | create | delete
+
+            '
+          enum:
+          - read
+          - write
+          - create
+          - delete
+        state:
+          type: integer
+          description: State of the component that this permission applies to
+          maximum: 64
+          minimum: 0
+      additionalProperties: false
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
+    ComponentDefinitionSlugSettings:
+      type: object
+      description: The definition of a composition's slug settings
+      properties:
+        required:
+          type: string
+          description: 'Whether the slug is required
+
+            no: slug is optional
+
+            yes: slug is required
+
+            disabled: slug is disabled and will not be shown in the editor
+
+            '
+          default: 'no'
+          enum:
+          - 'no'
+          - 'yes'
+          - disabled
+        unique:
+          type: string
+          description: 'Slug uniqueness configuration.
+
+            no = no unique constraint
+
+            local = must be unique within this component type
+
+            global = must be unique across all component types
+
+            '
+          enum:
+          - 'no'
+          - local
+          - global
+        regularExpression:
+          type: string
+          description: Regular expression slugs must match
+        regularExpressionMessage:
+          type: string
+          description: 'Custom error message when regular expression validation fails.
+
+            Has no effect if `regularExpression` is not set
+
+            '
   responses:
-    InternalServerError:
-      description: Execution error occurred
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     UnauthorizedError:
       description: API key or token was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     ForbiddenError:
       description: Permission was denied
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -295,30 +295,121 @@ paths:
       operationId: getApiV1Projects
       x-operation-id-source: derived
 components:
-  responses:
-    InternalServerError:
-      description: Execution error occurred
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    PatchProject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        organization_id:
+          type: string
+          format: uuid
+        url:
+          type: string
+        preview_url:
+          type: string
+        site_type_id:
+          type: string
+          format: uuid
+        ui_version:
+          type: number
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    PutProjectBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this project
+          maxLength: 3000
+        guidanceAssets:
+          type: object
+          properties:
+            title:
+              type: string
+              maxLength: 1000
+            description:
+              type: string
+              maxLength: 1000
+            labels:
+              type: string
+              maxLength: 1000
+        teamId:
+          type: string
+          format: uuid
+        previewUrl:
+          type: string
+        projectTypeId:
+          type: string
+          format: uuid
+        uiVersion:
+          type: number
+        sampleSize:
+          type: number
+        createdAt:
+          type: string
+        teamName:
+          type: string
+        searchIndexVersion:
+          type: string
+        searchIndexStatus:
+          type: string
+          enum:
+          - absent
+          - present
+          - unavailable
+          - unknown
+        searchIndexNextVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            When set, a reindex is currently in flight; the dashboard can present
+
+            this project as "reindexing". Cleared when the rebuild swap completes.
+
+            '
+        searchIndexNextVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersion:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        searchIndexQueuedVersionCreated:
+          type: string
+          deprecated: true
+          description: '**Experimental / internal.** Subject to change or removal without notice.
+
+            '
+        dependencyInvalidationHookUrl:
+          type: string
+          deprecated: true
+      additionalProperties: false
     GetProject:
       type: object
       required:
@@ -412,16 +503,6 @@ components:
           - indexing
           - indexed
           - failed
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     PostProject:
       type: object
       required:
@@ -443,110 +524,29 @@ components:
         ui_version:
           type: number
       additionalProperties: false
-    PutProjectBody:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        guidance:
-          type: string
-          description: Context provided to AI when generating content for this project
-          maxLength: 3000
-        guidanceAssets:
-          type: object
-          properties:
-            title:
-              type: string
-              maxLength: 1000
-            description:
-              type: string
-              maxLength: 1000
-            labels:
-              type: string
-              maxLength: 1000
-        teamId:
-          type: string
-          format: uuid
-        previewUrl:
-          type: string
-        projectTypeId:
-          type: string
-          format: uuid
-        uiVersion:
-          type: number
-        sampleSize:
-          type: number
-        createdAt:
-          type: string
-        teamName:
-          type: string
-        searchIndexVersion:
-          type: string
-        searchIndexStatus:
-          type: string
-          enum:
-          - absent
-          - present
-          - unavailable
-          - unknown
-        searchIndexNextVersion:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            When set, a reindex is currently in flight; the dashboard can present
-
-            this project as "reindexing". Cleared when the rebuild swap completes.
-
-            '
-        searchIndexNextVersionCreated:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        searchIndexQueuedVersion:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        searchIndexQueuedVersionCreated:
-          type: string
-          deprecated: true
-          description: '**Experimental / internal.** Subject to change or removal without notice.
-
-            '
-        dependencyInvalidationHookUrl:
-          type: string
-          deprecated: true
-      additionalProperties: false
-    PatchProject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        organization_id:
-          type: string
-          format: uuid
-        url:
-          type: string
-        preview_url:
-          type: string
-        site_type_id:
-          type: string
-          format: uuid
-        ui_version:
-          type: number
-      additionalProperties: false
+  responses:
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -265,258 +265,7 @@ paths:
       operationId: deleteApiV1Assets
       x-operation-id-source: derived
 components:
-  parameters:
-    offset:
-      in: query
-      name: offset
-      description: Number of records to skip
-      schema:
-        type: integer
-        minimum: 0
-    assetId:
-      in: query
-      name: assetId
-      description: Specify a single asset ID to fetch
-      schema:
-        type: string
-        format: uuid
-    limit:
-      in: query
-      name: limit
-      description: Max number of records to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 100
-    assetIDs:
-      in: query
-      name: assetIDs
-      description: Specify multiple asset IDs to fetch. Response type will be a list
-      style: form
-      schema:
-        type: array
-        items:
-          type: string
-          format: uuid
-    orderBy1:
-      in: query
-      name: orderBy
-      description: 'Sets the sorting of the results. If unspecified, results are sorted by creation date ascending.
-
-        Allowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC, name_DESC, name_ASC, slug_DESC, slug_ASC, relevance_DESC (when searching).
-
-        '
-      style: form
-      schema:
-        type: array
-        items:
-          type: string
-        default:
-        - created_at_ASC
-    facetBy:
-      in: query
-      name: facetBy
-      deprecated: true
-      description: Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs).
-      style: form
-      schema:
-        type: string
-    keyword1:
-      in: query
-      name: keyword
-      description: 'Matches assets where their name or description contains the specified keyword.
-
-        This is a list query parameter, and cannot be used with any primary query parameters
-
-        '
-      schema:
-        type: string
-        maxLength: 256
-    searchSemantic1:
-      deprecated: true
-      description: 'BETA: Semantic search using vector similarity to find assets by meaning.
-
-        Use this for "images of mountains" style queries.
-
-        Requires AI credits.
-
-        '
-      in: query
-      name: searchSemantic
-      schema:
-        type: string
-    withTotalCount:
-      in: query
-      name: withTotalCount
-      description: 'Controls whether the total count of results will be returned along with the current results page in a list.
-
-        Has no effect when not fetching a list. This does impact performance when enabled
-
-        '
-      schema:
-        type: boolean
-    withAssignedLabels:
-      in: query
-      name: withAssignedLabels
-      description: 'When true, includes full label entities in the response for UI rendering.
-
-        The assignedLabels array includes the label and its parent group (if any).
-
-        This parameter is not supported with uniform.global.
-
-        '
-      schema:
-        type: boolean
-    updatedBy1:
-      in: query
-      name: updatedBy
-      description: 'Filters asset lists by the user who last updated them. The user is specified by their identity subject
-
-        '
-      schema:
-        type: string
-    createdBy1:
-      in: query
-      name: createdBy
-      description: 'Filters asset lists by the user who created them. The user is specified by their identity subject
-
-        '
-      schema:
-        type: string
-    withUIStatus1:
-      in: query
-      name: withUIStatus
-      deprecated: true
-      description: 'Returns additional author and creator metadata for the asset.
-
-        This internal status is subject to change without notice and is thus marked deprecated to discourage use of internal data
-
-        '
-      schema:
-        type: boolean
-        default: false
-    type1:
-      in: query
-      name: type
-      description: The asset type ID to filter by
-      style: form
-      schema:
-        type: array
-        items:
-          type: string
-          enum:
-          - image
-          - video
-          - audio
-          - other
-    projectId2:
-      in: query
-      name: projectId
-      description: The project the asset/assets are on
-      required: true
-      schema:
-        type: string
-        format: uuid
-    releaseId1:
-      in: query
-      name: releaseId
-      description: 'The ID of a release to fetch the content for.
-
-
-        - When unspecified, all release content is excluded from the result(s).
-
-        - When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.
-
-
-        Content copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be undefined
-
-        '
-      schema:
-        type: string
-        format: uuid
   schemas:
-    AssetInput:
-      type: object
-      description: Defines the shape of the asset input
-      properties:
-        type:
-          type: string
-          description: Content type of the asset
-          maxLength: 100
-          minLength: 1
-        _id:
-          type: string
-          description: The public UUID of the asset
-          format: uuid
-        _name:
-          type: string
-          description: The internal name of the asset
-          maxLength: 100
-          pattern: ^[^<>]*$
-        fields:
-          type: object
-          properties:
-            title:
-              type: object
-              required:
-              - value
-              - type
-              properties:
-                value:
-                  type: string
-                type:
-                  const: text
-            description:
-              type: object
-              required:
-              - value
-              - type
-              properties:
-                value:
-                  type: string
-                type:
-                  const: text
-            file:
-              type: object
-              required:
-              - value
-              - type
-              properties:
-                value:
-                  type: string
-                  format: uuid
-                type:
-                  const: file
-            focalPoint:
-              type: object
-              required:
-              - value
-              - type
-              properties:
-                value:
-                  type: object
-                  required:
-                  - x
-                  - y
-                  properties:
-                    x:
-                      type: number
-                    y:
-                      type: number
-                type:
-                  const: focalPoint
-          additionalProperties: false
-        _dataResources:
-          $ref: '#/components/schemas/DataResourceDefinitions'
-        labels:
-          type: array
-          items:
-            type: string
-            pattern: ^[a-z0-9_-]{1,40}$
-          description: Array of label public IDs assigned to this asset (max 30)
-          maxItems: 30
-      additionalProperties: false
     DataElementConnectionDefinition:
       type: object
       description: 'Defines a connection to a dynamic token on a data resource
@@ -566,51 +315,6 @@ components:
       - pointer
       - syntax
       additionalProperties: false
-    AssetListResponse:
-      type: object
-      required:
-      - assets
-      properties:
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetApiResponse'
-        totalCount:
-          type: integer
-          description: Total number of assets that match the query. Only present when `withTotalCount` option is true
-        facets:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              type: number
-          description: Per-field counts for distinct values
-    ComponentParameterConditionalValue:
-      type: object
-      description: 'Defines a conditional value for a component parameter
-
-        '
-      properties:
-        when:
-          $ref: '#/components/schemas/VisibilityCriteriaGroup'
-        value:
-          description: 'The value of the parameter. Any JSON-serializable value is acceptable.
-
-            A value of `null` will cause the parameter value to be removed, if it matches.
-
-            '
-        id:
-          type: number
-          description: 'Unique sequence identifier of the conditional value within the component parameter.
-
-            This value must be unique within the conditional values array, and it should not change after a condition is created.
-
-            '
-      required:
-      - when
-      - id
-      - value
-      additionalProperties: false
     VisibilityCriteria:
       deprecated: true
       description: beta functionality subject to change
@@ -646,16 +350,6 @@ components:
       - op
       - value
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     VisibilityCriteriaGroup:
       deprecated: true
       description: beta functionality subject to change
@@ -675,199 +369,6 @@ components:
             - $ref: '#/components/schemas/VisibilityCriteriaGroup'
       required:
       - clauses
-      additionalProperties: false
-    DataResourceDefinitions:
-      type: object
-      description: 'Data definitions attached to this component. The property name is the key of the data in the data document.
-
-        Note: data definitions are inherited from ancestors at runtime (and may be overridden by descendants that use the same key)
-
-        '
-      additionalProperties:
-        $ref: '#/components/schemas/DataResourceDefinition'
-    DataResourceVariables:
-      type: object
-      description: Variable values for a data resource
-      additionalProperties:
-        type: string
-    AssetApiResponse:
-      type: object
-      required:
-      - projectId
-      - asset
-      - created
-      - modified
-      properties:
-        projectId:
-          type: string
-          description: The project ID that this layout data is part of
-          format: uuid
-        created:
-          type: string
-          description: Created date string for this definition
-          format: date-time
-        modified:
-          type: string
-          description: Modified date string for this definition
-          format: date-time
-        releaseId:
-          type: string
-          format: uuid
-          description: The release this asset belongs to. If not set, the asset belongs to the base
-        asset:
-          $ref: '#/components/schemas/Asset'
-        assignedLabels:
-          type: object
-          description: Full label entities for UI rendering (only present when withAssignedLabels=true). Read-only.
-          additionalProperties:
-            type: object
-            required:
-            - projectId
-            - label
-            - created
-            - modified
-            properties:
-              projectId:
-                type: string
-                format: uuid
-              label:
-                type: object
-                required:
-                - publicId
-                - displayName
-                - isGroup
-                - color
-                - scope
-                properties:
-                  publicId:
-                    type: string
-                    pattern: ^[a-z0-9_-]{1,40}$
-                    description: Public ID of the label (cannot be changed after creation)
-                  displayName:
-                    type: string
-                    maxLength: 80
-                    description: Human readable name of the label
-                  isGroup:
-                    type: boolean
-                    description: Whether this label is a group label (cannot be changed after creation)
-                  parent:
-                    type: string
-                    pattern: ^[a-z0-9_-]{1,40}$
-                    description: Public ID of the parent group label
-                  color:
-                    type: string
-                    description: Human readable color identifier
-                  description:
-                    type: string
-                    description: Short description of what the label is about
-                  scope:
-                    type: array
-                    items:
-                      type: string
-                    description: Scope of the label (currently unused)
-                additionalProperties: false
-              created:
-                type: string
-                format: date-time
-              modified:
-                type: string
-                format: date-time
-              createdBy:
-                type: string
-              modifiedBy:
-                type: string
-            additionalProperties: false
-    ComponentParameterConditions:
-      type: array
-      description: 'Array of alternate values which are based on conditions.
-
-
-        When requested with an explicit locale parameter, or via the route API:
-
-        * Conditions are evaluated sequentially and the first match is used. If a match is found, the conditions are eliminated.
-
-        * If no conditions match, the `value` property is used.
-
-        * If a condition cannot be evaluated yet (i.e. a client-side criteria), it is left alone.
-
-
-        When no locale is passed to a non-route API, conditions are not processed and all conditions are returned.
-
-        '
-      items:
-        $ref: '#/components/schemas/ComponentParameterConditionalValue'
-    DataResourceDefinition:
-      type: object
-      description: Defines a data resource, which is a named JSON document, usually from an API response, which may be projected onto parameters
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Public ID of the data type that provides this data
-          minLength: 1
-          maxLength: 100
-          pattern: ^[A-Za-z0-9\-]+$
-        isPatternParameter:
-          type: boolean
-          description: Whether this data is a pattern data resource that can be overridden when a pattern is referenced on another composition. If this is not a pattern composition, this has no meaning and should not be used. If unspecified, the default is false
-        ignorePatternParameterDefault:
-          type: boolean
-          description: 'When true, the default data resource of a pattern data parameter (isPatternParameter=true) will be ignored when the pattern is referenced.
-
-            Unless specifically overridden, the pattern data parameter will be provided with a null default value - leaving any data connections to it unresolvable.
-
-            If isPatternParameter is false or undefined, this has no meaning
-
-            '
-        optionalPatternParameter:
-          type: boolean
-          description: 'When true, the data resource does not create an error forcing the choosing of override value when there is no default.
-
-            If isPatternParameter is false or undefined, or if ignorePatternParameterDefault is false, this has no meaning
-
-            '
-        variables:
-          $ref: '#/components/schemas/DataResourceVariables'
-      additionalProperties: false
-    ComponentParameter:
-      type: object
-      description: Defines an editable parameter on a component
-      properties:
-        value:
-          description: The value of the parameter. Any JSON-serializable value is acceptable
-        type:
-          type: string
-          description: The type of the parameter. Determines how it is displayed when editing and tells the consumer how to process it
-          minLength: 1
-        connectedData:
-          deprecated: true
-          $ref: '#/components/schemas/DataElementConnectionDefinition'
-        locales:
-          type: object
-          description: 'Locale-specific values for this parameter. Keys are locale codes, and values are the `value` in that locale.
-
-            Note that locales must be registered on the entry/composition `_locales` before being used
-
-            '
-          additionalProperties:
-            example: '{ en-US: ''hello'', de: ''hallo'' }
-
-              '
-        conditions:
-          $ref: '#/components/schemas/ComponentParameterConditions'
-        localesConditions:
-          type: object
-          description: 'Locale-specific conditional values for this parameter. Keys are locale codes, and values are the `conditions` for that locale.
-
-            '
-          additionalProperties:
-            $ref: '#/components/schemas/ComponentParameterConditions'
-            example: '{ en-US: [{ when: { rule: ''$di'', source: ''productId'', op: ''is'', value: ''123'' }, value: ''hello 123'' }] }
-
-              '
-      required:
-      - type
       additionalProperties: false
     Asset:
       type: object
@@ -1028,6 +529,335 @@ components:
           description: Array of label public IDs assigned to this asset (max 30)
           maxItems: 30
       additionalProperties: false
+    ComponentParameterConditionalValue:
+      type: object
+      description: 'Defines a conditional value for a component parameter
+
+        '
+      properties:
+        when:
+          $ref: '#/components/schemas/VisibilityCriteriaGroup'
+        value:
+          description: 'The value of the parameter. Any JSON-serializable value is acceptable.
+
+            A value of `null` will cause the parameter value to be removed, if it matches.
+
+            '
+        id:
+          type: number
+          description: 'Unique sequence identifier of the conditional value within the component parameter.
+
+            This value must be unique within the conditional values array, and it should not change after a condition is created.
+
+            '
+      required:
+      - when
+      - id
+      - value
+      additionalProperties: false
+    DataResourceVariables:
+      type: object
+      description: Variable values for a data resource
+      additionalProperties:
+        type: string
+    AssetInput:
+      type: object
+      description: Defines the shape of the asset input
+      properties:
+        type:
+          type: string
+          description: Content type of the asset
+          maxLength: 100
+          minLength: 1
+        _id:
+          type: string
+          description: The public UUID of the asset
+          format: uuid
+        _name:
+          type: string
+          description: The internal name of the asset
+          maxLength: 100
+          pattern: ^[^<>]*$
+        fields:
+          type: object
+          properties:
+            title:
+              type: object
+              required:
+              - value
+              - type
+              properties:
+                value:
+                  type: string
+                type:
+                  const: text
+            description:
+              type: object
+              required:
+              - value
+              - type
+              properties:
+                value:
+                  type: string
+                type:
+                  const: text
+            file:
+              type: object
+              required:
+              - value
+              - type
+              properties:
+                value:
+                  type: string
+                  format: uuid
+                type:
+                  const: file
+            focalPoint:
+              type: object
+              required:
+              - value
+              - type
+              properties:
+                value:
+                  type: object
+                  required:
+                  - x
+                  - y
+                  properties:
+                    x:
+                      type: number
+                    y:
+                      type: number
+                type:
+                  const: focalPoint
+          additionalProperties: false
+        _dataResources:
+          $ref: '#/components/schemas/DataResourceDefinitions'
+        labels:
+          type: array
+          items:
+            type: string
+            pattern: ^[a-z0-9_-]{1,40}$
+          description: Array of label public IDs assigned to this asset (max 30)
+          maxItems: 30
+      additionalProperties: false
+    DataResourceDefinitions:
+      type: object
+      description: 'Data definitions attached to this component. The property name is the key of the data in the data document.
+
+        Note: data definitions are inherited from ancestors at runtime (and may be overridden by descendants that use the same key)
+
+        '
+      additionalProperties:
+        $ref: '#/components/schemas/DataResourceDefinition'
+    ComponentParameter:
+      type: object
+      description: Defines an editable parameter on a component
+      properties:
+        value:
+          description: The value of the parameter. Any JSON-serializable value is acceptable
+        type:
+          type: string
+          description: The type of the parameter. Determines how it is displayed when editing and tells the consumer how to process it
+          minLength: 1
+        connectedData:
+          deprecated: true
+          $ref: '#/components/schemas/DataElementConnectionDefinition'
+        locales:
+          type: object
+          description: 'Locale-specific values for this parameter. Keys are locale codes, and values are the `value` in that locale.
+
+            Note that locales must be registered on the entry/composition `_locales` before being used
+
+            '
+          additionalProperties:
+            example: '{ en-US: ''hello'', de: ''hallo'' }
+
+              '
+        conditions:
+          $ref: '#/components/schemas/ComponentParameterConditions'
+        localesConditions:
+          type: object
+          description: 'Locale-specific conditional values for this parameter. Keys are locale codes, and values are the `conditions` for that locale.
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentParameterConditions'
+            example: '{ en-US: [{ when: { rule: ''$di'', source: ''productId'', op: ''is'', value: ''123'' }, value: ''hello 123'' }] }
+
+              '
+      required:
+      - type
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    DataResourceDefinition:
+      type: object
+      description: Defines a data resource, which is a named JSON document, usually from an API response, which may be projected onto parameters
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Public ID of the data type that provides this data
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9\-]+$
+        isPatternParameter:
+          type: boolean
+          description: Whether this data is a pattern data resource that can be overridden when a pattern is referenced on another composition. If this is not a pattern composition, this has no meaning and should not be used. If unspecified, the default is false
+        ignorePatternParameterDefault:
+          type: boolean
+          description: 'When true, the default data resource of a pattern data parameter (isPatternParameter=true) will be ignored when the pattern is referenced.
+
+            Unless specifically overridden, the pattern data parameter will be provided with a null default value - leaving any data connections to it unresolvable.
+
+            If isPatternParameter is false or undefined, this has no meaning
+
+            '
+        optionalPatternParameter:
+          type: boolean
+          description: 'When true, the data resource does not create an error forcing the choosing of override value when there is no default.
+
+            If isPatternParameter is false or undefined, or if ignorePatternParameterDefault is false, this has no meaning
+
+            '
+        variables:
+          $ref: '#/components/schemas/DataResourceVariables'
+      additionalProperties: false
+    ComponentParameterConditions:
+      type: array
+      description: 'Array of alternate values which are based on conditions.
+
+
+        When requested with an explicit locale parameter, or via the route API:
+
+        * Conditions are evaluated sequentially and the first match is used. If a match is found, the conditions are eliminated.
+
+        * If no conditions match, the `value` property is used.
+
+        * If a condition cannot be evaluated yet (i.e. a client-side criteria), it is left alone.
+
+
+        When no locale is passed to a non-route API, conditions are not processed and all conditions are returned.
+
+        '
+      items:
+        $ref: '#/components/schemas/ComponentParameterConditionalValue'
+    AssetListResponse:
+      type: object
+      required:
+      - assets
+      properties:
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetApiResponse'
+        totalCount:
+          type: integer
+          description: Total number of assets that match the query. Only present when `withTotalCount` option is true
+        facets:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: number
+          description: Per-field counts for distinct values
+    AssetApiResponse:
+      type: object
+      required:
+      - projectId
+      - asset
+      - created
+      - modified
+      properties:
+        projectId:
+          type: string
+          description: The project ID that this layout data is part of
+          format: uuid
+        created:
+          type: string
+          description: Created date string for this definition
+          format: date-time
+        modified:
+          type: string
+          description: Modified date string for this definition
+          format: date-time
+        releaseId:
+          type: string
+          format: uuid
+          description: The release this asset belongs to. If not set, the asset belongs to the base
+        asset:
+          $ref: '#/components/schemas/Asset'
+        assignedLabels:
+          type: object
+          description: Full label entities for UI rendering (only present when withAssignedLabels=true). Read-only.
+          additionalProperties:
+            type: object
+            required:
+            - projectId
+            - label
+            - created
+            - modified
+            properties:
+              projectId:
+                type: string
+                format: uuid
+              label:
+                type: object
+                required:
+                - publicId
+                - displayName
+                - isGroup
+                - color
+                - scope
+                properties:
+                  publicId:
+                    type: string
+                    pattern: ^[a-z0-9_-]{1,40}$
+                    description: Public ID of the label (cannot be changed after creation)
+                  displayName:
+                    type: string
+                    maxLength: 80
+                    description: Human readable name of the label
+                  isGroup:
+                    type: boolean
+                    description: Whether this label is a group label (cannot be changed after creation)
+                  parent:
+                    type: string
+                    pattern: ^[a-z0-9_-]{1,40}$
+                    description: Public ID of the parent group label
+                  color:
+                    type: string
+                    description: Human readable color identifier
+                  description:
+                    type: string
+                    description: Short description of what the label is about
+                  scope:
+                    type: array
+                    items:
+                      type: string
+                    description: Scope of the label (currently unused)
+                additionalProperties: false
+              created:
+                type: string
+                format: date-time
+              modified:
+                type: string
+                format: date-time
+              createdBy:
+                type: string
+              modifiedBy:
+                type: string
+            additionalProperties: false
   responses:
     ForbiddenError:
       description: Permission was denied
@@ -1035,22 +865,192 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
+  parameters:
+    type1:
+      in: query
+      name: type
+      description: The asset type ID to filter by
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - image
+          - video
+          - audio
+          - other
+    searchSemantic1:
+      deprecated: true
+      description: 'BETA: Semantic search using vector similarity to find assets by meaning.
+
+        Use this for "images of mountains" style queries.
+
+        Requires AI credits.
+
+        '
+      in: query
+      name: searchSemantic
+      schema:
+        type: string
+    keyword1:
+      in: query
+      name: keyword
+      description: 'Matches assets where their name or description contains the specified keyword.
+
+        This is a list query parameter, and cannot be used with any primary query parameters
+
+        '
+      schema:
+        type: string
+        maxLength: 256
+    withUIStatus1:
+      in: query
+      name: withUIStatus
+      deprecated: true
+      description: 'Returns additional author and creator metadata for the asset.
+
+        This internal status is subject to change without notice and is thus marked deprecated to discourage use of internal data
+
+        '
+      schema:
+        type: boolean
+        default: false
+    withTotalCount:
+      in: query
+      name: withTotalCount
+      description: 'Controls whether the total count of results will be returned along with the current results page in a list.
+
+        Has no effect when not fetching a list. This does impact performance when enabled
+
+        '
+      schema:
+        type: boolean
+    orderBy1:
+      in: query
+      name: orderBy
+      description: 'Sets the sorting of the results. If unspecified, results are sorted by creation date ascending.
+
+        Allowed values are: updated_at_DESC, updated_at_ASC, created_at_DESC, created_at_ASC, name_DESC, name_ASC, slug_DESC, slug_ASC, relevance_DESC (when searching).
+
+        '
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+        default:
+        - created_at_ASC
+    createdBy1:
+      in: query
+      name: createdBy
+      description: 'Filters asset lists by the user who created them. The user is specified by their identity subject
+
+        '
+      schema:
+        type: string
+    projectId2:
+      in: query
+      name: projectId
+      description: The project the asset/assets are on
+      required: true
+      schema:
+        type: string
+        format: uuid
+    updatedBy1:
+      in: query
+      name: updatedBy
+      description: 'Filters asset lists by the user who last updated them. The user is specified by their identity subject
+
+        '
+      schema:
+        type: string
+    releaseId1:
+      in: query
+      name: releaseId
+      description: 'The ID of a release to fetch the content for.
+
+
+        - When unspecified, all release content is excluded from the result(s).
+
+        - When specified, all content is returned as it would appear in the release if it was released now. This includes both content copied to the release and changed, as well as content that is not part of the release.
+
+
+        Content copied to a release can be differentiated from base content by the `releaseId` property on the content. If the content is not copied to the release, this property will be undefined
+
+        '
+      schema:
+        type: string
+        format: uuid
+    limit:
+      in: query
+      name: limit
+      description: Max number of records to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 100
+    assetIDs:
+      in: query
+      name: assetIDs
+      description: Specify multiple asset IDs to fetch. Response type will be a list
+      style: form
+      schema:
+        type: array
+        items:
+          type: string
+          format: uuid
+    assetId:
+      in: query
+      name: assetId
+      description: Specify a single asset ID to fetch
+      schema:
+        type: string
+        format: uuid
+    withAssignedLabels:
+      in: query
+      name: withAssignedLabels
+      description: 'When true, includes full label entities in the response for UI rendering.
+
+        The assignedLabels array includes the label and its parent group (if any).
+
+        This parameter is not supported with uniform.global.
+
+        '
+      schema:
+        type: boolean
+    offset:
+      in: query
+      name: offset
+      description: Number of records to skip
+      schema:
+        type: integer
+        minimum: 0
+    facetBy:
+      in: query
+      name: facetBy
+      deprecated: true
+      description: Returns counts for distinct values of the specified field or fields (provided as comma-separated IDs).
+      style: form
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

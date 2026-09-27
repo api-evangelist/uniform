@@ -58,6 +58,91 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Taxonomy:
+      type: object
+      description: A core building block of the link configuration
+      required:
+      - id
+      - name
+      - display_name
+      - required
+      - value_length
+      - values
+      - values_sort
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy
+        name:
+          type: string
+          description: Name of the taxonomy
+          maxLength: 100
+          minLength: 1
+        display_name:
+          type: string
+          description: A short, UI-friendly name of the taxonomy
+          maxLength: 100
+          minLength: 1
+        default_value:
+          type: string
+          description: The default value of the taxonomy, empty if required is true
+          maxLength: 100
+          minLength: 1
+        required:
+          type: boolean
+          description: Whether the taxonomy is required or not
+        value_length:
+          type: integer
+          description: The required length of the taxonomy values value
+          minimum: 1
+          maximum: 100
+        values:
+          type: array
+          description: Possible values of the taxonomy
+          items:
+            $ref: '#/components/schemas/TaxonomyValue'
+        values_sort:
+          type: array
+          description: The order of the values in the taxonomy
+          items:
+            type: string
+            format: uuid
+            description: The ID (UUID) of the taxonomy value
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    TaxonomyValue:
+      type: object
+      description: One of taxonomy possible values
+      required:
+      - id
+      - name
+      - value
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy value
+        name:
+          type: string
+          description: Friendly name of the value
+          maxLength: 100
+          minLength: 1
+        value:
+          type: string
+          description: Actual value of the value
+          maxLength: 100
+          minLength: 1
+      additionalProperties: false
     LinkConfiguration:
       type: object
       description: A link configuration
@@ -83,16 +168,6 @@ components:
             format: uuid
             description: The ID (UUID) of the link configuration part
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     LinkConfigurationPart:
       type: object
       description: A part of a link configuration
@@ -164,88 +239,9 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy
       additionalProperties: false
-    Taxonomy:
-      type: object
-      description: A core building block of the link configuration
-      required:
-      - id
-      - name
-      - display_name
-      - required
-      - value_length
-      - values
-      - values_sort
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the taxonomy
-        name:
-          type: string
-          description: Name of the taxonomy
-          maxLength: 100
-          minLength: 1
-        display_name:
-          type: string
-          description: A short, UI-friendly name of the taxonomy
-          maxLength: 100
-          minLength: 1
-        default_value:
-          type: string
-          description: The default value of the taxonomy, empty if required is true
-          maxLength: 100
-          minLength: 1
-        required:
-          type: boolean
-          description: Whether the taxonomy is required or not
-        value_length:
-          type: integer
-          description: The required length of the taxonomy values value
-          minimum: 1
-          maximum: 100
-        values:
-          type: array
-          description: Possible values of the taxonomy
-          items:
-            $ref: '#/components/schemas/TaxonomyValue'
-        values_sort:
-          type: array
-          description: The order of the values in the taxonomy
-          items:
-            type: string
-            format: uuid
-            description: The ID (UUID) of the taxonomy value
-      additionalProperties: false
-    TaxonomyValue:
-      type: object
-      description: One of taxonomy possible values
-      required:
-      - id
-      - name
-      - value
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the taxonomy value
-        name:
-          type: string
-          description: Friendly name of the value
-          maxLength: 100
-          minLength: 1
-        value:
-          type: string
-          description: Actual value of the value
-          maxLength: 100
-          minLength: 1
-      additionalProperties: false
   responses:
-    InternalServerError:
-      description: Execution error occurred
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
+    NotFoundError:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -256,18 +252,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     ForbiddenError:
       description: Permission was denied
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFoundError:
-      description: Resource not found
+    BadRequestError:
+      description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

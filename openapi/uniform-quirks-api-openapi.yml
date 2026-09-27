@@ -158,59 +158,7 @@ paths:
       operationId: deleteApiV2Quirk
       x-operation-id-source: derived
 components:
-  responses:
-    InternalServerError:
-      description: Execution error occurred
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Quirk:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          minLength: 1
-          maxLength: 36
-          pattern: ^[A-Za-z0-9\-]+$
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[^<>]+$
-        description:
-          type:
-          - string
-          - 'null'
-          maxLength: 512
-          pattern: ^[^<>]*$
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/QuirkOptions'
-        source:
-          $ref: '#/components/schemas/QuirkSource'
-      additionalProperties: false
     QuirkSource:
       type: object
       description: The source of this quirk. When not defined, it is user specified.
@@ -251,6 +199,58 @@ components:
           maxLength: 36
           pattern: ^[^<>]+$
       additionalProperties: false
+    Quirk:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-]+$
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        description:
+          type:
+          - string
+          - 'null'
+          maxLength: 512
+          pattern: ^[^<>]*$
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuirkOptions'
+        source:
+          $ref: '#/components/schemas/QuirkSource'
+      additionalProperties: false
+  responses:
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
