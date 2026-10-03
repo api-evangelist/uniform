@@ -295,40 +295,30 @@ paths:
       operationId: getApiV1Projects
       x-operation-id-source: derived
 components:
+  responses:
+    RateLimitError:
+      description: Too many requests in allowed time period
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
   schemas:
-    PatchProject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        organization_id:
-          type: string
-          format: uuid
-        url:
-          type: string
-        preview_url:
-          type: string
-        site_type_id:
-          type: string
-          format: uuid
-        ui_version:
-          type: number
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     PutProjectBody:
       type: object
       properties:
@@ -410,6 +400,60 @@ components:
           type: string
           deprecated: true
       additionalProperties: false
+    PostProject:
+      type: object
+      required:
+      - name
+      - organization_id
+      properties:
+        name:
+          type: string
+        organization_id:
+          type: string
+          format: uuid
+        url:
+          type: string
+        preview_url:
+          type: string
+        site_type_id:
+          type: string
+          format: uuid
+        ui_version:
+          type: number
+      additionalProperties: false
+    PatchProject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        organization_id:
+          type: string
+          format: uuid
+        url:
+          type: string
+        preview_url:
+          type: string
+        site_type_id:
+          type: string
+          format: uuid
+        ui_version:
+          type: number
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     GetProject:
       type: object
       required:
@@ -503,50 +547,6 @@ components:
           - indexing
           - indexed
           - failed
-    PostProject:
-      type: object
-      required:
-      - name
-      - organization_id
-      properties:
-        name:
-          type: string
-        organization_id:
-          type: string
-          format: uuid
-        url:
-          type: string
-        preview_url:
-          type: string
-        site_type_id:
-          type: string
-          format: uuid
-        ui_version:
-          type: number
-      additionalProperties: false
-  responses:
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

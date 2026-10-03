@@ -253,6 +253,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RedirectGetResponse:
+      type: array
+      items:
+        type: object
+        required:
+        - redirect
+        - metadata
+        properties:
+          redirect:
+            $ref: '#/components/schemas/Redirect'
+          metadata:
+            $ref: '#/components/schemas/RedirectMetadata'
     RedirectMetadata:
       type: object
       properties:
@@ -276,6 +288,16 @@ components:
           type: string
           maxLength: 200
           description: The user who created this redirect's name
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     Redirect:
       additionalProperties: false
       type: object
@@ -329,37 +351,9 @@ components:
         labelAsSystem:
           type: boolean
           description: Label as system generated or user generated
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
-    RedirectGetResponse:
-      type: array
-      items:
-        type: object
-        required:
-        - redirect
-        - metadata
-        properties:
-          redirect:
-            $ref: '#/components/schemas/Redirect'
-          metadata:
-            $ref: '#/components/schemas/RedirectMetadata'
   responses:
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
     ForbiddenError:
       description: Permission was denied
       content:
@@ -372,8 +366,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

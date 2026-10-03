@@ -196,103 +196,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AlternativeDataSourceData:
-      type: object
-      description: 'Additional set of headers, parameters, variables, etc to be used for data resolving in the context like e.g. Unpublished Data.
-
-        '
-      required:
-      - baseUrl
-      properties:
-        baseUrl:
-          type: string
-          description: Base resource URL of the data source. No trailing slash
-          maxLength: 256
-          minLength: 1
-          pattern: ^https://.+[^/]$
-        headers:
-          type: array
-          description: HTTP headers to pass with requests to the data source
-          items:
-            type: object
-            required:
-            - key
-            - value
-            properties:
-              key:
-                type: string
-              value:
-                type: string
-              omitIfEmpty:
-                type: boolean
-        parameters:
-          type: array
-          description: Query String parameters to pass with requests to the data type. Merged with parameters from the data source, overriding identical keys
-          items:
-            type: object
-            required:
-            - key
-            - value
-            properties:
-              key:
-                type: string
-              value:
-                type: string
-              omitIfEmpty:
-                type: boolean
-        variables:
-          type: object
-          description: Variables needed to make calls to the data source
-          additionalProperties:
-            $ref: '#/components/schemas/DataVariableDefinition'
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
-    DataVariableDefinition:
-      type: object
-      description: Defines the shape of a data variable on a Data Source or Data Type
-      required:
-      - default
-      properties:
-        displayName:
-          type: string
-          description: Display name of the data variable
-          maxLength: 100
-          minLength: 1
-        helpText:
-          type: string
-          description: Explanatory text that is provided to the data resource editor to explain what this variable does
-          maxLength: 256
-          minLength: 1
-        type:
-          type: string
-          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
-          default: text
-          maxLength: 36
-          minLength: 1
-          pattern: ^[A-Za-z0-9\-]+$
-        default:
-          type: string
-          description: Default value of the data variable
-        order:
-          type: number
-          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
-        source:
-          type: string
-          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
-
-            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
-
-            '
-      additionalProperties: false
     DataSource:
       type: object
       description: 'An instance of a data source (i.e. "Master environment of the stable space", "Yelp API", "Sanity dev dataset").
@@ -408,7 +311,118 @@ components:
           type: string
           description: User or API key ID that last modified the data source (ignored for writes)
       additionalProperties: false
+    AlternativeDataSourceData:
+      type: object
+      description: 'Additional set of headers, parameters, variables, etc to be used for data resolving in the context like e.g. Unpublished Data.
+
+        '
+      required:
+      - baseUrl
+      properties:
+        baseUrl:
+          type: string
+          description: Base resource URL of the data source. No trailing slash
+          maxLength: 256
+          minLength: 1
+          pattern: ^https://.+[^/]$
+        headers:
+          type: array
+          description: HTTP headers to pass with requests to the data source
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+              omitIfEmpty:
+                type: boolean
+        parameters:
+          type: array
+          description: Query String parameters to pass with requests to the data type. Merged with parameters from the data source, overriding identical keys
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: string
+              omitIfEmpty:
+                type: boolean
+        variables:
+          type: object
+          description: Variables needed to make calls to the data source
+          additionalProperties:
+            $ref: '#/components/schemas/DataVariableDefinition'
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    DataVariableDefinition:
+      type: object
+      description: Defines the shape of a data variable on a Data Source or Data Type
+      required:
+      - default
+      properties:
+        displayName:
+          type: string
+          description: Display name of the data variable
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Explanatory text that is provided to the data resource editor to explain what this variable does
+          maxLength: 256
+          minLength: 1
+        type:
+          type: string
+          description: Type of the data variable. Optionally used as a point of reference for custom integrations to decide how to render an editor for a variable
+          default: text
+          maxLength: 36
+          minLength: 1
+          pattern: ^[A-Za-z0-9\-]+$
+        default:
+          type: string
+          description: Default value of the data variable
+        order:
+          type: number
+          description: Sets the order of the variable when displayed in a list with other variables. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+        source:
+          type: string
+          description: 'An optional arbitrary human readable source identifier to describe where this variable is from.
+
+            Some user interfaces may group variables by source value, for example ''From URL'' or ''My Integration''
+
+            '
+      additionalProperties: false
   responses:
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     UnauthorizedError:
       description: API key or token was not valid
       content:
@@ -417,20 +431,6 @@ components:
             $ref: '#/components/schemas/Error'
     InternalServerError:
       description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

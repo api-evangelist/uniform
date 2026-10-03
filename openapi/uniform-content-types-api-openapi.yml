@@ -166,109 +166,30 @@ paths:
       operationId: deleteApiV1ContentTypes
       x-operation-id-source: derived
 components:
+  responses:
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
   schemas:
-    ContentTypePreviewConfiguration:
-      type: object
-      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
-      required:
-      - type
-      - label
-      - id
-      properties:
-        type:
-          type: string
-          description: The type of preview configuration
-          enum:
-          - pattern
-          - project-map
-        label:
-          type: string
-          description: Display label for the preview configuration
-          minLength: 1
-          maxLength: 100
-          pattern: ^[^<>]*$
-        id:
-          type: string
-          description: Target preview entity ID (project map node ID or pattern ID)
-          format: uuid
-        dynamicInputs:
-          type: object
-          description: Optional mapping of dynamic input names to their values
-          additionalProperties:
-            type: string
-      additionalProperties: false
-    ComponentDefinitionParameter:
-      type: object
-      description: The definition of a component parameter
-      required:
-      - id
-      - name
-      - type
-      properties:
-        id:
-          $ref: '#/components/schemas/PublicIdProperty'
-        name:
-          type: string
-          description: Friendly name of the parameter
-          maxLength: 100
-          minLength: 1
-        helpText:
-          type: string
-          description: Appears next to the parameter in the Composition editor
-          maxLength: 256
-          minLength: 0
-        guidance:
-          type: string
-          description: Context provided to AI when generating content for this parameter. May also be shown to humans.
-          maxLength: 3000
-          pattern: ^[^<>]+$
-        type:
-          type: string
-          description: Type name of the parameter (provided by a Uniform integration)
-          maxLength: 50
-          minLength: 1
-        localizable:
-          type: boolean
-          description: 'If true, this property can have locale-specific values. If false or not defined,
-
-            this property will have a single value that is shared for all locales
-
-            '
-        notLocalizedByDefault:
-          type: boolean
-          description: 'When `localizable` is true, this property controls the default localizability of the property.
-
-            true - when the property has no existing value, it will be in ''single value'' mode and not store locale specific values
-
-            false/undefined - when the property has no existing value, it will store separate values for each enabled locale
-
-
-            If `localized` is false, this has no effect.
-
-            '
-        allowConditionalValues:
-          type: boolean
-          description: 'Enables creating additional conditional values for the parameter based on criteria such as dynamic inputs.
-
-            When combined with a localized value, each locale has independent conditional values.
-
-
-            When not defined, conditional values are not allowed.
-
-            '
-        typeConfig:
-          description: The configuration object for the type (type-specific)
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     ContentType:
       type: object
       description: Defines a content type
@@ -381,12 +302,6 @@ components:
           maximum: 64
           minimum: 0
       additionalProperties: false
-    PublicIdProperty:
-      description: Public ID (used in code). Do not change after creation
-      type: string
-      minLength: 1
-      maxLength: 100
-      pattern: ^[a-zA-Z0-9-_]+$
     ComponentDefinitionSlugSettings:
       type: object
       description: The definition of a composition's slug settings
@@ -432,29 +347,114 @@ components:
             Has no effect if `regularExpression` is not set
 
             '
-  responses:
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
+    ComponentDefinitionParameter:
+      type: object
+      description: The definition of a component parameter
+      required:
+      - id
+      - name
+      - type
+      properties:
+        id:
+          $ref: '#/components/schemas/PublicIdProperty'
+        name:
+          type: string
+          description: Friendly name of the parameter
+          maxLength: 100
+          minLength: 1
+        helpText:
+          type: string
+          description: Appears next to the parameter in the Composition editor
+          maxLength: 256
+          minLength: 0
+        guidance:
+          type: string
+          description: Context provided to AI when generating content for this parameter. May also be shown to humans.
+          maxLength: 3000
+          pattern: ^[^<>]+$
+        type:
+          type: string
+          description: Type name of the parameter (provided by a Uniform integration)
+          maxLength: 50
+          minLength: 1
+        localizable:
+          type: boolean
+          description: 'If true, this property can have locale-specific values. If false or not defined,
+
+            this property will have a single value that is shared for all locales
+
+            '
+        notLocalizedByDefault:
+          type: boolean
+          description: 'When `localizable` is true, this property controls the default localizability of the property.
+
+            true - when the property has no existing value, it will be in ''single value'' mode and not store locale specific values
+
+            false/undefined - when the property has no existing value, it will store separate values for each enabled locale
+
+
+            If `localized` is false, this has no effect.
+
+            '
+        allowConditionalValues:
+          type: boolean
+          description: 'Enables creating additional conditional values for the parameter based on criteria such as dynamic inputs.
+
+            When combined with a localized value, each locale has independent conditional values.
+
+
+            When not defined, conditional values are not allowed.
+
+            '
+        typeConfig:
+          description: The configuration object for the type (type-specific)
+      additionalProperties: false
+    ContentTypePreviewConfiguration:
+      type: object
+      description: Defines a configuration for previewing an entry on a consuming pattern or composition.
+      required:
+      - type
+      - label
+      - id
+      properties:
+        type:
+          type: string
+          description: The type of preview configuration
+          enum:
+          - pattern
+          - project-map
+        label:
+          type: string
+          description: Display label for the preview configuration
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]*$
+        id:
+          type: string
+          description: Target preview entity ID (project map node ID or pattern ID)
+          format: uuid
+        dynamicInputs:
+          type: object
+          description: Optional mapping of dynamic input names to their values
+          additionalProperties:
+            type: string
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

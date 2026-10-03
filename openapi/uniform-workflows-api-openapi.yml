@@ -161,103 +161,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WorkflowStageTransitionPermission:
-      type: object
-      description: Permissions for a workflow stage transition
-      additionalProperties: false
-      properties:
-        execute:
-          type: boolean
-          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
-    WorkflowStagePermission:
-      type: object
-      description: Permissions for a workflow stage
-      additionalProperties: false
-      properties:
-        write:
-          type: boolean
-          description: Allows writing to entities assigned to this stage. When false or unspecified the data is read-only
-        publish:
-          type: boolean
-          description: Allows publishing entities assigned to this stage. When false or unspecified publishing is disabled
-    WorkflowStage:
-      type: object
-      description: Definition of a stage in a workflow
-      additionalProperties: false
-      required:
-      - name
-      - permissions
-      - transitions
-      properties:
-        name:
-          type: string
-          description: Name of the stage
-          minLength: 1
-          maxLength: 32
-          pattern: ^[^<>]*$
-        permissions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/WorkflowStagePermission'
-          description: 'Defines roles which have permissions to this workflow stage
-
-            NOTE: Being able to write or publish to entities in a workflow stage requires both core write or publish permissions,
-
-            as well as membership in a role which grants the explicit rights to the stage. If a user is not a member of any role
-
-            listed here, the stage is read-only and publishing is disabled
-
-            '
-        autoPublish:
-          type: boolean
-          description: 'When true, transitioning into this stage from a different stage will automatically publish the entity.
-
-            If the user making the transition does not have publish permissions to the stage as well as publish permission on the entity, the action will not run.
-
-            Setting this to true is equivalent to setting requireValidity to true, as publishing cannot be performed with validation errors.
-
-            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
-
-            '
-        requireValidity:
-          type: boolean
-          description: 'When true, transitioning into this stage from a different stage will require the entity to have no validation errors.
-
-            If the entity is not valid, the transition will not be allowed.
-
-            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
-
-            '
-        transitions:
-          type: array
-          items:
-            $ref: '#/components/schemas/WorkflowStageTransition'
-          description: 'Defines transitions to other stages
-
-            Every stage must define at least one transition, to avoid creating a workflow that
-
-            has a stage that can never be escaped
-
-            '
-          minItems: 1
-        icon:
-          type: string
-          description: Icon name for the stage (e.g. 'chevron-double-right-o')
-          default: chevron-double-right-o
-          maxLength: 64
-        order:
-          type: number
-          description: Sets the order of the stage when displayed in a list with other stages. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
     WorkflowDefinition:
       type: object
       additionalProperties: false
@@ -348,7 +251,118 @@ components:
             NOTE: Users without membership in any role listed here will be unable to execute the transition unless they are team admins
 
             '
+    WorkflowStagePermission:
+      type: object
+      description: Permissions for a workflow stage
+      additionalProperties: false
+      properties:
+        write:
+          type: boolean
+          description: Allows writing to entities assigned to this stage. When false or unspecified the data is read-only
+        publish:
+          type: boolean
+          description: Allows publishing entities assigned to this stage. When false or unspecified publishing is disabled
+    WorkflowStage:
+      type: object
+      description: Definition of a stage in a workflow
+      additionalProperties: false
+      required:
+      - name
+      - permissions
+      - transitions
+      properties:
+        name:
+          type: string
+          description: Name of the stage
+          minLength: 1
+          maxLength: 32
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStagePermission'
+          description: 'Defines roles which have permissions to this workflow stage
+
+            NOTE: Being able to write or publish to entities in a workflow stage requires both core write or publish permissions,
+
+            as well as membership in a role which grants the explicit rights to the stage. If a user is not a member of any role
+
+            listed here, the stage is read-only and publishing is disabled
+
+            '
+        autoPublish:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will automatically publish the entity.
+
+            If the user making the transition does not have publish permissions to the stage as well as publish permission on the entity, the action will not run.
+
+            Setting this to true is equivalent to setting requireValidity to true, as publishing cannot be performed with validation errors.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        requireValidity:
+          type: boolean
+          description: 'When true, transitioning into this stage from a different stage will require the entity to have no validation errors.
+
+            If the entity is not valid, the transition will not be allowed.
+
+            NOTE: This is not executed by direct API calls. Only the Uniform UI performs this action
+
+            '
+        transitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowStageTransition'
+          description: 'Defines transitions to other stages
+
+            Every stage must define at least one transition, to avoid creating a workflow that
+
+            has a stage that can never be escaped
+
+            '
+          minItems: 1
+        icon:
+          type: string
+          description: Icon name for the stage (e.g. 'chevron-double-right-o')
+          default: chevron-double-right-o
+          maxLength: 64
+        order:
+          type: number
+          description: Sets the order of the stage when displayed in a list with other stages. If not set, the order defaults to alphabetical with any explicitly set orders first in the list
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    WorkflowStageTransitionPermission:
+      type: object
+      description: Permissions for a workflow stage transition
+      additionalProperties: false
+      properties:
+        execute:
+          type: boolean
+          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
   responses:
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     UnauthorizedError:
       description: API key or token was not valid
       content:
@@ -357,20 +371,6 @@ components:
             $ref: '#/components/schemas/Error'
     InternalServerError:
       description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -432,65 +432,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     ReleaseScheduleState:
       type: string
       enum:
       - scheduled
       - unscheduled
-    ReleaseContentsDeleteBody:
+    autoLaunchScheduleTimeZone:
+      type: string
+      description: 'The IANA time zone identifier to display the autoLaunchSchedule with.
+
+        Note that the schedule is always specified as UTC; this is a display timezone only
+
+        '
+    autoLaunchSchedule:
+      type: number
+      description: 'The schedule for automatically launching the release.
+
+        If unspecified, the release will not be automatically launched.
+
+        If specified, the release will be automatically launched at the specified time.
+
+        The time is specified in epoch milliseconds (UTC)
+
+        '
+    Release:
       type: object
       required:
-      - releaseId
-      - projectId
-      - publicId
-      - definitionType
-      properties:
-        releaseId:
-          type: string
-          format: uuid
-        projectId:
-          type: string
-          format: uuid
-          description: The project ID
-        publicId:
-          $ref: '#/components/schemas/PublicIdProperty'
-        editionId:
-          type: string
-          format: uuid
-          description: 'The edition ID of the release content underneath its public ID
-
-            NOTE: This is only required if the release content has an edition ID
-
-            '
-        definitionType:
-          type: string
-          description: 'Entity type (i.e. composition, entry, asset, ...).
-
-            NOTE: New values may be added to this list without being considered a breaking API change.
-
-            '
-          enum:
-          - composition
-          - entry
-          - asset
-    ReleasePutBody:
-      type: object
-      required:
-      - releaseId
+      - id
       - name
-      - projectId
+      - state
       properties:
-        releaseId:
+        id:
           type: string
           format: uuid
         name:
@@ -502,14 +474,16 @@ components:
           type: string
           description: Optional release description shown in the UI
           maxLength: 2024
-        projectId:
-          type: string
-          format: uuid
-          description: The project ID
+        state:
+          $ref: '#/components/schemas/ReleaseState'
         autoLaunchSchedule:
           $ref: '#/components/schemas/autoLaunchSchedule'
         autoLaunchScheduleTimeZone:
           $ref: '#/components/schemas/autoLaunchScheduleTimeZone'
+        launched:
+          type: string
+          description: Date string when the release was launched
+          format: date-time,
       additionalProperties: false
     ReleasePatchBody:
       type: object
@@ -564,27 +538,14 @@ components:
           description: 'If true, the entity has been deleted on the release
 
             '
-    autoLaunchScheduleTimeZone:
-      type: string
-      description: 'The IANA time zone identifier to display the autoLaunchSchedule with.
-
-        Note that the schedule is always specified as UTC; this is a display timezone only
-
-        '
-    PublicIdProperty:
-      description: Public ID (used in code). Do not change after creation
-      type: string
-      minLength: 1
-      maxLength: 100
-      pattern: ^[a-zA-Z0-9-_]+$
-    Release:
+    ReleasePutBody:
       type: object
       required:
-      - id
+      - releaseId
       - name
-      - state
+      - projectId
       properties:
-        id:
+        releaseId:
           type: string
           format: uuid
         name:
@@ -596,28 +557,76 @@ components:
           type: string
           description: Optional release description shown in the UI
           maxLength: 2024
-        state:
-          $ref: '#/components/schemas/ReleaseState'
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
         autoLaunchSchedule:
           $ref: '#/components/schemas/autoLaunchSchedule'
         autoLaunchScheduleTimeZone:
           $ref: '#/components/schemas/autoLaunchScheduleTimeZone'
-        launched:
-          type: string
-          description: Date string when the release was launched
-          format: date-time,
       additionalProperties: false
-    autoLaunchSchedule:
-      type: number
-      description: 'The schedule for automatically launching the release.
+    ReleaseContentsDeleteBody:
+      type: object
+      required:
+      - releaseId
+      - projectId
+      - publicId
+      - definitionType
+      properties:
+        releaseId:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+        publicId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        editionId:
+          type: string
+          format: uuid
+          description: 'The edition ID of the release content underneath its public ID
 
-        If unspecified, the release will not be automatically launched.
+            NOTE: This is only required if the release content has an edition ID
 
-        If specified, the release will be automatically launched at the specified time.
+            '
+        definitionType:
+          type: string
+          description: 'Entity type (i.e. composition, entry, asset, ...).
 
-        The time is specified in epoch milliseconds (UTC)
+            NOTE: New values may be added to this list without being considered a breaking API change.
 
-        '
+            '
+          enum:
+          - composition
+          - entry
+          - asset
+    ReleaseState:
+      type: string
+      enum:
+      - open
+      - locked
+      - queued
+      - launching
+      - launched
+      - deleting
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
     ReleaseContent:
       type: object
       required:
@@ -712,15 +721,6 @@ components:
           description: 'If true, the entity has been deleted on the release
 
             '
-    ReleaseState:
-      type: string
-      enum:
-      - open
-      - locked
-      - queued
-      - launching
-      - launched
-      - deleting
     ReleaseDeleteBody:
       type: object
       required:
@@ -736,14 +736,8 @@ components:
           description: The project ID
       additionalProperties: false
   responses:
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
+    RateLimitError:
+      description: Too many requests in allowed time period
     ForbiddenError:
       description: Permission was denied
       content:
@@ -756,8 +750,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

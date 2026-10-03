@@ -57,6 +57,35 @@ paths:
       operationId: getApiV1UtmMapperLinkConfiguration
       x-operation-id-source: derived
 components:
+  responses:
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
   schemas:
     Taxonomy:
       type: object
@@ -110,16 +139,34 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy value
       additionalProperties: false
-    Error:
+    LinkConfigurationPart:
       type: object
+      description: A part of a link configuration
+      required:
+      - id
       properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the link configuration part
+        naming_convention:
+          $ref: '#/components/schemas/NamingConvention'
+        naming_convention_id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the naming convention to use for the link configuration part
+        query_parameter:
+          type: string
+          description: The query parameter to use for the link configuration part, only not null if this is a taxonomy type of part
+          maxLength: 100
+          minLength: 1
+        taxonomy:
+          $ref: '#/components/schemas/Taxonomy'
+        taxonomy_id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy to use for the link configuration part
+      additionalProperties: false
     TaxonomyValue:
       type: object
       description: One of taxonomy possible values
@@ -168,34 +215,16 @@ components:
             format: uuid
             description: The ID (UUID) of the link configuration part
       additionalProperties: false
-    LinkConfigurationPart:
+    Error:
       type: object
-      description: A part of a link configuration
-      required:
-      - id
       properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the link configuration part
-        naming_convention:
-          $ref: '#/components/schemas/NamingConvention'
-        naming_convention_id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the naming convention to use for the link configuration part
-        query_parameter:
-          type: string
-          description: The query parameter to use for the link configuration part, only not null if this is a taxonomy type of part
-          maxLength: 100
-          minLength: 1
-        taxonomy:
-          $ref: '#/components/schemas/Taxonomy'
-        taxonomy_id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the taxonomy to use for the link configuration part
-      additionalProperties: false
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     NamingConvention:
       type: object
       description: Composition of multiple taxonomies
@@ -239,35 +268,6 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy
       additionalProperties: false
-  responses:
-    NotFoundError:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimitError:
-      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
