@@ -63,8 +63,8 @@ components:
   responses:
     RateLimitError:
       description: Too many requests in allowed time period
-    ForbiddenError:
-      description: Permission was denied
+    UnauthorizedError:
+      description: API key or token was not valid
       content:
         application/json:
           schema:
@@ -75,25 +75,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: API key or token was not valid
+    InternalServerError:
+      description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
   schemas:
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     DimensionDefinition:
       type: object
       required:
@@ -149,6 +139,16 @@ components:
           description: The maximum score possible for the dimension
           type: integer
       additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

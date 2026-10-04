@@ -112,40 +112,27 @@ components:
   responses:
     RateLimitError:
       description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     UnauthorizedError:
       description: API key or token was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     InternalServerError:
       description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    LocalePutBody:
-      type: object
-      required:
-      - locale
-      - projectId
-      properties:
-        locale:
-          $ref: '#/components/schemas/Locale'
-        projectId:
-          type: string
-          format: uuid
-          description: The project ID
-      additionalProperties: false
     Error:
       type: object
       properties:
@@ -156,21 +143,6 @@ components:
             items:
               type: string
           - type: string
-    LocaleDeleteBody:
-      type: object
-      required:
-      - locale
-      - projectId
-      properties:
-        locale:
-          type: string
-          maxLength: 32
-          pattern: ^[^<>]+$
-        projectId:
-          type: string
-          format: uuid
-          description: The project ID
-      additionalProperties: false
     Locale:
       type: object
       required:
@@ -225,6 +197,34 @@ components:
             Lower numbers are displayed first.
 
             '
+      additionalProperties: false
+    LocalePutBody:
+      type: object
+      required:
+      - locale
+      - projectId
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+      additionalProperties: false
+    LocaleDeleteBody:
+      type: object
+      required:
+      - locale
+      - projectId
+      properties:
+        locale:
+          type: string
+          maxLength: 32
+          pattern: ^[^<>]+$
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
       additionalProperties: false
   securitySchemes:
     ApiKeyAuth:

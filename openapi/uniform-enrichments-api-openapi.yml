@@ -246,42 +246,33 @@ paths:
       operationId: deleteApiV1Enrichments
       x-operation-id-source: derived
 components:
-  responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
   schemas:
-    EnrichmentCategoryWithValues:
+    EnrichmentValue:
       type: object
-      allOf:
-      - $ref: '#/components/schemas/EnrichmentCategory1'
-      - type: object
-        required:
-        - values
-        properties:
-          values:
-            type: array
-            items:
-              $ref: '#/components/schemas/EnrichmentValue'
+      required:
+      - id
+      - value
+      properties:
+        id:
+          type: string
+          description: Public ID of the enrichment value
+          minLength: 1
+          maxLength: 36
+          pattern: ^[A-Za-z0-9\-\$]+$
+        value:
+          type: string
+          description: Display name of the enrichment value
+          maxLength: 100
+          minLength: 1
+          pattern: ^[^<>]{1,100}$
+        sortOrder:
+          type:
+          - integer
+          - 'null'
+          description: Optional sort order of the enrichment value (if not set, sorts by name)
+          maximum: 2147483647
+          minimum: -2147483648
+      additionalProperties: false
     EnrichmentCategory1:
       type: object
       required:
@@ -311,6 +302,18 @@ components:
           minimum: 1
           default: 99999999
           maximum: 2147483647
+    EnrichmentCategoryWithValues:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/EnrichmentCategory1'
+      - type: object
+        required:
+        - values
+        properties:
+          values:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnrichmentValue'
     Error:
       type: object
       properties:
@@ -321,32 +324,29 @@ components:
             items:
               type: string
           - type: string
-    EnrichmentValue:
-      type: object
-      required:
-      - id
-      - value
-      properties:
-        id:
-          type: string
-          description: Public ID of the enrichment value
-          minLength: 1
-          maxLength: 36
-          pattern: ^[A-Za-z0-9\-\$]+$
-        value:
-          type: string
-          description: Display name of the enrichment value
-          maxLength: 100
-          minLength: 1
-          pattern: ^[^<>]{1,100}$
-        sortOrder:
-          type:
-          - integer
-          - 'null'
-          description: Optional sort order of the enrichment value (if not set, sorts by name)
-          maximum: 2147483647
-          minimum: -2147483648
-      additionalProperties: false
+  responses:
+    RateLimitError:
+      description: Too many requests in allowed time period
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -160,97 +160,38 @@ paths:
       operationId: deleteApiV1Workflows
       x-operation-id-source: derived
 components:
+  responses:
+    RateLimitError:
+      description: Too many requests in allowed time period
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    WorkflowDefinition:
+    WorkflowStageTransitionPermission:
       type: object
+      description: Permissions for a workflow stage transition
       additionalProperties: false
-      description: Definition of a workflow that can be assigned to entities
-      required:
-      - id
-      - name
-      - initialStage
-      - stages
       properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier of the workflow definition
-        name:
-          type: string
-          description: Workflow name
-          maxLength: 32
-          minLength: 1
-          pattern: ^[^<>]*$
-        initialStage:
-          type: string
-          format: uuid
-          description: The ID of the initial stage in the stages object.
-        stages:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/WorkflowStage'
-          description: All stages of the workflow
-          minProperties: 2
-        modified:
-          type: string
-          description: Last modified ISO date string for this definition (ignored for writes)
-          maxLength: 50
-        created:
-          type: string
-          description: Created ISO date string for this definition (ignored for writes)
-          maxLength: 50
-        createdBy:
-          type: string
-          description: 'Name of the original creator of the workflow.
-
-            If undefined, the user has been removed from the team.
-
-            Ignored for writes
-
-            '
-          maxLength: 256
-        modifiedBy:
-          type: string
-          description: 'Name of the last modifier of the workflow.
-
-            If undefined, the user has been removed from the team.
-
-            Ignored for writes
-
-            '
-          maxLength: 256
-    WorkflowStageTransition:
-      type: object
-      description: Definition of a transition from one stage to another in a workflow
-      additionalProperties: false
-      required:
-      - name
-      - to
-      - permissions
-      properties:
-        to:
-          type: string
-          format: uuid
-          description: The target stage to transition to
-        name:
-          type: string
-          description: 'Name shown to the user when they execute this transition.
-
-            If not provided, a default name will be assigned automatically based on the target stage
-
-            '
-          maxLength: 32
-          minLength: 1
-          pattern: ^[^<>]*$
-        permissions:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/WorkflowStageTransitionPermission'
-          description: 'Permissions for the stage transition.
-
-            NOTE: Users without membership in any role listed here will be unable to execute the transition unless they are team admins
-
-            '
+        execute:
+          type: boolean
+          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
     WorkflowStagePermission:
       type: object
       description: Permissions for a workflow stage
@@ -340,37 +281,96 @@ components:
             items:
               type: string
           - type: string
-    WorkflowStageTransitionPermission:
+    WorkflowStageTransition:
       type: object
-      description: Permissions for a workflow stage transition
+      description: Definition of a transition from one stage to another in a workflow
       additionalProperties: false
+      required:
+      - name
+      - to
+      - permissions
       properties:
-        execute:
-          type: boolean
-          description: Allows executing the transition for a role. Note that write permissions to the destination stage are NOT required to execute a transition to it
-  responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
+        to:
+          type: string
+          format: uuid
+          description: The target stage to transition to
+        name:
+          type: string
+          description: 'Name shown to the user when they execute this transition.
+
+            If not provided, a default name will be assigned automatically based on the target stage
+
+            '
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        permissions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStageTransitionPermission'
+          description: 'Permissions for the stage transition.
+
+            NOTE: Users without membership in any role listed here will be unable to execute the transition unless they are team admins
+
+            '
+    WorkflowDefinition:
+      type: object
+      additionalProperties: false
+      description: Definition of a workflow that can be assigned to entities
+      required:
+      - id
+      - name
+      - initialStage
+      - stages
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier of the workflow definition
+        name:
+          type: string
+          description: Workflow name
+          maxLength: 32
+          minLength: 1
+          pattern: ^[^<>]*$
+        initialStage:
+          type: string
+          format: uuid
+          description: The ID of the initial stage in the stages object.
+        stages:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WorkflowStage'
+          description: All stages of the workflow
+          minProperties: 2
+        modified:
+          type: string
+          description: Last modified ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        created:
+          type: string
+          description: Created ISO date string for this definition (ignored for writes)
+          maxLength: 50
+        createdBy:
+          type: string
+          description: 'Name of the original creator of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
+        modifiedBy:
+          type: string
+          description: 'Name of the last modifier of the workflow.
+
+            If undefined, the user has been removed from the team.
+
+            Ignored for writes
+
+            '
+          maxLength: 256
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

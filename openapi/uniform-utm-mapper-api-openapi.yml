@@ -58,35 +58,60 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    NotFoundError:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimitError:
       description: Too many requests in allowed time period
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     UnauthorizedError:
       description: API key or token was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     InternalServerError:
       description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    LinkConfiguration:
+      type: object
+      description: A link configuration
+      required:
+      - id
+      - parts
+      - template_sort
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the link configuration
+        parts:
+          type: array
+          description: The parts of the link configuration
+          items:
+            $ref: '#/components/schemas/LinkConfigurationPart'
+        template_sort:
+          type: array
+          description: The order of the parts in the link configuration
+          items:
+            type: string
+            format: uuid
+            description: The ID (UUID) of the link configuration part
+      additionalProperties: false
     Taxonomy:
       type: object
       description: A core building block of the link configuration
@@ -139,6 +164,29 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy value
       additionalProperties: false
+    TaxonomyValue:
+      type: object
+      description: One of taxonomy possible values
+      required:
+      - id
+      - name
+      - value
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID (UUID) of the taxonomy value
+        name:
+          type: string
+          description: Friendly name of the value
+          maxLength: 100
+          minLength: 1
+        value:
+          type: string
+          description: Actual value of the value
+          maxLength: 100
+          minLength: 1
+      additionalProperties: false
     LinkConfigurationPart:
       type: object
       description: A part of a link configuration
@@ -167,64 +215,6 @@ components:
           format: uuid
           description: The ID (UUID) of the taxonomy to use for the link configuration part
       additionalProperties: false
-    TaxonomyValue:
-      type: object
-      description: One of taxonomy possible values
-      required:
-      - id
-      - name
-      - value
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the taxonomy value
-        name:
-          type: string
-          description: Friendly name of the value
-          maxLength: 100
-          minLength: 1
-        value:
-          type: string
-          description: Actual value of the value
-          maxLength: 100
-          minLength: 1
-      additionalProperties: false
-    LinkConfiguration:
-      type: object
-      description: A link configuration
-      required:
-      - id
-      - parts
-      - template_sort
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The ID (UUID) of the link configuration
-        parts:
-          type: array
-          description: The parts of the link configuration
-          items:
-            $ref: '#/components/schemas/LinkConfigurationPart'
-        template_sort:
-          type: array
-          description: The order of the parts in the link configuration
-          items:
-            type: string
-            format: uuid
-            description: The ID (UUID) of the link configuration part
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     NamingConvention:
       type: object
       description: Composition of multiple taxonomies
@@ -268,6 +258,16 @@ components:
             format: uuid
             description: The ID (UUID) of the taxonomy
       additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
