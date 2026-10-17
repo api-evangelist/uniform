@@ -296,29 +296,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PatchProject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        organization_id:
-          type: string
-          format: uuid
-        url:
-          type: string
-        preview_url:
-          type: string
-        site_type_id:
-          type: string
-          format: uuid
-        ui_version:
-          type: number
-      additionalProperties: false
     GetProject:
       type: object
       required:
@@ -412,6 +389,39 @@ components:
           - indexing
           - indexed
           - failed
+    PatchProject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        organization_id:
+          type: string
+          format: uuid
+        url:
+          type: string
+        preview_url:
+          type: string
+        site_type_id:
+          type: string
+          format: uuid
+        ui_version:
+          type: number
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     PostProject:
       type: object
       required:
@@ -514,21 +524,17 @@ components:
           type: string
           deprecated: true
       additionalProperties: false
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
@@ -539,14 +545,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

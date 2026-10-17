@@ -476,70 +476,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ProjectMapNodeCompositionEditionData:
-      type: object
-      required:
-      - id
-      - type
-      - name
-      - locales
-      description: Basic information about a composition edition from the context of a project map node
-      properties:
-        id:
-          type: string
-          description: The UUID of the linked composition
-          format: uuid
-        type:
-          type: string
-          description: Type of the edition instance (public_id of its definition)
-          maxLength: 100
-          minLength: 1
-        editionId:
-          type: string
-          description: The edition UUID underneath the linked composition
-          format: uuid
-        slug:
-          type:
-          - string
-          - 'null'
-          description: Slug pattern of this edition
-        name:
-          type: string
-          description: Friendly name of the linked composition
-        editionName:
-          type: string
-          description: Friendly name of the edition
-        editionPriority:
-          type: integer
-          description: Priority of the edition
-        uiStatus:
-          type: string
-          deprecated: true
-          description: UI status value. Subject to change without notice; do not rely on this value. Only present when `withCompositionUIStatus` option is true
-          enum:
-          - Draft
-          - Modified
-          - Published
-          - Orphan
-        icon:
-          type: string
-          description: Icon name or URL for the composition edition (e.g. 'screen' or 'https://s3/my-component.jpg')
-          default: screen
-          maxLength: 2024
-        typeName:
-          type: string
-          description: Friendly name of this edition's definition
-          maxLength: 100
-          minLength: 1
-        locales:
-          type: array
-          description: List of locales that the edition is available in. If empty, available in all locales
-          items:
-            type: string
-        modified:
-          type: string
-          format: date-time
-          description: Date and time the edition was last modified (or created if never modified). Uses ISO-8859-1 formatting and UTC timezone.
     ProjectMapSourceRedirectData:
       type: array
       items:
@@ -549,9 +485,53 @@ components:
             description: The public UUID of the source redirect
             type: string
             format: uuid
-    ProjectMapNodeUpdate:
+    ProjectMapTreeNodeDefinition:
+      allOf:
+      - $ref: '#/components/schemas/ProjectMapNodeDefinition'
       type: object
       required:
+      - name
+      properties:
+        children:
+          description: Children of the node
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectMapTreeNodeDefinition'
+      additionalProperties: false
+    ProjectMapNodeLocale:
+      type: object
+      required:
+      - pathSegment
+      properties:
+        name:
+          description: Name of node in the locale
+          type: string
+        path:
+          description: Full path to the current node in this locale, only included if requested with the expanded flag
+          type: string
+        pathSegment:
+          description: Last segment of the url in this locale
+          type: string
+        inherited:
+          description: 'When false, the node explicitly defines a locale-specific path segment.
+
+
+            When true, an ancestor defines a locale-specific path segment,
+
+            which makes its descendants resolvable using that segment.
+
+            This node does not define a locale-specific path segment.
+
+
+            Only included if requested with the expanded flag. Without the expanded flag, inherited locales are not included in the response
+
+            '
+          type: boolean
+      additionalProperties: false
+    ProjectMapNodeDefinition:
+      type: object
+      required:
+      - id
       - name
       - path
       - type
@@ -562,7 +542,6 @@ components:
           format: uuid
         path:
           description: Path representing the path to the current node
-          pattern: ^\/$|^(\/[^\/]+)+$
           type: string
         order:
           description: Ordering of the node, higher numbers go after lower numbers
@@ -587,10 +566,25 @@ components:
           description: Description of the projectMap node
           type: string
           maxLength: 300
+        parentPath:
+          description: Parent path of the current node, only included if requested with the expanded flag
+          type: string
+        pathSegment:
+          description: Last segment of the url
+          type: string
+        isLeaf:
+          description: returns true if the node is a leaf node, meaning having no children, only included if requested with the expanded flag
+          type: boolean
+        compositionData:
+          $ref: '#/components/schemas/ProjectMapNodeCompositionData'
+        sourceRedirects:
+          $ref: '#/components/schemas/ProjectMapSourceRedirectData'
+        targetRedirects:
+          $ref: '#/components/schemas/ProjectMapTargetRedirectData'
         locales:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/ProjectMapNodeLocaleUpdate'
+            $ref: '#/components/schemas/ProjectMapNodeLocale'
       additionalProperties: false
     ProjectMapNodeCompositionData:
       type: object
@@ -686,10 +680,95 @@ components:
             IMPORTANT: if the composition has more than one edition, this is the modified date of the default edition. Each edition has its own modified date in the `editions` array.
 
             '
-    ProjectMapNodeDefinition:
+    ProjectMapNodeLocaleUpdate:
+      required:
+      - pathSegment
+      properties:
+        name:
+          description: Name of node in the locale
+          type: string
+        pathSegment:
+          description: Locale specific path segment for this node (not a full path)
+          type: string
+          minLength: 1
+      additionalProperties: false
+    ProjectMapNodeCompositionEditionData:
       type: object
       required:
       - id
+      - type
+      - name
+      - locales
+      description: Basic information about a composition edition from the context of a project map node
+      properties:
+        id:
+          type: string
+          description: The UUID of the linked composition
+          format: uuid
+        type:
+          type: string
+          description: Type of the edition instance (public_id of its definition)
+          maxLength: 100
+          minLength: 1
+        editionId:
+          type: string
+          description: The edition UUID underneath the linked composition
+          format: uuid
+        slug:
+          type:
+          - string
+          - 'null'
+          description: Slug pattern of this edition
+        name:
+          type: string
+          description: Friendly name of the linked composition
+        editionName:
+          type: string
+          description: Friendly name of the edition
+        editionPriority:
+          type: integer
+          description: Priority of the edition
+        uiStatus:
+          type: string
+          deprecated: true
+          description: UI status value. Subject to change without notice; do not rely on this value. Only present when `withCompositionUIStatus` option is true
+          enum:
+          - Draft
+          - Modified
+          - Published
+          - Orphan
+        icon:
+          type: string
+          description: Icon name or URL for the composition edition (e.g. 'screen' or 'https://s3/my-component.jpg')
+          default: screen
+          maxLength: 2024
+        typeName:
+          type: string
+          description: Friendly name of this edition's definition
+          maxLength: 100
+          minLength: 1
+        locales:
+          type: array
+          description: List of locales that the edition is available in. If empty, available in all locales
+          items:
+            type: string
+        modified:
+          type: string
+          format: date-time
+          description: Date and time the edition was last modified (or created if never modified). Uses ISO-8859-1 formatting and UTC timezone.
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ProjectMapNodeUpdate:
+      type: object
+      required:
       - name
       - path
       - type
@@ -700,6 +779,7 @@ components:
           format: uuid
         path:
           description: Path representing the path to the current node
+          pattern: ^\/$|^(\/[^\/]+)+$
           type: string
         order:
           description: Ordering of the node, higher numbers go after lower numbers
@@ -724,26 +804,41 @@ components:
           description: Description of the projectMap node
           type: string
           maxLength: 300
-        parentPath:
-          description: Parent path of the current node, only included if requested with the expanded flag
-          type: string
-        pathSegment:
-          description: Last segment of the url
-          type: string
-        isLeaf:
-          description: returns true if the node is a leaf node, meaning having no children, only included if requested with the expanded flag
-          type: boolean
-        compositionData:
-          $ref: '#/components/schemas/ProjectMapNodeCompositionData'
-        sourceRedirects:
-          $ref: '#/components/schemas/ProjectMapSourceRedirectData'
-        targetRedirects:
-          $ref: '#/components/schemas/ProjectMapTargetRedirectData'
         locales:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/ProjectMapNodeLocale'
+            $ref: '#/components/schemas/ProjectMapNodeLocaleUpdate'
       additionalProperties: false
+    ProjectMapDefinition:
+      type: object
+      required:
+      - name
+      properties:
+        id:
+          description: The id of the projectMap node
+          type: string
+          minLength: 1
+        name:
+          description: The name of the projectMap node
+          type: string
+          minLength: 1
+        description:
+          description: Description of the projectMap node
+          type: string
+          maxLength: 300
+        baseUrl:
+          pattern: ^http.?:\/\/.*$
+          description: The prefix of the url generated by this projectMap
+          type: string
+          maxLength: 300
+        default:
+          type: boolean
+        globalQueryStrings:
+          description: Global query strings that are allowed on all nodes in this project map
+          type: array
+          maxItems: 50
+          items:
+            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
     ProjectMapNodeData:
       type: object
       properties:
@@ -767,6 +862,15 @@ components:
           type: string
           maxLength: 512
       additionalProperties: false
+    ProjectMapTargetRedirectData:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            description: The public UUID of the target redirect
+            type: string
+            format: uuid
     ProjectMapNodeAllowedQueryString:
       type: object
       required:
@@ -822,115 +926,17 @@ components:
           - source
           - options
       additionalProperties: false
-    ProjectMapTreeNodeDefinition:
-      allOf:
-      - $ref: '#/components/schemas/ProjectMapNodeDefinition'
-      type: object
-      required:
-      - name
-      properties:
-        children:
-          description: Children of the node
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectMapTreeNodeDefinition'
-      additionalProperties: false
-    ProjectMapNodeLocale:
-      type: object
-      required:
-      - pathSegment
-      properties:
-        name:
-          description: Name of node in the locale
-          type: string
-        path:
-          description: Full path to the current node in this locale, only included if requested with the expanded flag
-          type: string
-        pathSegment:
-          description: Last segment of the url in this locale
-          type: string
-        inherited:
-          description: 'When false, the node explicitly defines a locale-specific path segment.
-
-
-            When true, an ancestor defines a locale-specific path segment,
-
-            which makes its descendants resolvable using that segment.
-
-            This node does not define a locale-specific path segment.
-
-
-            Only included if requested with the expanded flag. Without the expanded flag, inherited locales are not included in the response
-
-            '
-          type: boolean
-      additionalProperties: false
-    ProjectMapTargetRedirectData:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            description: The public UUID of the target redirect
-            type: string
-            format: uuid
-    ProjectMapNodeLocaleUpdate:
-      required:
-      - pathSegment
-      properties:
-        name:
-          description: Name of node in the locale
-          type: string
-        pathSegment:
-          description: Locale specific path segment for this node (not a full path)
-          type: string
-          minLength: 1
-      additionalProperties: false
-    ProjectMapDefinition:
-      type: object
-      required:
-      - name
-      properties:
-        id:
-          description: The id of the projectMap node
-          type: string
-          minLength: 1
-        name:
-          description: The name of the projectMap node
-          type: string
-          minLength: 1
-        description:
-          description: Description of the projectMap node
-          type: string
-          maxLength: 300
-        baseUrl:
-          pattern: ^http.?:\/\/.*$
-          description: The prefix of the url generated by this projectMap
-          type: string
-          maxLength: 300
-        default:
-          type: boolean
-        globalQueryStrings:
-          description: Global query strings that are allowed on all nodes in this project map
-          type: array
-          maxItems: 50
-          items:
-            $ref: '#/components/schemas/ProjectMapNodeAllowedQueryString'
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
@@ -941,14 +947,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

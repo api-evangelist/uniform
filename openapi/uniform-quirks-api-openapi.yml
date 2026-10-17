@@ -159,10 +159,16 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
@@ -173,15 +179,49 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   schemas:
+    QuirkOptions:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[^<>]+$
+        value:
+          type: string
+          minLength: 1
+          maxLength: 36
+          pattern: ^[^<>]+$
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    QuirkSource:
+      type: object
+      description: The source of this quirk. When not defined, it is user specified.
+      required:
+      - name
+      - id
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        id:
+          type: string
+          maxLength: 100
     Quirk:
       type: object
       required:
@@ -211,46 +251,6 @@ components:
         source:
           $ref: '#/components/schemas/QuirkSource'
       additionalProperties: false
-    QuirkOptions:
-      type: object
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[^<>]+$
-        value:
-          type: string
-          minLength: 1
-          maxLength: 36
-          pattern: ^[^<>]+$
-      additionalProperties: false
-    QuirkSource:
-      type: object
-      description: The source of this quirk. When not defined, it is user specified.
-      required:
-      - name
-      - id
-      properties:
-        name:
-          type: string
-          maxLength: 100
-        id:
-          type: string
-          maxLength: 100
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

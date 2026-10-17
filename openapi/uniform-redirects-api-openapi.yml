@@ -253,10 +253,16 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
@@ -267,38 +273,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   schemas:
-    RedirectMetadata:
-      type: object
-      properties:
-        updatedAt:
-          type: string
-          maxLength: 100
-          description: The last time the redirect was modified in UTC
-        updatedBy:
-          type: string
-          maxLength: 100
-          description: The last user who modified this redirect
-        createdAt:
-          type: string
-          maxLength: 100
-          description: The time the redirect was created in UTC
-        createdBy:
-          type: string
-          maxLength: 100
-          description: The user who created this redirect
-        createdByName:
-          type: string
-          maxLength: 200
-          description: The user who created this redirect's name
     Redirect:
       additionalProperties: false
       type: object
@@ -352,6 +329,39 @@ components:
         labelAsSystem:
           type: boolean
           description: Label as system generated or user generated
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    RedirectMetadata:
+      type: object
+      properties:
+        updatedAt:
+          type: string
+          maxLength: 100
+          description: The last time the redirect was modified in UTC
+        updatedBy:
+          type: string
+          maxLength: 100
+          description: The last user who modified this redirect
+        createdAt:
+          type: string
+          maxLength: 100
+          description: The time the redirect was created in UTC
+        createdBy:
+          type: string
+          maxLength: 100
+          description: The user who created this redirect
+        createdByName:
+          type: string
+          maxLength: 200
+          description: The user who created this redirect's name
     RedirectGetResponse:
       type: array
       items:
@@ -364,16 +374,6 @@ components:
             $ref: '#/components/schemas/Redirect'
           metadata:
             $ref: '#/components/schemas/RedirectMetadata'
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

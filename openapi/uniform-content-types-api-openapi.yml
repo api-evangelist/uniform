@@ -167,10 +167,16 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
+    InternalServerError:
+      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
       content:
         application/json:
           schema:
@@ -181,14 +187,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   schemas:
     ContentTypePreviewConfiguration:
       type: object
@@ -220,6 +220,12 @@ components:
           additionalProperties:
             type: string
       additionalProperties: false
+    PublicIdProperty:
+      description: Public ID (used in code). Do not change after creation
+      type: string
+      minLength: 1
+      maxLength: 100
+      pattern: ^[a-zA-Z0-9-_]+$
     ComponentDefinitionParameter:
       type: object
       description: The definition of a component parameter
@@ -282,6 +288,89 @@ components:
         typeConfig:
           description: The configuration object for the type (type-specific)
       additionalProperties: false
+    ComponentDefinitionPermission:
+      type: object
+      description: Permission set for a component definition
+      required:
+      - roleId
+      - permission
+      - state
+      properties:
+        roleId:
+          $ref: '#/components/schemas/PublicIdProperty'
+        permission:
+          type: string
+          description: 'Permission type for this permission ComponentDefinition:
+
+            read | write | create | delete
+
+            '
+          enum:
+          - read
+          - write
+          - create
+          - delete
+        state:
+          type: integer
+          description: State of the component that this permission applies to
+          maximum: 64
+          minimum: 0
+      additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    ComponentDefinitionSlugSettings:
+      type: object
+      description: The definition of a composition's slug settings
+      properties:
+        required:
+          type: string
+          description: 'Whether the slug is required
+
+            no: slug is optional
+
+            yes: slug is required
+
+            disabled: slug is disabled and will not be shown in the editor
+
+            '
+          default: 'no'
+          enum:
+          - 'no'
+          - 'yes'
+          - disabled
+        unique:
+          type: string
+          description: 'Slug uniqueness configuration.
+
+            no = no unique constraint
+
+            local = must be unique within this component type
+
+            global = must be unique across all component types
+
+            '
+          enum:
+          - 'no'
+          - local
+          - global
+        regularExpression:
+          type: string
+          description: Regular expression slugs must match
+        regularExpressionMessage:
+          type: string
+          description: 'Custom error message when regular expression validation fails.
+
+            Has no effect if `regularExpression` is not set
+
+            '
     ContentType:
       type: object
       description: Defines a content type
@@ -366,95 +455,6 @@ components:
           items:
             $ref: '#/components/schemas/ContentTypePreviewConfiguration'
       additionalProperties: false
-    ComponentDefinitionSlugSettings:
-      type: object
-      description: The definition of a composition's slug settings
-      properties:
-        required:
-          type: string
-          description: 'Whether the slug is required
-
-            no: slug is optional
-
-            yes: slug is required
-
-            disabled: slug is disabled and will not be shown in the editor
-
-            '
-          default: 'no'
-          enum:
-          - 'no'
-          - 'yes'
-          - disabled
-        unique:
-          type: string
-          description: 'Slug uniqueness configuration.
-
-            no = no unique constraint
-
-            local = must be unique within this component type
-
-            global = must be unique across all component types
-
-            '
-          enum:
-          - 'no'
-          - local
-          - global
-        regularExpression:
-          type: string
-          description: Regular expression slugs must match
-        regularExpressionMessage:
-          type: string
-          description: 'Custom error message when regular expression validation fails.
-
-            Has no effect if `regularExpression` is not set
-
-            '
-    ComponentDefinitionPermission:
-      type: object
-      description: Permission set for a component definition
-      required:
-      - roleId
-      - permission
-      - state
-      properties:
-        roleId:
-          $ref: '#/components/schemas/PublicIdProperty'
-        permission:
-          type: string
-          description: 'Permission type for this permission ComponentDefinition:
-
-            read | write | create | delete
-
-            '
-          enum:
-          - read
-          - write
-          - create
-          - delete
-        state:
-          type: integer
-          description: State of the component that this permission applies to
-          maximum: 64
-          minimum: 0
-      additionalProperties: false
-    PublicIdProperty:
-      description: Public ID (used in code). Do not change after creation
-      type: string
-      minLength: 1
-      maxLength: 100
-      pattern: ^[a-zA-Z0-9-_]+$
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

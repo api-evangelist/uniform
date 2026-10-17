@@ -151,67 +151,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EventCriteria:
-      description: Matches an analytics event name being fired
-      type: object
-      required:
-      - type
-      - event
-      properties:
-        type:
-          type: string
-          enum:
-          - EVT
-        event:
-          description: How to match the event name
-          $ref: '#/components/schemas/StringMatch'
-    QuirkCriteria:
-      description: Matches a visitor quirk key and value
-      type: object
-      required:
-      - type
-      - key
-      - match
-      properties:
-        type:
-          type: string
-          enum:
-          - QK
-        key:
-          description: The name of the quirk key to match
-          type: string
-          minLength: 1
-        match:
-          description: The quirk value to match against
-          $ref: '#/components/schemas/StringMatch'
-    CurrentPageCriteria:
-      description: 'Matches the current page''s absolute path (i.e. /path/to/page.html)
-
-        Does not include the query string or protocol and hostname (i.e. NOT https://foo.com/path/to/page.html?query=something)
-
-        '
-      type: object
-      required:
-      - type
-      - path
-      properties:
-        type:
-          type: string
-          enum:
-          - PV
-        path:
-          description: The page/route path to match as a page that has been visited
-          $ref: '#/components/schemas/StringMatch'
-    Conversion:
-      type: object
-      required:
-      - freq
-      properties:
-        freq:
-          description: The frequency of the conversion event
-          type: string
-          enum:
-          - O
+    SignalCriteria:
+      oneOf:
+      - $ref: '#/components/schemas/CookieCriteria'
+      - $ref: '#/components/schemas/QueryStringCriteria'
+      - $ref: '#/components/schemas/QuirkCriteria'
+      - $ref: '#/components/schemas/EventCriteria'
+      - $ref: '#/components/schemas/CurrentPageCriteria'
+      - $ref: '#/components/schemas/PageViewCountCriteria'
     StringMatch:
       description: Describes a match expression on a string
       type: object
@@ -267,7 +214,25 @@ components:
             - '!*'
       discriminator:
         propertyName: op
-    RootSignalCriteriaGroup:
+    PreviewSignal:
+      allOf:
+      - $ref: '#/components/schemas/Signal'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            description: Friendly name of the signal
+            type: string
+            minLength: 1
+            maxLength: 100
+            pattern: ^[^<>]*$
+          description:
+            description: Description of the signal
+            type: string
+            maxLength: 512
+            pattern: ^[^<>]*$
+    SignalCriteriaGroup:
       type: object
       required:
       - clauses
@@ -290,7 +255,6 @@ components:
             Default is `&` if unspecified
 
             '
-          default: '&'
           enum:
           - '&'
           - '|'
@@ -303,6 +267,20 @@ components:
             - $ref: '#/components/schemas/SignalCriteriaGroup'
             - $ref: '#/components/schemas/SignalCriteria'
       additionalProperties: false
+    EventCriteria:
+      description: Matches an analytics event name being fired
+      type: object
+      required:
+      - type
+      - event
+      properties:
+        type:
+          type: string
+          enum:
+          - EVT
+        event:
+          description: How to match the event name
+          $ref: '#/components/schemas/StringMatch'
     CookieCriteria:
       description: Matches a web cookie value
       type: object
@@ -322,19 +300,29 @@ components:
         match:
           description: The value to match the cookie against
           $ref: '#/components/schemas/StringMatch'
-    SignalWithId:
+    PageViewCountCriteria:
       type: object
-      allOf:
-      - type: object
-        required:
-        - id
-        properties:
-          id:
-            type: string
-            minLength: 1
-            maxLength: 36
-            pattern: ^[A-Za-z0-9\-\$]+$
-      - $ref: '#/components/schemas/PreviewSignal'
+      required:
+      - type
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - PVC
+        match:
+          description: The expression to match the page view count against
+          $ref: '#/components/schemas/NumberMatch'
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
     NumberMatch:
       description: Describes a match expression on a number
       type: object
@@ -363,6 +351,35 @@ components:
           - <
           - '>'
           - '!='
+    Conversion:
+      type: object
+      required:
+      - freq
+      properties:
+        freq:
+          description: The frequency of the conversion event
+          type: string
+          enum:
+          - O
+    QueryStringCriteria:
+      description: Matches a URL query string parameter value
+      type: object
+      required:
+      - type
+      - queryName
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - QS
+        queryName:
+          description: The name of the query string parameter to match
+          type: string
+          minLength: 1
+        match:
+          description: The value to match the query string parameter against
+          $ref: '#/components/schemas/StringMatch'
     Signal:
       type: object
       required:
@@ -403,7 +420,57 @@ components:
           - $ref: '#/components/schemas/Conversion'
           - enum:
             - null
-    SignalCriteriaGroup:
+    QuirkCriteria:
+      description: Matches a visitor quirk key and value
+      type: object
+      required:
+      - type
+      - key
+      - match
+      properties:
+        type:
+          type: string
+          enum:
+          - QK
+        key:
+          description: The name of the quirk key to match
+          type: string
+          minLength: 1
+        match:
+          description: The quirk value to match against
+          $ref: '#/components/schemas/StringMatch'
+    SignalWithId:
+      type: object
+      allOf:
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            minLength: 1
+            maxLength: 36
+            pattern: ^[A-Za-z0-9\-\$]+$
+      - $ref: '#/components/schemas/PreviewSignal'
+    CurrentPageCriteria:
+      description: 'Matches the current page''s absolute path (i.e. /path/to/page.html)
+
+        Does not include the query string or protocol and hostname (i.e. NOT https://foo.com/path/to/page.html?query=something)
+
+        '
+      type: object
+      required:
+      - type
+      - path
+      properties:
+        type:
+          type: string
+          enum:
+          - PV
+        path:
+          description: The page/route path to match as a page that has been visited
+          $ref: '#/components/schemas/StringMatch'
+    RootSignalCriteriaGroup:
       type: object
       required:
       - clauses
@@ -426,6 +493,7 @@ components:
             Default is `&` if unspecified
 
             '
+          default: '&'
           enum:
           - '&'
           - '|'
@@ -438,97 +506,29 @@ components:
             - $ref: '#/components/schemas/SignalCriteriaGroup'
             - $ref: '#/components/schemas/SignalCriteria'
       additionalProperties: false
-    SignalCriteria:
-      oneOf:
-      - $ref: '#/components/schemas/CookieCriteria'
-      - $ref: '#/components/schemas/QueryStringCriteria'
-      - $ref: '#/components/schemas/QuirkCriteria'
-      - $ref: '#/components/schemas/EventCriteria'
-      - $ref: '#/components/schemas/CurrentPageCriteria'
-      - $ref: '#/components/schemas/PageViewCountCriteria'
-    PageViewCountCriteria:
-      type: object
-      required:
-      - type
-      - match
-      properties:
-        type:
-          type: string
-          enum:
-          - PVC
-        match:
-          description: The expression to match the page view count against
-          $ref: '#/components/schemas/NumberMatch'
-    PreviewSignal:
-      allOf:
-      - $ref: '#/components/schemas/Signal'
-      - type: object
-        required:
-        - name
-        properties:
-          name:
-            description: Friendly name of the signal
-            type: string
-            minLength: 1
-            maxLength: 100
-            pattern: ^[^<>]*$
-          description:
-            description: Description of the signal
-            type: string
-            maxLength: 512
-            pattern: ^[^<>]*$
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
-    QueryStringCriteria:
-      description: Matches a URL query string parameter value
-      type: object
-      required:
-      - type
-      - queryName
-      - match
-      properties:
-        type:
-          type: string
-          enum:
-          - QS
-        queryName:
-          description: The name of the query string parameter to match
-          type: string
-          minLength: 1
-        match:
-          description: The value to match the query string parameter against
-          $ref: '#/components/schemas/StringMatch'
   responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Execution error occurred
     UnauthorizedError:
       description: API key or token was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
     BadRequestError:
       description: Request input validation failed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

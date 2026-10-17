@@ -109,40 +109,7 @@ paths:
       operationId: deleteApiV1Locales
       x-operation-id-source: derived
 components:
-  responses:
-    RateLimitError:
-      description: Too many requests in allowed time period
-    UnauthorizedError:
-      description: API key or token was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequestError:
-      description: Request input validation failed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Execution error occurred
-    ForbiddenError:
-      description: Permission was denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        errorMessage:
-          description: Error message(s) that occurred while processing the request
-          oneOf:
-          - type: array
-            items:
-              type: string
-          - type: string
     Locale:
       type: object
       required:
@@ -198,19 +165,6 @@ components:
 
             '
       additionalProperties: false
-    LocalePutBody:
-      type: object
-      required:
-      - locale
-      - projectId
-      properties:
-        locale:
-          $ref: '#/components/schemas/Locale'
-        projectId:
-          type: string
-          format: uuid
-          description: The project ID
-      additionalProperties: false
     LocaleDeleteBody:
       type: object
       required:
@@ -226,6 +180,52 @@ components:
           format: uuid
           description: The project ID
       additionalProperties: false
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          description: Error message(s) that occurred while processing the request
+          oneOf:
+          - type: array
+            items:
+              type: string
+          - type: string
+    LocalePutBody:
+      type: object
+      required:
+      - locale
+      - projectId
+      properties:
+        locale:
+          $ref: '#/components/schemas/Locale'
+        projectId:
+          type: string
+          format: uuid
+          description: The project ID
+      additionalProperties: false
+  responses:
+    InternalServerError:
+      description: Execution error occurred
+    UnauthorizedError:
+      description: API key or token was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ForbiddenError:
+      description: Permission was denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequestError:
+      description: Request input validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimitError:
+      description: Too many requests in allowed time period
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
