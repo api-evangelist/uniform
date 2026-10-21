@@ -1,4 +1,36 @@
 edges:
+- partner_name: MACH Alliance
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://machalliance.org/members/uniform
+  category: composable (MACH) commerce alliance membership
+  contract_reference:
+    register: MACH Alliance members directory (machalliance.org/members)
+    standard: MACH Alliance (Microservices, API-first, Cloud-native SaaS, Headless)
+    spec_file: null
+    role: mach-certified-vendor
+    registered_name: Uniform
+    register_id: uniform
+    register_category: MACH Certified ISVs
+    register_country: null
+    matched_domain: uniform.dev
+    matched_by: domain
+    signal_note: certified_products = ONE entry for the vendor's MACH certification (the Alliance certifies the
+      vendor against the MACH criteria; no per-product list); awards and self-listed partnerships are context, never
+      counted
+    detected_by: sweep-mach-headless-commerce.py
+    detected: '2026-10-20'
+    certified_products:
+    - product: MACH certified ISV
+      product_type: MACH certified ISV
+      certifier: MACH Alliance
+      lapsed: false
+  detected_by: sweep-mach-headless-commerce.py
+  first_seen: '2026-10-20'
 - partner_name: Contentful (own)
   partner: contentful
   partner_match: mirror
@@ -32,11 +64,36 @@ edges:
   detected: '2026-10-15'
   detected_by: mirror-platform-listings.py
   category: Sanity plugin
+- partner_name: Salesforce Commerce Cloud (own)
+  partner: salesforce-commerce-cloud
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://appexchange.salesforce.com/appxListingDetail?listingId=a183a82f-f78b-4a0d-8ede-4a0c909c3591
+  mirror_of: salesforce-commerce-cloud/integrations/salesforce-commerce-cloud-integration-edges.yml
+  apps:
+  - Uniform DXC Composable Storefront for B2C Commerce
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: eCommerce, marketing, websites, adminAndDeveloperTools, integration
 generated: '2026-10-15'
 method: searched
 checked:
 - contentful/integrations/contentful-integration-edges.yml
 - sanity/integrations/sanity-integration-edges.yml
+- https://appexchange.salesforce.com/explore/business-needs?category=commerce
+- https://commercetools.com/partners
+- https://machalliance.org/members
+- https://marketplace.commercetools.com
+- https://printify.com/integrations/
+- https://www.bigcommerce.com/apps/
+- https://www.printful.com/integrations
+- salesforce-commerce-cloud/integrations/salesforce-commerce-cloud-integration-edges.yml
 source:
 - contentful/integrations/contentful-integration-edges.yml
 - sanity/integrations/sanity-integration-edges.yml
