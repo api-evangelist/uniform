@@ -81,6 +81,25 @@ edges:
   detected: '2026-10-20'
   detected_by: mirror-platform-listings.py
   category: eCommerce, marketing, websites, adminAndDeveloperTools, integration
+- partner_name: Netlify (own)
+  partner: netlify
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.netlify.com/integrations/uniform/
+  mirror_of: netlify/integrations/netlify-integration-edges.yml
+  apps:
+  - Uniform
+  - Uniform Setup Guide
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Search
+  partner_tier: listing
 generated: '2026-10-15'
 method: searched
 checked:
@@ -94,6 +113,7 @@ checked:
 - https://www.bigcommerce.com/apps/
 - https://www.printful.com/integrations
 - salesforce-commerce-cloud/integrations/salesforce-commerce-cloud-integration-edges.yml
+- netlify/integrations/netlify-integration-edges.yml
 source:
 - contentful/integrations/contentful-integration-edges.yml
 - sanity/integrations/sanity-integration-edges.yml
